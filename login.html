@@ -147,15 +147,15 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"></script>
+  <!-- ✅ Firebase SDK via compat version -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
       authDomain: "kelesheksite.firebaseapp.com",
       projectId: "kelesheksite",
-      storageBucket: "kelesheksite.firebasestorage.app",
+      storageBucket: "kelesheksite.appspot.com",
       messagingSenderId: "283421011476",
       appId: "1:283421011476:web:8a77d738f81ed1ca450101",
       measurementId: "G-H2TZLNCSYP"
@@ -166,6 +166,7 @@
 
     document.getElementById("login-form").addEventListener("submit", (e) => {
       e.preventDefault();
+
       const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
@@ -175,7 +176,7 @@
           window.location.href = "index.html";
         })
         .catch((error) => {
-          alert("Error: " + error.message);
+          alert("Login error: " + error.message);
         });
     });
   </script>
