@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Keleshek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f9fa;
+    }
+  .navbar {
+    background-color: white;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+  .navbar .logo img {
+    height: 60px; /* уменьшенный логотип */
+    width: auto;
+  }
+    .navbar .center-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex: 1;
+    }
+    .navbar .right-buttons {
+      display: flex;
+      gap: 12px;
+    }
+    .navbar a {
+      color: black;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .navbar button {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .signup-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 80px);
+    }
+    .signup-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      width: 360px;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      text-align: center;
+    }
+    label {
+      font-weight: 500;
+      font-size: 14px;
+      display: block;
+      margin-bottom: 6px;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .checkbox {
+      display: flex;
+      align-items: center;
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+    .checkbox input {
+      margin-right: 8px;
+    }
+    button.signup-btn {
+      width: 100%;
+      padding: 14px;
+      background-color: #009688;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .link {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+    }
+    .link a {
+      color: #009688;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+<body>
+  <div class="navbar">
+    <div class="logo">
+      <a href="home.html">
+        <img src="logo.jpg" alt="Keleshek logo">
+      </a>
+    </div>
+    <div class="center-links">
+      <a href="study.html">Study</a>
+      <a href="test.html">Test</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="about.html">About us</a>
+    </div>
+    <div class="right-buttons">
+      <a href="login.html"><button style="border: 1px solid #ccc; background-color: white;">Log in</button></a>
+      <a href="signup.html"><button style="background-color: #009688; color: white;">Sign up</button></a>
+    </div>
+  </div>
+
+
+  <div class="signup-wrapper">
+    <div class="signup-container">
+      <h2>Sign Up</h2>
+      <form>
+        <label for="fullname">Full Name</label>
+        <input type="text" id="fullname" placeholder="Enter your name" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter password" required>
+
+        <label for="confirm">Repeat password</label>
+        <input type="password" id="confirm" placeholder="Repeat password" required>
+
+        <div class="checkbox">
+          <input type="checkbox" id="privacy" required>
+          <label for="privacy">I have read the privacy policy</label>
+        </div>
+
+        <button class="signup-btn" type="submit">Register an account</button>
+
+        <div class="link">Already have an account? <a href="login.html">Log in</a></div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

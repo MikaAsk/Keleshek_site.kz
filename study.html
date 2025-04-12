@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Roadmap | Keleshek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+  body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+  }
+  .navbar {
+    background-color: white;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+  .navbar .logo img {
+    height: 60px; /* уменьшенный логотип */
+    width: auto;
+  }
+  .navbar .center-links {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex: 1;
+  }
+  .navbar .right-buttons {
+    display: flex;
+    gap: 12px;
+  }
+  .navbar a {
+    color: black;
+    text-decoration: none;
+    font-size: 14px;
+  }
+  .navbar button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+    .study-container {
+      background-color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .study-container h1 {
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: #009688;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      justify-content: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .card {
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      font-weight: bold;
+      color: black;
+      background-color: rgba(255, 255, 255, 0.6);
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .card h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+    }
+    .card p {
+      font-size: 14px;
+    }
+    /* Card Colors */
+    .card.education {
+      border: 2px solid #ffb5a7; /* Red */
+    }
+    .card.business {
+      border: 2px solid #84c9f0; /* Blue */
+    }
+    .card.ict {
+      border: 2px solid #f8b8c1; /* Pink */
+    }
+    .card.arts {
+      border: 2px solid #ab83ff; /* Purple */
+    }
+    .card.social-science {
+      border: 2px solid #8effd4; /* Green */
+    }
+    .card.health {
+      border: 2px solid #ffda83; /* Yellow */
+    }
+    .card.engineering {
+      border: 2px solid #f4b242; /* Orange */
+    }
+    .card.science {
+      border: 2px solid #98d8f0; /* Light Blue */
+    }
+    .card.manufacturing {
+      border: 2px solid #f2a7b8; /* Soft Red */
+    }
+    .card.construction {
+      border: 2px solid #8df0a0; /* Light Green */
+    }
+    .card.services {
+      border: 2px solid #ff7f79; /* Salmon */
+    }
+    .card.agriculture {
+      border: 2px solid #aadf8f; /* Light Green */
+    }
+  </style>
+</head>
+<body>
+
+
+ <div class="navbar">
+  <div class="logo">
+    <a href="home.html">
+      <img src="logo.jpg" alt="Keleshek logo">
+    </a>
+  </div>
+  <div class="center-links">
+    <a href="study.html">Study</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="test.html">Test</a>
+    <a href="about.html">About us</a>
+  </div>
+  <div class="right-buttons">
+    <a href="login.html"><button style="border: 1px solid #ccc; background-color: white;">Log in</button></a>
+    <a href="signup.html"><button style="background-color: #009688; color: white;">Sign up</button></a>
+  </div>
+</div>
+
+ <section class="study-container">
+  <h1>Your Roadmap</h1>
+  <div class="cards-container">
+    <div class="card education">
+      <h3>Education</h3>
+      <p>If you feel called to inspire and share knowledge — this field is for you. Be the one who shapes future generations.</p>
+    </div>
+    <div class="card business">
+      <h3>Business, Management & Law</h3>
+      <p>Dream of leading, creating, or defending? This field is for future leaders, entrepreneurs, and advocates.</p>
+    </div>
+    <div class="card ict">
+      <h3>Information and Communication Technologies</h3>
+      <p>Want to ride the tech wave? Create solutions, automate processes, and drive digital transformation.</p>
+    </div>
+    <div class="card arts">
+      <h3>Arts and Humanities</h3>
+      <p>A sensitive soul, creativity, and a desire to explore meaning — this is your path. Unleash your uniqueness and make the world brighter.</p>
+    </div>
+    <div class="card social-science">
+      <h3>Social Sciences and Information</h3>
+      <p>Curious about how society works and always in the know? Here you can analyze the world and influence it.</p>
+    </div>
+    <div class="card health">
+      <h3>Healthcare and Social Support</h3>
+      <p>This is for those who care. Help people, heal, support — and turn kindness into action.</p>
+    </div>
+    <div class="card engineering">
+      <h3>Engineering Fields</h3>
+      <p>Fascinated by how things work? Build, improve, and optimize. This is where the engineers of the future are born.</p>
+    </div>
+    <div class="card science">
+      <h3>Natural Sciences, Mathematics & Statistics</h3>
+      <p>Love logic, precise calculations, and experiments? Discoveries begin here — your path to science, analytics, and innovation.</p>
+    </div>
+    <div class="card manufacturing">
+      <h3>Manufacturing Industries</h3>
+      <p>Production is becoming smarter — and you can lead it. Manage quality, technologies, and entire systems.</p>
+    </div>
+    <div class="card construction">
+      <h3>Construction Industries</h3>
+      <p>Create reality with your own hands — from concept to completion. Design and build the cities of tomorrow.</p>
+    </div>
+    <div class="card services">
+      <h3>Service Sector</h3>
+      <p>Communication, flexibility, attention to people — if that’s you, you’re needed in services. Make comfort and care your profession.</p>
+    </div>
+    <div class="card agriculture">
+      <h3>Agriculture, Forestry, Fisheries & Veterinary</h3>
+      <p>Want to stay close to nature and care for the living? This field needs hands and heart — for the land, animals, and environment.</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

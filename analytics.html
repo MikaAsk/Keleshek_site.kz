@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keleshek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #1f1f1f;
+      overflow-x: hidden;
+    }
+    header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+  .logo img {
+    height: 60px; /* уменьшили размер логотипа */
+    width: auto;
+  }
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #1f1f1f;
+      font-weight: 500;
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+    }
+    .nav-actions button {
+      margin-left: 12px;
+      padding: 8px 16px;
+      border: none;
+      background-color: #009688;
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+
+
+    .charts-section {
+      padding: 100px 40px;
+      text-align: center;
+    }
+    .charts-section h2 {
+      font-size: 28px;
+      margin-bottom: 30px;
+    }
+    
+    .connect-section {
+      background-color: #f5faff;
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+    }
+    .connect-section h2 {
+      font-size: 28px;
+      margin-bottom: 48px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 32px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .feature-box {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      position: relative;
+    }
+    .feature-box img.icon {
+      background-color: #e6f6f3;
+      border-radius: 20px;
+      width: 72px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .feature-box h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    .feature-box p {
+      font-size: 14px;
+      color: #333;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <div class="logo">
+    <a href="home.html">
+      <img src="logo.jpg" alt="Keleshek logo">
+    </a>
+  </div>
+    <nav>
+      <a href="study.html">Study</a>
+      <a href="test.html">Test</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="about.html">About us</a>
+    </nav>
+    <div class="nav-actions">
+      <button style="background-color: white; border: 1px solid #ccc; color: #1f1f1f; font-weight: 600; padding: 10px 16px; border-radius: 8px; margin-right: 10px; color: #009688;"><a href="login.html" class="button secondary"; style="color:#009688">Log in</a></button>
+      <button style="background-color: #009688; color: white; font-weight: 600; padding: 10px 16px; border: none; border-radius: 8px; margin-right: 10px;"><a href="signup.html" class="button secondary"; style="color:#ffffff">Sign up</a></button>
+    </div>
+  </header>
+
+
+
+
+<section class="charts-section">
+  <h1>Data-driven <span style="color:#009688">informed choices</span> insights for <span style="color:#009688">your future</h1>
+
+  <div style="max-width: 1440px; margin: 40px auto 0 auto;">
+    <iframe 
+      src="https://app.powerbi.com/view?r=eyJrIjoiYjJiZWQ3NTMtMjYzNC00MTNkLTgxNTAtYjFkZDU3MTFhMDk4IiwidCI6IjZlZWVhZjNlLTY3MTItNDhhNC05NzY3LTNmY2E1NGUxMTc1YyIsImMiOjl9&pageName=ReportSection"
+      style="width: 100%; height: 1100px; border: none; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);"
+      frameborder="0"
+      allowfullscreen="true">
+    </iframe>
+  </div>
+</section>
+
+
+
+
+
+</body>
+</html>
