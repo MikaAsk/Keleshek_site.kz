@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up - Keleshek</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -12,18 +12,18 @@
       padding: 0;
       background-color: #f5f9fa;
     }
-  .navbar {
-    background-color: white;
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  }
-  .navbar .logo img {
-    height: 60px; /* уменьшенный логотип */
-    width: auto;
-  }
+    .navbar {
+      background-color: white;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .navbar .logo img {
+      height: 60px;
+      width: auto;
+    }
     .navbar .center-links {
       display: flex;
       gap: 24px;
@@ -110,7 +110,6 @@
   </style>
 </head>
 <body>
-<body>
   <div class="navbar">
     <div class="logo">
       <a href="home.html">
@@ -129,11 +128,10 @@
     </div>
   </div>
 
-
   <div class="signup-wrapper">
     <div class="signup-container">
       <h2>Sign Up</h2>
-      <form>
+      <form id="signup-form">
         <label for="fullname">Full Name</label>
         <input type="text" id="fullname" placeholder="Enter your name" required>
 
@@ -157,5 +155,45 @@
       </form>
     </div>
   </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
+      authDomain: "kelesheksite.firebaseapp.com",
+      projectId: "kelesheksite",
+      storageBucket: "kelesheksite.firebasestorage.app",
+      messagingSenderId: "283421011476",
+      appId: "1:283421011476:web:8a77d738f81ed1ca450101",
+      measurementId: "G-H2TZLNCSYP"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    document.getElementById("signup-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const confirm = document.getElementById("confirm").value;
+
+      if (password !== confirm) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Registration successful!");
+          window.location.href = "home.html";
+        })
+        .catch((error) => {
+          alert("Error: " + error.message);
+        });
+    });
+  </script>
 </body>
 </html>
