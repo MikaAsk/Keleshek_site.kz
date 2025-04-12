@@ -12,18 +12,18 @@
       padding: 0;
       background-color: #f5f9fa;
     }
-  .navbar {
-    background-color: white;
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  }
-  .navbar .logo img {
-    height: 60px; /* уменьшенный логотип */
-    width: auto;
-  }
+    .navbar {
+      background-color: white;
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .navbar .logo img {
+      height: 60px;
+      width: auto;
+    }
     .navbar .center-links {
       display: flex;
       gap: 24px;
@@ -110,7 +110,6 @@
   </style>
 </head>
 <body>
-<body>
   <div class="navbar">
     <div class="logo">
       <a href="home.html">
@@ -124,23 +123,22 @@
       <a href="about.html">About us</a>
     </div>
     <div class="right-buttons">
-
       <a href="login.html"><button style="border: 1px solid #ccc; background-color: white;">Log in</button></a>
       <a href="signup.html"><button style="background-color: #009688; color: white;">Sign up</button></a>
     </div>
   </div>
 
-
   <div class="login-wrapper">
     <div class="login-container">
-      <form>
+      <h2>Login</h2>
+      <form id="login-form">
         <label for="email">Email</label>
         <input type="email" id="email" placeholder="Login@gmail.com" required>
 
         <label for="password">Password</label>
         <input type="password" id="password" placeholder="Enter password" required>
 
-        <div class="forgot-password"><a href="#">Forgot password</a></div>
+        <div class="forgot-password"><a href="#">Forgot password?</a></div>
 
         <button class="login-btn" type="submit">Login</button>
 
@@ -148,5 +146,38 @@
       </form>
     </div>
   </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
+      authDomain: "kelesheksite.firebaseapp.com",
+      projectId: "kelesheksite",
+      storageBucket: "kelesheksite.firebasestorage.app",
+      messagingSenderId: "283421011476",
+      appId: "1:283421011476:web:8a77d738f81ed1ca450101",
+      measurementId: "G-H2TZLNCSYP"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    document.getElementById("login-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then(() => {
+          alert("Login successful!");
+          window.location.href = "home.html";
+        })
+        .catch((error) => {
+          alert("Error: " + error.message);
+        });
+    });
+  </script>
 </body>
 </html>
