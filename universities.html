@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Университеты</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            width: 250px;
+            display: inline-block;
+            vertical-align: top;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card h3 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+        .card p {
+            margin: 10px 0;
+        }
+        .card a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Университеты</h1>
+    <div id="university-cards">
+        <!-- Карточки университетов будут загружаться сюда -->
+    </div>
+
+    <script>
+        // URL для доступа к вашему JSON файлу на GitHub
+        const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json';
+
+        // Загружаем JSON файл и отображаем данные на сайте
+        fetch(jsonFilePath)
+            .then(response => response.json())  // Преобразуем данные в формат JSON
+            .then(data => {
+                const container = document.getElementById('university-cards');
+                
+                // Перебираем каждый университет и создаем карточку
+                data.forEach(university => {
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    card.innerHTML = `
+                        <h3>${university["Название университета"]}</h3>
+                        <p><strong>Город:</strong> ${university["Город"]}</p>
+                        <p><strong>Описание:</strong> ${university["Описание"]}</p>
+                        <a href="${university["Сайт"]}" target="_blank">Сайт</a>
+                        <p><strong>Образовательная программа:</strong> ${university["Образовательная программа"]}</p>
+                        <p><strong>Профессия:</strong> ${university["Профессия"]}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке данных:', error);
+            });
+    </script>
+</body>
+</html>
