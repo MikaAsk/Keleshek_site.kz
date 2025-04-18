@@ -31,10 +31,31 @@
         .card a:hover {
             text-decoration: underline;
         }
+        .filters {
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 5px;
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
     <h1>Университеты</h1>
+
+    <!-- Фильтры для выбора города и профессии -->
+    <div class="filters">
+        <select id="cityFilter">
+            <option value="">Выберите город</option>
+            <!-- Города будут добавляться динамически -->
+        </select>
+
+        <select id="professionFilter">
+            <option value="">Выберите профессию</option>
+            <!-- Профессии будут добавляться динамически -->
+        </select>
+    </div>
+
     <div id="university-cards">
         <!-- Карточки университетов будут загружаться сюда -->
     </div>
@@ -43,25 +64,84 @@
         // URL для доступа к вашему JSON файлу на GitHub
         const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json';
 
+        let universities = [];
+
         // Загружаем JSON файл и отображаем данные на сайте
         fetch(jsonFilePath)
             .then(response => response.json())  // Преобразуем данные в формат JSON
             .then(data => {
+                universities = data;  // Сохраняем все университеты
+
+                // Создаем фильтры для города и профессии
+                const cityFilter = document.getElementById('cityFilter');
+                const professionFilter = document.getElementById('professionFilter');
                 const container = document.getElementById('university-cards');
                 
-                // Перебираем каждый университет и создаем карточку
-                data.forEach(university => {
-                    const card = document.createElement('div');
-                    card.classList.add('card');
-                    card.innerHTML = `
-                        <h3>${university["Название университета"]}</h3>
-                        <p><strong>Город:</strong> ${university["Город"]}</p>
-                        <p><strong>Описание:</strong> ${university["Описание"]}</p>
-                        <a href="${university["Сайт"]}" target="_blank">Сайт</a>
-                        <p><strong>Образовательная программа:</strong> ${university["Образовательная программа"]}</p>
-                        <p><strong>Профессия:</strong> ${university["Профессия"]}</p>
-                    `;
-                    container.appendChild(card);
+                // Получаем все уникальные города и профессии
+                const cities = [...new Set(data.map(item => item["Город"]))];
+                const professions = [...new Set(data.map(item => item["Профессия"]))];
+                
+                // Заполняем выпадающий список с городами
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    cityFilter.appendChild(option);
+                });
+
+                // Заполняем выпадающий список с профессиями
+                professions.forEach(profession => {
+                    const option = document.createElement('option');
+                    option.value = profession;
+                    option.textContent = profession;
+                    professionFilter.appendChild(option);
+                });
+
+                // Функция для отображения карточек
+                function displayCards(filteredData) {
+                    container.innerHTML = '';  // Очистить контейнер
+                    filteredData.forEach(university => {
+                        const card = document.createElement('div');
+                        card.classList.add('card');
+                        card.innerHTML = `
+                            <h3>${university["Название университета"]}</h3>
+                            <p><strong>Город:</strong> ${university["Город"]}</p>
+                            <p><strong>Описание:</strong> ${university["Описание"]}</p>
+                            <a href="${university["Сайт"]}" target="_blank">Сайт</a>
+                            <p><strong>Образовательная программа:</strong> ${university["Образовательная программа"]}</p>
+                            <p><strong>Профессия:</strong> ${university["Профессия"]}</p>
+                        `;
+                        container.appendChild(card);
+                    });
+                }
+
+                // Первоначальное отображение всех университетов
+                displayCards(universities);
+
+                // Фильтрация по городу
+                cityFilter.addEventListener('change', () => {
+                    const city = cityFilter.value;
+                    const profession = professionFilter.value;
+
+                    const filteredData = universities.filter(university => {
+                        return (city ? university["Город"] === city : true) &&
+                               (profession ? university["Профессия"] === profession : true);
+                    });
+
+                    displayCards(filteredData);
+                });
+
+                // Фильтрация по профессии
+                professionFilter.addEventListener('change', () => {
+                    const profession = professionFilter.value;
+                    const city = cityFilter.value;
+
+                    const filteredData = universities.filter(university => {
+                        return (city ? university["Город"] === city : true) &&
+                               (profession ? university["Профессия"] === profession : true);
+                    });
+
+                    displayCards(filteredData);
                 });
             })
             .catch(error => {
