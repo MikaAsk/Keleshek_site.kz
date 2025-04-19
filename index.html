@@ -1,293 +1,257 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-  <style>
-  .charts-section,
-  .features-grid .feature-box {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: all 0.8s ease-out;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Университеты</title>
+    <style>
+        /* Основной стиль страницы */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
 
-  .charts-section.visible,
-  .features-grid .feature-box.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-</style>
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
 
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Keleshek</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #ffffff;
-      color: #1f1f1f;
-      overflow-x: hidden;
-    }
-    header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 80px;
-    border-bottom: 1px solid #eaeaea;
-  }
+        /* Навигация */
+        nav {
+            background-color: #2980b9;
+            padding: 10px 0;
+            text-align: center;
+        }
 
-  .logo img {
-    height: 60px; /* уменьшили размер логотипа */
-    width: auto;
-  }
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #1f1f1f;
-      font-weight: 500;
-    }
-    .nav-actions {
-      display: flex;
-      align-items: center;
-    }
-    .nav-actions button {
-      margin-left: 12px;
-      padding: 8px 16px;
-      border: none;
-      background-color: #009688;
-      color: white;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-  .hero {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 100px 80px 60px 80px;
-    gap: 40px;
-  }
-  .hero-text {
-    max-width: 600px;
-  }
-  .hero-buttons {
-    display: flex;
-    gap: 12px;
-    margin-top: 20px;
-  }
-  .hero-buttons .primary,
-  .hero-buttons .secondary {
-    padding: 14px 20px;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-  }
-  .hero-buttons .primary {
-    background-color: #009688;
-    color: white;
-    border: none;
-  }
-  .hero-buttons .secondary {
-    background-color: white;
-    color: #1f1f1f;
-    border: 1px solid #ccc;
-  }
-    .charts-section {
-      padding: 100px 40px;
-      text-align: center;
-    }
-    .charts-section h2 {
-      font-size: 28px;
-      margin-bottom: 30px;
-    }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 0 15px;
+            padding: 10px;
+            transition: background-color 0.3s ease;
+        }
 
+        nav a:hover {
+            background-color: #3498db;
+            border-radius: 5px;
+        }
 
-    
-    .connect-section {
-      background-color: #f5faff;
-      padding: 80px 20px;
-      text-align: center;
-      position: relative;
-    }
-    .connect-section h2 {
-      font-size: 28px;
-      margin-bottom: 48px;
-    }
-    .features-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: auto auto auto;
-      gap: 32px;
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-    }
-    .feature-box {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      position: relative;
-    }
-    .feature-box img.icon {
-      background-color: #e6f6f3;
-      border-radius: 20px;
-      width: 72px;
-      padding: 12px;
-      margin-bottom: 12px;
-    }
-    .feature-box h3 {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-    .feature-box p {
-      font-size: 14px;
-      color: #333;
-      text-align: left;
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
 
-      .connect-section {
-  margin-top: 80px;
-  text-align: center;
-}
-.hero {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: all 0.8s ease-out;
-}
-.hero.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+        .filters select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            width: 200px;
+            box-sizing: border-box;
+        }
 
+        /* Стили для карточек университетов */
+        #university-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
 
+        .university-card {
+            background-color: #fff;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            width: 280px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-  </style>
+        .university-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .university-card h3 {
+            font-size: 18px;
+            color: #2980b9;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .university-card p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .university-card a {
+            color: #2980b9;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .university-card a:hover {
+            text-decoration: underline;
+        }
+
+        .programs h4 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-top: 10px;
+        }
+
+        .programs p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-  <header>
-  <div class="logo">
-    <a href="home.html">
-      <img src="logo.jpg" alt="Keleshek logo">
-    </a>
-  </div>
+    <!-- Навигация -->
     <nav>
-      <a href="study.html">Study</a>
-      <a href="test.html">Test</a>
-      <a href="analytics.html">Analytics</a>
-      <a href="universities.html">Universities</a>
-      <a href="about.html">About us</a>
+        <a href="study.html">Study</a>
+        <a href="test.html">Test</a>
+        <a href="analytics.html">Analytics</a>
+        <a href="universities.html">Universities</a>
+        <a href="about.html">About us</a>
     </nav>
-    <div class="nav-actions">
-      <button style="background-color: white; border: 1px solid #ccc; color: #1f1f1f; font-weight: 600; padding: 10px 16px; border-radius: 8px; margin-right: 10px; color: #009688;"><a href="login.html" class="button secondary"; style="color:#009688">Log in</a></button>
-      <button style="background-color: #009688; color: white; font-weight: 600; padding: 10px 16px; border: none; border-radius: 8px; margin-right: 10px;"><a href="signup.html" class="button secondary"; style="color:#ffffff">Sign up</a></button>
+
+    <h1>Список университетов</h1>
+
+    <!-- Фильтры -->
+    <div class="filters">
+        <select id="cityFilter">
+            <option value="">Выберите город</option>
+        </select>
+        <select id="professionFilter">
+            <option value="">Выберите профессию</option>
+        </select>
     </div>
-  </header>
 
- <section class="hero">
-  <div class="hero-text">
-    <h1>Your <span style="color: #009688;">Career Compass</span></h1>
-    <p style="color: #666; font-size: 16px; margin-bottom: 24px;">
-      Labor market analytics — your guide to future-proof professions!<br>
-      <strong style="color:#1f1f1f;">Choose with clarity. Stay ahead of the curve.</strong>
-    </p>
-    <div class="hero-buttons">
-      <a class="primary" href="https://wa.me/77767386270?text=I%20need%20a%20consultation!">Free consultation</a>
-      <a class="secondary" href="analytics.html">Try platform for free</a>
-    </div>
-  </div>
-  <div class="hero-image">
-    <img src="home1.png" alt="Analytics Dashboard">
-  </div>
-</section>
+    <!-- Список университетов -->
+    <div id="university-list"></div>
 
+    <script>
+        const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json'; // Путь к вашему JSON файлу
 
-<section class="charts-section">
-  <h2>Make <span style="color:#009688">informed choices</span> about <span style="color:#009688">your future</span><br>backed by <span style="color:#009688">real market data</span></h2>
+        let universities = [];
 
-  <div style="max-width: 1440px; margin: 40px auto 0 auto;">
-    <iframe 
-      src="https://app.powerbi.com/view?r=eyJrIjoiYjJiZWQ3NTMtMjYzNC00MTNkLTgxNTAtYjFkZDU3MTFhMDk4IiwidCI6IjZlZWVhZjNlLTY3MTItNDhhNC05NzY3LTNmY2E1NGUxMTc1YyIsImMiOjl9&pageName=ReportSection"
-      style="width: 100%; height: 1100px; border: none; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);"
-      frameborder="0"
-      allowfullscreen="true">
-    </iframe>
-  </div>
-</section>
-    
-  <section class="connect-section">
-    <h2>Keleshek connects</h2>
-    <div class="features-grid">
-      <div class="feature-box">
-        <img src="icon-analytics.jpg" class="icon" alt="Growth">
-        <h3>Growth Opportunities</h3>
-        <p>Courses, internships, and expert advice to build a successful career.</p>
-      </div>
-      <div class="feature-box">
-        <img src="icon-analytics.jpg" class="icon" alt="Market Insights">
-        <h3>Kazakhstan’s Labor Market Insights</h3>
-        <p>Discover: top-demand professions, highest-paying industries, skills employers need</p>
-      </div>
-      <div class="feature-box">
-        <img src="icon-growth.jpg" class="icon" alt="Roadmap">
-        <h3>Your Personal Career Roadmap</h3>
-        <p>Take the test and get tailored recommendations for: professions, education paths</p>
-      </div>
-      <div class="feature-box">
-        <h3>No More…</h3>
-        <p>
-          • Wasting time on career guesswork<br>
-          • Second-guessing your choices<br>
-          • Hunting for "must-have" skills
-        </p>
-      </div>
-      <div class="feature-box">
-        <h3>Skip the skill guesswork</h3>
-        <p>
-          • Turns frustration into solution<br>
-          • Positions you as a career efficiency tool<br>
-          • Encourages immediate sign-ups
-        </p>
-      </div>
-      <div class="feature-box">
-        <h3>Replace uncertainty with analytics</h3>
-        <p>
-          • Demand heatmaps<br>
-          • Compensation benchmarks<br>
-          • Skill matrices
-        </p>
-      </div>
-    </div>
-    
+        // Загрузка данных о университетах
+        fetch(jsonFilePath)
+            .then(response => response.json())
+            .then(data => {
+                universities = data;
+                const cityFilter = document.getElementById('cityFilter');
+                const professionFilter = document.getElementById('professionFilter');
+                const universityList = document.getElementById('university-list');
 
+                // Проверка на успешную загрузку данных
+                console.log("Загруженные данные:", universities);
 
-<script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const observerOptions = {
-      threshold: 0.1
-    };
+                if (!universities || universities.length === 0) {
+                    console.error("Данные не были загружены корректно.");
+                    universityList.innerHTML = "<p>Не удалось загрузить университеты.</p>";
+                    return;
+                }
 
-    const onEntry = (entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    };
+                // Получаем уникальные города и профессии
+                const cities = [...new Set(data.map(u => u["Город"]))];
+                const professions = [...new Set(data.map(u => u["Профессия"]))];
 
-    const observer = new IntersectionObserver(onEntry, observerOptions);
+                // Добавляем города в фильтр
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    cityFilter.appendChild(option);
+                });
 
-    document.querySelectorAll('.hero, .charts-section, .features-grid .feature-box').forEach((el) => {
-      observer.observe(el);
-    });
-  });
-</script>
+                // Добавляем профессии в фильтр
+                professions.forEach(profession => {
+                    const option = document.createElement('option');
+                    option.value = profession;
+                    option.textContent = profession;
+                    professionFilter.appendChild(option);
+                });
 
+                // Функция для отображения списка университетов
+                function displayUniversities(filteredData) {
+                    universityList.innerHTML = '';  // Очистить список
+                    let displayedUniversities = []; // Массив для уникальных университетов
 
+                    filteredData.forEach(university => {
+                        // Проверяем, если университет уже был добавлен в список
+                        if (!displayedUniversities.includes(university["Название университета"])) {
+                            displayedUniversities.push(university["Название университета"]);
+                            const card = document.createElement('div');
+                            card.classList.add('university-card');
+                            card.innerHTML = `
+                                <h3><a href="${university["Сайт"]}" target="_blank">${university["Название университета"]}</a></h3>
+                                <p><strong>Город:</strong> ${university["Город"]}</p>
+                                <p><strong>Описание:</strong> ${university["Описание"]}</p>
+                                <div class="programs">
+                                    <h4>Образовательные программы:</h4>
+                                    ${Array.isArray(university["Образовательная программа"]) 
+                                        ? university["Образовательная программа"].map(program => ` 
+                                            <p><strong>Программа:</strong> ${program} <br> <strong>Профессия:</strong> ${university["Профессия"]}</p>
+                                        `).join('') 
+                                        : `<p>${university["Образовательная программа"]}</p>`
+                                    }
+                                </div>
+                            `;
+                            universityList.appendChild(card);
+                        }
+                    });
+                }
 
+                // Изначально отображаем все университеты
+                displayUniversities(universities);
+
+                // Фильтрация по городу
+                cityFilter.addEventListener('change', () => {
+                    const city = cityFilter.value;
+                    const profession = professionFilter.value;
+
+                    const filteredUniversities = universities.filter(u => {
+                        return (city ? u["Город"] === city : true) && 
+                               (profession ? u["Профессия"] === profession : true);
+                    });
+
+                    displayUniversities(filteredUniversities);
+                });
+
+                // Фильтрация по профессии
+                professionFilter.addEventListener('change', () => {
+                    const profession = professionFilter.value;
+                    const city = cityFilter.value;
+
+                    const filteredUniversities = universities.filter(u => {
+                        return (city ? u["Город"] === city : true) &&
+                               (profession ? u["Профессия"] === profession : true);
+                    });
+
+                    displayUniversities(filteredUniversities);
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке данных:', error);
+                document.getElementById('university-list').innerHTML = "<p>Ошибка загрузки данных.</p>";
+            });
+    </script>
 </body>
 </html>
