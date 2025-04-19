@@ -27,7 +27,7 @@
 
         // Получаем параметр "name" из URL
         const urlParams = new URLSearchParams(window.location.search);
-        const universityName = urlParams.get('name');
+        const universityName = urlParams.get('name');  // Извлекаем название университета из URL
 
         fetch(jsonFilePath)
             .then(response => response.json())
