@@ -34,8 +34,8 @@
         <select id="cityFilter">
             <option value="">Выберите город</option>
         </select>
-        <select id="programFilter">
-            <option value="">Выберите специальность</option>
+        <select id="professionFilter">
+            <option value="">Выберите профессию</option>
         </select>
     </div>
 
@@ -53,12 +53,12 @@
             .then(data => {
                 universities = data;
                 const cityFilter = document.getElementById('cityFilter');
-                const programFilter = document.getElementById('programFilter');
+                const professionFilter = document.getElementById('professionFilter');
                 const universityList = document.getElementById('university-list');
 
-                // Получаем уникальные города и специальности
+                // Получаем уникальные города и профессии
                 const cities = [...new Set(data.map(u => u["Город"]))];
-                const programs = [...new Set(data.map(u => u["Образовательная программа"]))];
+                const professions = [...new Set(data.map(u => u["Профессия"]))];
 
                 // Добавляем города в фильтр
                 cities.forEach(city => {
@@ -68,12 +68,12 @@
                     cityFilter.appendChild(option);
                 });
 
-                // Добавляем специальности в фильтр
-                programs.forEach(program => {
+                // Добавляем профессии в фильтр
+                professions.forEach(profession => {
                     const option = document.createElement('option');
-                    option.value = program;
-                    option.textContent = program;
-                    programFilter.appendChild(option);
+                    option.value = profession;
+                    option.textContent = profession;
+                    professionFilter.appendChild(option);
                 });
 
                 // Функция для отображения списка университетов
@@ -97,24 +97,24 @@
                 // Фильтрация по городу
                 cityFilter.addEventListener('change', () => {
                     const city = cityFilter.value;
-                    const program = programFilter.value;
+                    const profession = professionFilter.value;
 
                     const filteredUniversities = universities.filter(u => {
                         return (city ? u["Город"] === city : true) && 
-                               (program ? u["Образовательная программа"] === program : true);
+                               (profession ? u["Профессия"] === profession : true);
                     });
 
                     displayUniversities(filteredUniversities);
                 });
 
-                // Фильтрация по специальности
-                programFilter.addEventListener('change', () => {
-                    const program = programFilter.value;
+                // Фильтрация по профессии
+                professionFilter.addEventListener('change', () => {
+                    const profession = professionFilter.value;
                     const city = cityFilter.value;
 
                     const filteredUniversities = universities.filter(u => {
                         return (city ? u["Город"] === city : true) &&
-                               (program ? u["Образовательная программа"] === program : true);
+                               (profession ? u["Профессия"] === profession : true);
                     });
 
                     displayUniversities(filteredUniversities);
@@ -124,4 +124,3 @@
     </script>
 </body>
 </html>
-
