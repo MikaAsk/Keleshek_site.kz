@@ -13,8 +13,6 @@
       color: #1f1f1f;
       overflow-x: hidden;
     }
-
-    /* Header styles */
     header {
       display: flex;
       justify-content: space-between;
@@ -28,25 +26,24 @@
       width: auto;
     }
 
-    /* Navigation styles */
     nav a {
       margin: 0 15px;
       text-decoration: none;
       color: #1f1f1f;
       font-weight: 500;
+      padding-bottom: 5px;
+      transition: all 0.3s ease;
     }
 
-    /* Active link styles */
     nav a.active {
+      border-bottom: 2px solid #009688;
       color: #009688;
-      text-decoration: underline;
     }
 
     .nav-actions {
       display: flex;
       align-items: center;
     }
-
     .nav-actions button {
       margin-left: 12px;
       padding: 8px 16px;
@@ -58,7 +55,6 @@
       cursor: pointer;
     }
 
-    /* Hero section */
     .hero {
       display: flex;
       justify-content: space-between;
@@ -100,7 +96,6 @@
       border: 1px solid #ccc;
     }
 
-    /* Charts section */
     .charts-section {
       padding: 100px 40px;
       text-align: center;
@@ -111,7 +106,6 @@
       margin-bottom: 30px;
     }
 
-    /* Connect section */
     .connect-section {
       background-color: #f5faff;
       padding: 80px 20px;
@@ -161,32 +155,6 @@
       color: #333;
       text-align: left;
     }
-
-    /* Fade-in animations for sections */
-    .charts-section,
-    .features-grid .feature-box {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.8s ease-out;
-    }
-
-    .charts-section.visible,
-    .features-grid .feature-box.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* Scroll-triggered animations */
-    .hero {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.8s ease-out;
-    }
-
-    .hero.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
   </style>
 </head>
 <body>
@@ -197,15 +165,19 @@
       </a>
     </div>
     <nav>
-      <a href="index.html" class="active">Study</a>
+      <a href="index.html" id="study-link">Study</a>
       <a href="test.html">Test</a>
       <a href="analytics.html">Analytics</a>
       <a href="universities.html">Universities</a>
       <a href="about.html">About us</a>
     </nav>
     <div class="nav-actions">
-      <button><a href="login.html" style="color:#009688">Log in</a></button>
-      <button><a href="signup.html" style="color:white">Sign up</a></button>
+      <button style="background-color: white; border: 1px solid #ccc; color: #1f1f1f; font-weight: 600; padding: 10px 16px; border-radius: 8px; margin-right: 10px; color: #009688;">
+        <a href="login.html" class="button secondary" style="color:#009688">Log in</a>
+      </button>
+      <button style="background-color: #009688; color: white; font-weight: 600; padding: 10px 16px; border: none; border-radius: 8px; margin-right: 10px;">
+        <a href="signup.html" class="button secondary" style="color:#ffffff">Sign up</a>
+      </button>
     </div>
   </header>
 
@@ -238,7 +210,7 @@
       </iframe>
     </div>
   </section>
-    
+
   <section class="connect-section">
     <h2>Keleshek connects</h2>
     <div class="features-grid">
@@ -285,26 +257,22 @@
   </section>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const observerOptions = {
-        threshold: 0.1
-      };
-
-      const onEntry = (entries, observer) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      };
-
-      const observer = new IntersectionObserver(onEntry, observerOptions);
-
-      document.querySelectorAll('.hero, .charts-section, .features-grid .feature-box').forEach((el) => {
-        observer.observe(el);
+    // Get all navigation links
+    const navLinks = document.querySelectorAll('nav a');
+    
+    // Function to highlight the current page link
+    function highlightActiveLink() {
+      navLinks.forEach(link => {
+        if (window.location.href.includes(link.href)) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
       });
-    });
+    }
+
+    // Call the function to highlight active link when the page loads
+    highlightActiveLink();
   </script>
 
 </body>
