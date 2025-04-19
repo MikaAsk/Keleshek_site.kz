@@ -16,6 +16,7 @@
             display: inline-block;
             vertical-align: top;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
         }
         .card h3 {
             font-size: 1.2em;
@@ -41,6 +42,11 @@
         .programs {
             margin-top: 15px;
             padding-left: 20px;
+            display: none;
+        }
+        .card-details {
+            display: none;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -136,7 +142,7 @@
                             <p><strong>Город:</strong> ${university.city}</p>
                             <p><strong>Описание:</strong> ${university.description}</p>
                             <a href="${university.site}" target="_blank">Сайт</a>
-                            <div class="programs">
+                            <div class="card-details">
                                 <h4>Образовательные программы:</h4>
                                 ${university.programs.map(program => `
                                     <p><strong>Программа:</strong> ${program.program} <br> <strong>Профессия:</strong> ${program.profession}</p>
@@ -144,6 +150,16 @@
                             </div>
                         `;
                         container.appendChild(card);
+
+                        // Добавляем событие клика, чтобы раскрыть подробности
+                        card.addEventListener('click', () => {
+                            const details = card.querySelector('.card-details');
+                            if (details.style.display === "none" || details.style.display === "") {
+                                details.style.display = "block";
+                            } else {
+                                details.style.display = "none";
+                            }
+                        });
                     }
                 }
 
