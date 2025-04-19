@@ -1,258 +1,259 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Университеты</title>
-    <style>
-        /* Основной стиль страницы */
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Университеты</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Основной стиль страницы */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #1f1f1f;
+      overflow-x: hidden;
+    }
 
-        /* Навигация */
-        nav {
-            background-color: #fff;
-            padding: 15px 0;
-            text-align: center;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
+    /* Навигация */
+    nav {
+      background-color: #ffffff;
+      padding: 15px 0;
+      text-align: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
 
-        nav a {
-            color: #2980b9;
-            text-decoration: none;
-            font-size: 18px;
-            margin: 0 20px;
-            padding: 10px;
-            transition: color 0.3s;
-        }
+    nav a {
+      color: #2980b9;
+      text-decoration: none;
+      font-size: 18px;
+      margin: 0 20px;
+      padding: 10px;
+      transition: color 0.3s;
+    }
 
-        nav a:hover {
-            color: #3498db;
-        }
+    nav a:hover {
+      color: #3498db;
+    }
 
-        /* Заголовок */
-        h1 {
-            text-align: center;
-            font-size: 36px;
-            color: #333;
-            margin-top: 20px;
-            margin-bottom: 30px;
-        }
+    /* Заголовок */
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      color: #333;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
 
-        /* Фильтры */
-        .filters {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+    /* Фильтры */
+    .filters {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 30px;
+    }
 
-        .filters select {
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-            width: 250px;
-            box-sizing: border-box;
-        }
+    .filters select {
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      width: 250px;
+      box-sizing: border-box;
+    }
 
-        /* Стили для карточек университетов */
-        #university-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-        }
+    /* Стили для карточек университетов */
+    #university-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+    }
 
-        .university-card {
-            background-color: #fff;
-            border-radius: 8px;
-            border: 1px solid #e0e0e0;
-            width: 280px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
+    .university-card {
+      background-color: #fff;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+      width: 280px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
 
-        .university-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-        }
+    .university-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
 
-        .university-card h3 {
-            font-size: 18px;
-            color: #2980b9;
-            text-align: center;
-            margin-bottom: 15px;
-        }
+    .university-card h3 {
+      font-size: 18px;
+      color: #2980b9;
+      text-align: center;
+      margin-bottom: 15px;
+    }
 
-        .university-card p {
-            font-size: 14px;
-            margin: 5px 0;
-            color: #555;
-        }
+    .university-card p {
+      font-size: 14px;
+      margin: 5px 0;
+      color: #555;
+    }
 
-        .university-card a {
-            color: #2980b9;
-            text-decoration: none;
-            font-weight: bold;
-        }
+    .university-card a {
+      color: #2980b9;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
-        .university-card a:hover {
-            text-decoration: underline;
-        }
+    .university-card a:hover {
+      text-decoration: underline;
+    }
 
-        .programs h4 {
-            font-size: 16px;
-            color: #2c3e50;
-            margin-top: 10px;
-        }
+    .programs h4 {
+      font-size: 16px;
+      color: #2c3e50;
+      margin-top: 10px;
+    }
 
-        .programs p {
-            font-size: 14px;
-            margin: 5px 0;
-            color: #555;
-        }
-    </style>
+    .programs p {
+      font-size: 14px;
+      margin: 5px 0;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-    <!-- Навигация -->
-    <nav>
-        <a href="study.html">Study</a>
-        <a href="test.html">Test</a>
-        <a href="analytics.html">Analytics</a>
-        <a href="universities.html">Universities</a>
-        <a href="about.html">About us</a>
-    </nav>
+  <!-- Навигация -->
+  <nav>
+    <a href="study.html">Study</a>
+    <a href="test.html">Test</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="universities.html">Universities</a>
+    <a href="about.html">About us</a>
+  </nav>
 
-    <h1>Список университетов</h1>
+  <h1>Список университетов</h1>
 
-    <!-- Фильтры -->
-    <div class="filters">
-        <select id="cityFilter">
-            <option value="">Выберите город</option>
-        </select>
-        <select id="professionFilter">
-            <option value="">Выберите профессию</option>
-        </select>
-    </div>
+  <!-- Фильтры -->
+  <div class="filters">
+    <select id="cityFilter">
+      <option value="">Выберите город</option>
+    </select>
+    <select id="professionFilter">
+      <option value="">Выберите профессию</option>
+    </select>
+  </div>
 
-    <!-- Список университетов -->
-    <div id="university-list"></div>
+  <!-- Список университетов -->
+  <div id="university-list"></div>
 
-    <script>
-        const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json'; // Путь к вашему JSON файлу
+  <script>
+    const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json'; // Путь к вашему JSON файлу
 
-        let universities = [];
+    let universities = [];
 
-        // Загрузка данных о университетах
-        fetch(jsonFilePath)
-            .then(response => response.json())
-            .then(data => {
-                universities = data;
-                const cityFilter = document.getElementById('cityFilter');
-                const professionFilter = document.getElementById('professionFilter');
-                const universityList = document.getElementById('university-list');
+    // Загрузка данных о университетах
+    fetch(jsonFilePath)
+      .then(response => response.json())
+      .then(data => {
+        universities = data;
+        const cityFilter = document.getElementById('cityFilter');
+        const professionFilter = document.getElementById('professionFilter');
+        const universityList = document.getElementById('university-list');
 
-                // Проверка на успешную загрузку данных
-                console.log("Загруженные данные:", universities);
+        // Проверка на успешную загрузку данных
+        console.log("Загруженные данные:", universities);
 
-                if (!universities || universities.length === 0) {
-                    console.error("Данные не были загружены корректно.");
-                    universityList.innerHTML = "<p>Не удалось загрузить университеты.</p>";
-                    return;
-                }
+        if (!universities || universities.length === 0) {
+          console.error("Данные не были загружены корректно.");
+          universityList.innerHTML = "<p>Не удалось загрузить университеты.</p>";
+          return;
+        }
 
-                // Получаем уникальные города и профессии
-                const cities = [...new Set(data.map(u => u["Город"]))];
-                const professions = [...new Set(data.map(u => u["Профессия"]))];
+        // Получаем уникальные города и профессии
+        const cities = [...new Set(data.map(u => u["Город"]))];
+        const professions = [...new Set(data.map(u => u["Профессия"]))];
 
-                // Добавляем города в фильтр
-                cities.forEach(city => {
-                    const option = document.createElement('option');
-                    option.value = city;
-                    option.textContent = city;
-                    cityFilter.appendChild(option);
-                });
+        // Добавляем города в фильтр
+        cities.forEach(city => {
+          const option = document.createElement('option');
+          option.value = city;
+          option.textContent = city;
+          cityFilter.appendChild(option);
+        });
 
-                // Добавляем профессии в фильтр
-                professions.forEach(profession => {
-                    const option = document.createElement('option');
-                    option.value = profession;
-                    option.textContent = profession;
-                    professionFilter.appendChild(option);
-                });
+        // Добавляем профессии в фильтр
+        professions.forEach(profession => {
+          const option = document.createElement('option');
+          option.value = profession;
+          option.textContent = profession;
+          professionFilter.appendChild(option);
+        });
 
-                // Функция для отображения списка университетов
-                function displayUniversities(filteredData) {
-                    universityList.innerHTML = '';  // Очистить список
-                    let displayedUniversities = []; // Массив для уникальных университетов
+        // Функция для отображения списка университетов
+        function displayUniversities(filteredData) {
+          universityList.innerHTML = '';  // Очистить список
+          let displayedUniversities = []; // Массив для уникальных университетов
 
-                    filteredData.forEach(university => {
-                        // Проверяем, если университет уже был добавлен в список
-                        if (!displayedUniversities.includes(university["Название университета"])) {
-                            displayedUniversities.push(university["Название университета"]);
-                            const card = document.createElement('div');
-                            card.classList.add('university-card');
-                            card.innerHTML = `
-                                <h3><a href="${university["Сайт"]}" target="_blank">${university["Название университета"]}</a></h3>
-                                <p><strong>Город:</strong> ${university["Город"]}</p>
-                                <p><strong>Описание:</strong> ${university["Описание"]}</p>
-                                <div class="programs">
-                                    <h4>Образовательные программы:</h4>
-                                    ${Array.isArray(university["Образовательная программа"]) 
-                                        ? university["Образовательная программа"].map(program => ` 
-                                            <p><strong>Программа:</strong> ${program} <br> <strong>Профессия:</strong> ${university["Профессия"]}</p>
-                                        `).join('') 
-                                        : `<p>${university["Образовательная программа"]}</p>`
-                                    }
-                                </div>
-                            `;
-                            universityList.appendChild(card);
-                        }
-                    });
-                }
+          filteredData.forEach(university => {
+            // Проверяем, если университет уже был добавлен в список
+            if (!displayedUniversities.includes(university["Название университета"])) {
+              displayedUniversities.push(university["Название университета"]);
+              const card = document.createElement('div');
+              card.classList.add('university-card');
+              card.innerHTML = `
+                <h3><a href="${university["Сайт"]}" target="_blank">${university["Название университета"]}</a></h3>
+                <p><strong>Город:</strong> ${university["Город"]}</p>
+                <p><strong>Описание:</strong> ${university["Описание"]}</p>
+                <div class="programs">
+                  <h4>Образовательные программы:</h4>
+                  ${Array.isArray(university["Образовательная программа"]) 
+                    ? university["Образовательная программа"].map(program => ` 
+                        <p><strong>Программа:</strong> ${program} <br> <strong>Профессия:</strong> ${university["Профессия"]}</p>
+                    `).join('') 
+                    : `<p>${university["Образовательная программа"]}</p>`
+                  }
+                </div>
+              `;
+              universityList.appendChild(card);
+            }
+          });
+        }
 
-                // Изначально отображаем все университеты
-                displayUniversities(universities);
+        // Изначально отображаем все университеты
+        displayUniversities(universities);
 
-                // Фильтрация по городу
-                cityFilter.addEventListener('change', () => {
-                    const city = cityFilter.value;
-                    const profession = professionFilter.value;
+        // Фильтрация по городу
+        cityFilter.addEventListener('change', () => {
+          const city = cityFilter.value;
+          const profession = professionFilter.value;
 
-                    const filteredUniversities = universities.filter(u => {
-                        return (city ? u["Город"] === city : true) && 
-                               (profession ? u["Профессия"] === profession : true);
-                    });
+          const filteredUniversities = universities.filter(u => {
+            return (city ? u["Город"] === city : true) && 
+                   (profession ? u["Профессия"] === profession : true);
+          });
 
-                    displayUniversities(filteredUniversities);
-                });
+          displayUniversities(filteredUniversities);
+        });
 
-                // Фильтрация по профессии
-                professionFilter.addEventListener('change', () => {
-                    const profession = professionFilter.value;
-                    const city = cityFilter.value;
+        // Фильтрация по профессии
+        professionFilter.addEventListener('change', () => {
+          const profession = professionFilter.value;
+          const city = cityFilter.value;
 
-                    const filteredUniversities = universities.filter(u => {
-                        return (city ? u["Город"] === city : true) &&
-                               (profession ? u["Профессия"] === profession : true);
-                    });
+          const filteredUniversities = universities.filter(u => {
+            return (city ? u["Город"] === city : true) &&
+                   (profession ? u["Профессия"] === profession : true);
+          });
 
-                    displayUniversities(filteredUniversities);
-                });
-            })
-            .catch(error => {
-                console.error('Ошибка при загрузке данных:', error);
-                document.getElementById('university-list').innerHTML = "<p>Ошибка загрузки данных.</p>";
-            });
-    </script>
+          displayUniversities(filteredUniversities);
+        });
+      })
+      .catch(error => {
+        console.error('Ошибка при загрузке данных:', error);
+        document.getElementById('university-list').innerHTML = "<p>Ошибка загрузки данных.</p>";
+      });
+  </script>
 </body>
 </html>
