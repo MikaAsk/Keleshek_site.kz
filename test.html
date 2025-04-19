@@ -14,7 +14,7 @@
     }
 
     /* Navbar Style */
-      nav a {
+    nav a {
       font-size: 14px;
       color: #333;
       text-decoration: none;
@@ -32,43 +32,34 @@
     .nav-actions {
       display: flex;
       gap: 12px;
-      justify-content: flex-end; /* Align buttons to the right */
-      margin-right: 10px;
+      justify-content: flex-end;
     }
 
-.nav-actions button {
-  margin-left: 12px;
-  padding: 6px 10px;  /* Reduced padding to make the buttons smaller */
-  min-width: 100px;  /* Ensures buttons are not too wide */
-  width: auto;  /* Adjusts width based on content */
-  white-space: nowrap; /* Keeps text in one line */
-  border: none;
-  background-color: #009688;
-  color: white;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
+    .nav-actions button {
+      margin-left: 12px;
+      padding: 6px 10px;
+      min-width: 100px;
+      width: auto;
+      white-space: nowrap;
+      border: none;
+      background-color: #009688;
+      color: white;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+    }
 
-.nav-actions button.primary {
-  background-color: #009688;
-  color: white;
-  border: none;
-}
+    .nav-actions button.primary {
+      background-color: #009688;
+      color: white;
+      border: none;
+    }
 
-.nav-actions button.secondary {
-  background-color: white;
-  color: #1f1f1f;
-  border: 1px solid #ccc;
-}
-
-.nav-actions {
-  display: flex;
-  gap: 4px;  /* Reduced the gap between buttons */
-  justify-content: flex-end; 
-  margin-left: auto;
-}
-
+    .nav-actions button.secondary {
+      background-color: white;
+      color: #1f1f1f;
+      border: 1px solid #ccc;
+    }
 
     /* Form Styling */
     .container {
@@ -127,24 +118,24 @@
 
 <body>
   <!-- Navigation Bar -->
-  <div class="navbar">
+  <header>
     <div class="logo">
       <a href="index.html">
         <img src="logo.jpg" alt="Keleshek logo">
       </a>
     </div>
-    <div class="center-links">
+    <nav>
       <a href="index.html">Study</a>
       <a href="test.html" class="active">Test</a>
       <a href="analytics.html">Analytics</a>
       <a href="universities.html">Universities</a>
       <a href="about.html">About us</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="secondary"><a href="login.html" style="color:#009688">Log in</a></button>
+      <button class="primary"><a href="signup.html" style="color:white">Sign up</a></button>
     </div>
-    <div class="right-buttons">
-      <a href="login.html"><button style="border: 1px solid #ccc; background-color: white;">Log in</button></a>
-      <a href="signup.html"><button style="background-color: #009688; color: white;">Sign up</button></a>
-    </div>
-  </div>
+  </header>
 
   <div class="container">
     <h2>Career Orientation Test</h2>
