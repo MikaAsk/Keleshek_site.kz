@@ -79,15 +79,27 @@
                 // Функция для отображения списка университетов
                 function displayUniversities(filteredData) {
                     universityList.innerHTML = '';  // Очистить список
+                    let displayedUniversities = []; // Массив для уникальных университетов
+
                     filteredData.forEach(university => {
-                        const card = document.createElement('div');
-                        card.classList.add('university-card');
-                        card.innerHTML = `
-                            <h3><a href="university.html?name=${encodeURIComponent(university["Название университета"])}">${university["Название университета"]}</a></h3>
-                            <p><strong>Город:</strong> ${university["Город"]}</p>
-                            <p><strong>Описание:</strong> ${university["Описание"]}</p>
-                        `;
-                        universityList.appendChild(card);
+                        // Проверяем, если университет уже был добавлен в список
+                        if (!displayedUniversities.includes(university["Название университета"])) {
+                            displayedUniversities.push(university["Название университета"]);
+                            const card = document.createElement('div');
+                            card.classList.add('university-card');
+                            card.innerHTML = `
+                                <h3><a href="${university["Сайт"]}" target="_blank">${university["Название университета"]}</a></h3>
+                                <p><strong>Город:</strong> ${university["Город"]}</p>
+                                <p><strong>Описание:</strong> ${university["Описание"]}</p>
+                                <div class="programs">
+                                    <h4>Образовательные программы:</h4>
+                                    ${university["Образовательная программа"].map(program => `
+                                        <p><strong>Программа:</strong> ${program} <br> <strong>Профессия:</strong> ${university["Профессия"]}</p>
+                                    `).join('')}
+                                </div>
+                            `;
+                            universityList.appendChild(card);
+                        }
                     });
                 }
 
