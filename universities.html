@@ -39,13 +39,6 @@
             padding: 5px;
             margin-right: 10px;
         }
-        .university-detail {
-            display: none;
-            margin-top: 20px;
-        }
-        .university-detail.active {
-            display: block;
-        }
     </style>
 </head>
 <body>
@@ -66,10 +59,6 @@
 
     <div id="university-cards">
         <!-- Карточки университетов будут загружаться сюда -->
-    </div>
-
-    <div id="university-details">
-        <!-- Данные выбранного университета будут отображаться здесь -->
     </div>
 
     <script>
@@ -140,38 +129,12 @@
                         const card = document.createElement('div');
                         card.classList.add('card');
                         card.innerHTML = `
-                            <h3><a href="#${universityName}" class="university-link">${university.name}</a></h3>
+                            <h3><a href="university.html?name=${encodeURIComponent(universityName)}" class="university-link">${university.name}</a></h3>
                             <p><strong>Город:</strong> ${university.city}</p>
                             <p><strong>Описание:</strong> ${university.description}</p>
                         `;
                         container.appendChild(card);
-
-                        // Добавляем событие клика на ссылку
-                        const link = card.querySelector('.university-link');
-                        link.addEventListener('click', () => {
-                            showUniversityDetails(universityName);
-                        });
                     }
-                }
-
-                // Функция для отображения информации о выбранном университете
-                function showUniversityDetails(universityName) {
-                    const university = groupedUniversities[universityName];
-                    const detailsContainer = document.getElementById('university-details');
-                    detailsContainer.innerHTML = `
-                        <h2>${university.name}</h2>
-                        <p><strong>Город:</strong> ${university.city}</p>
-                        <p><strong>Описание:</strong> ${university.description}</p>
-                        <a href="${university.site}" target="_blank">Сайт</a>
-                        <div class="programs">
-                            <h4>Образовательные программы:</h4>
-                            ${university.programs.map(program => `
-                                <p><strong>Программа:</strong> ${program.program} <br> <strong>Профессия:</strong> ${program.profession}</p>
-                            `).join('')}
-                        </div>
-                    `;
-                    detailsContainer.classList.add('active');
-                    window.location.hash = universityName;  // Добавляем якорь в URL
                 }
 
                 // Первоначальное отображение всех университетов
