@@ -11,7 +11,6 @@
       background-color: #f5f7fa;
       color: #333;
     }
-
     header {
       display: flex;
       justify-content: space-between;
@@ -45,27 +44,11 @@
       border-bottom: 2px solid #009688;
     }
 
-    .nav-actions {
-      display: flex;
-      gap: 12px;
-    }
-
-    .nav-actions button {
-      padding: 8px 16px;
-      border: none;
-      background-color: #009688;
-      color: white;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
     .filters {
       display: flex;
       justify-content: center;
       gap: 20px;
       margin-top: 30px;
-      margin-bottom: 30px;
     }
 
     .filters select {
@@ -74,18 +57,18 @@
       border-radius: 5px;
       border: 1px solid #ddd;
       background-color: #fff;
-      width: 200px;
+      width: 200px; /* для первого фильтра */
       box-sizing: border-box;
     }
+
     #professionFilter {
-  width: 250px; /* увеличиваем ширину для второго фильтра */
+      width: 250px; /* увеличиваем ширину для второго фильтра */
     }
 
-    /* Новый стиль для карточек университетов */
     #university-list {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around; /* Чтобы элементы располагались по центру с отступами */
+      justify-content: space-around;
       gap: 20px;
       margin-top: 20px;
     }
@@ -157,10 +140,6 @@
       <a href="universities.html">Universities</a>
       <a href="about.html">About us</a>
     </nav>
-    <div class="nav-actions">
-      <button><a href="login.html" style="color: white;">Log in</a></button>
-      <button><a href="signup.html" style="color: white;">Sign up</a></button>
-    </div>
   </header>
 
   <div class="filters">
@@ -175,7 +154,7 @@
   <div id="university-list"></div>
 
   <script>
-    const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json'; 
+    const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json'; // Путь к вашему JSON файлу
 
     let universities = [];
 
@@ -187,6 +166,7 @@
         const professionFilter = document.getElementById('professionFilter');
         const universityList = document.getElementById('university-list');
 
+        // Проверка на успешную загрузку данных
         console.log("Загруженные данные:", universities);
 
         if (!universities || universities.length === 0) {
@@ -195,9 +175,11 @@
           return;
         }
 
+        // Получаем уникальные города и профессии
         const cities = [...new Set(data.map(u => u["Город"]))];
         const professions = [...new Set(data.map(u => u["Профессия"]))];
 
+        // Добавляем города в фильтр
         cities.forEach(city => {
           const option = document.createElement('option');
           option.value = city;
@@ -205,6 +187,7 @@
           cityFilter.appendChild(option);
         });
 
+        // Добавляем профессии в фильтр
         professions.forEach(profession => {
           const option = document.createElement('option');
           option.value = profession;
@@ -212,9 +195,10 @@
           professionFilter.appendChild(option);
         });
 
+        // Функция для отображения списка университетов
         function displayUniversities(filteredData) {
           universityList.innerHTML = ''; 
-          let displayedUniversities = [];
+          let displayedUniversities = []; // Массив для уникальных университетов
 
           filteredData.forEach(university => {
             if (!displayedUniversities.includes(university["Название университета"])) {
@@ -242,10 +226,25 @@
 
         displayUniversities(universities);
 
+        // Фильтрация по городу
         cityFilter.addEventListener('change', () => {
           const city = cityFilter.value;
-          const profession = professionFilter.value;
 
+          // Фильтруем профессии на основе города
+          const filteredProfessions = professions.filter(profession => {
+            return universities.some(u => u["Город"] === city && u["Профессия"] === profession);
+          });
+
+          professionFilter.innerHTML = '<option value="">Выберите профессию</option>'; // очищаем профессии
+          filteredProfessions.forEach(profession => {
+            const option = document.createElement('option');
+            option.value = profession;
+            option.textContent = profession;
+            professionFilter.appendChild(option);
+          });
+
+          // Фильтруем университеты на основе города и профессии
+          const profession = professionFilter.value;
           const filteredUniversities = universities.filter(u => {
             return (city ? u["Город"] === city : true) && 
                    (profession ? u["Профессия"] === profession : true);
@@ -254,12 +253,27 @@
           displayUniversities(filteredUniversities);
         });
 
+        // Фильтрация по профессии
         professionFilter.addEventListener('change', () => {
           const profession = professionFilter.value;
-          const city = cityFilter.value;
 
+          // Фильтруем города на основе профессии
+          const filteredCities = cities.filter(city => {
+            return universities.some(u => u["Профессия"] === profession && u["Город"] === city);
+          });
+
+          cityFilter.innerHTML = '<option value="">Выберите город</option>'; // очищаем города
+          filteredCities.forEach(city => {
+            const option = document.createElement('option');
+            option.value = city;
+            option.textContent = city;
+            cityFilter.appendChild(option);
+          });
+
+          // Фильтруем университеты на основе города и профессии
+          const city = cityFilter.value;
           const filteredUniversities = universities.filter(u => {
-            return (city ? u["Город"] === city : true) &&
+            return (city ? u["Город"] === city : true) && 
                    (profession ? u["Профессия"] === profession : true);
           });
 
