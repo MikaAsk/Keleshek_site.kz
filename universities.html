@@ -1,152 +1,116 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Университеты</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .university-card {
-            border: 1px solid #ccc;
-            padding: 20px;
-            margin: 10px;
-            width: 250px;
-            display: inline-block;
-            vertical-align: top;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        select {
-            padding: 5px;
-            margin-right: 10px;
-        }
-        .filters {
-            margin-bottom: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Список университетов</title>
+  <link rel="stylesheet" href="styles.css"> <!-- Ссылка на файл CSS -->
 </head>
 <body>
-    <h1>Список университетов</h1>
+  <div class="container">
+    <header>
+      <h1>Список университетов</h1>
+    </header>
 
     <!-- Фильтры -->
-    <div class="filters">
-        <select id="cityFilter">
-            <option value="">Выберите город</option>
-        </select>
-        <select id="professionFilter">
-            <option value="">Выберите профессию</option>
-        </select>
+    <div class="filter-container">
+      <select id="cityFilter">
+        <option value="">Выберите город</option>
+        <!-- Динамическое заполнение городов -->
+      </select>
+      <select id="professionFilter">
+        <option value="">Выберите профессию</option>
+        <!-- Динамическое заполнение профессий -->
+      </select>
     </div>
 
     <!-- Список университетов -->
-    <div id="university-list"></div>
+    <div id="universityList" class="card-container">
+      <!-- Динамически заполняемые университеты -->
+    </div>
+  </div>
 
-    <script>
-        const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json'; // Путь к вашему JSON файлу
+  <!-- Скрипт для загрузки данных и динамического отображения -->
+  <script>
+    // Данные JSON из GitHub
+    const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json'; 
 
-        let universities = [];
+    // Функция для загрузки данных университетов
+    async function fetchUniversities() {
+      const response = await fetch(jsonFilePath);
+      const data = await response.json();
+      return data;
+    }
 
-        // Загрузка данных о университетах
-        fetch(jsonFilePath)
-            .then(response => response.json())
-            .then(data => {
-                universities = data;
-                const cityFilter = document.getElementById('cityFilter');
-                const professionFilter = document.getElementById('professionFilter');
-                const universityList = document.getElementById('university-list');
+    // Функция для отображения университетов
+    function displayUniversities(universities) {
+      const universityList = document.getElementById('universityList');
+      universityList.innerHTML = ''; // Очищаем текущие университеты перед добавлением новых
 
-                // Проверка на успешную загрузку данных
-                console.log("Загруженные данные:", universities);
+      universities.forEach(university => {
+        const card = document.createElement('div');
+        card.classList.add('university-card');
 
-                if (!universities || universities.length === 0) {
-                    console.error("Данные не были загружены корректно.");
-                    universityList.innerHTML = "<p>Не удалось загрузить университеты.</p>";
-                    return;
-                }
+        // Заполняем карточку информацией
+        card.innerHTML = `
+          <h2><a href="${university.Сайт}" target="_blank">${university['Название университета']}</a></h2>
+          <p><strong>Город:</strong> ${university.Город}</p>
+          <p><strong>Описание:</strong> ${university.Описание}</p>
+          <p><strong>Образовательные программы:</strong> ${university['Образовательные программы']}</p>
+        `;
+        
+        universityList.appendChild(card);
+      });
+    }
 
-                // Получаем уникальные города и профессии
-                const cities = [...new Set(data.map(u => u["Город"]))];
-                const professions = [...new Set(data.map(u => u["Профессия"]))];
+    // Функция для фильтрации университетов по городу и профессии
+    function filterUniversities(universities) {
+      const cityFilter = document.getElementById('cityFilter').value;
+      const professionFilter = document.getElementById('professionFilter').value;
 
-                // Добавляем города в фильтр
-                cities.forEach(city => {
-                    const option = document.createElement('option');
-                    option.value = city;
-                    option.textContent = city;
-                    cityFilter.appendChild(option);
-                });
+      const filteredUniversities = universities.filter(university => {
+        const matchesCity = cityFilter ? university.Город === cityFilter : true;
+        const matchesProfession = professionFilter ? university['Образовательные программы'].includes(professionFilter) : true;
+        return matchesCity && matchesProfession;
+      });
 
-                // Добавляем профессии в фильтр
-                professions.forEach(profession => {
-                    const option = document.createElement('option');
-                    option.value = profession;
-                    option.textContent = profession;
-                    professionFilter.appendChild(option);
-                });
+      displayUniversities(filteredUniversities);
+    }
 
-                // Функция для отображения списка университетов
-                function displayUniversities(filteredData) {
-                    universityList.innerHTML = '';  // Очистить список
-                    let displayedUniversities = []; // Массив для уникальных университетов
+    // Инициализация фильтров и данных
+    async function initialize() {
+      const universities = await fetchUniversities();
+      
+      // Заполняем фильтры городов и профессий
+      const cities = [...new Set(universities.map(u => u.Город))];
+      const professions = [...new Set(universities.flatMap(u => u['Образовательные программы'].split('; ')))];
 
-                    filteredData.forEach(university => {
-                        // Проверяем, если университет уже был добавлен в список
-                        if (!displayedUniversities.includes(university["Название университета"])) {
-                            displayedUniversities.push(university["Название университета"]);
-                            const card = document.createElement('div');
-                            card.classList.add('university-card');
-                            card.innerHTML = `
-                                <h3><a href="${university["Сайт"]}" target="_blank">${university["Название университета"]}</a></h3>
-                                <p><strong>Город:</strong> ${university["Город"]}</p>
-                                <p><strong>Описание:</strong> ${university["Описание"]}</p>
-                                <div class="programs">
-                                    <h4>Образовательные программы:</h4>
-                                    ${Array.isArray(university["Образовательная программа"]) 
-                                        ? university["Образовательная программа"].map(program => `
-                                            <p><strong>Программа:</strong> ${program} <br> <strong>Профессия:</strong> ${university["Профессия"]}</p>
-                                        `).join('')
-                                        : `<p>${university["Образовательная программа"]}</p>`}
-                                </div>
-                            `;
-                            universityList.appendChild(card);
-                        }
-                    });
-                }
+      const cityFilter = document.getElementById('cityFilter');
+      const professionFilter = document.getElementById('professionFilter');
 
-                // Изначально отображаем все университеты
-                displayUniversities(universities);
+      cities.forEach(city => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        cityFilter.appendChild(option);
+      });
 
-                // Фильтрация по городу
-                cityFilter.addEventListener('change', () => {
-                    const city = cityFilter.value;
-                    const profession = professionFilter.value;
+      professions.forEach(profession => {
+        const option = document.createElement('option');
+        option.value = profession;
+        option.textContent = profession;
+        professionFilter.appendChild(option);
+      });
 
-                    const filteredUniversities = universities.filter(u => {
-                        return (city ? u["Город"] === city : true) && 
-                               (profession ? u["Профессия"] === profession : true);
-                    });
+      // Изначально отображаем все университеты
+      displayUniversities(universities);
 
-                    displayUniversities(filteredUniversities);
-                });
+      // Добавляем обработчики фильтров
+      cityFilter.addEventListener('change', () => filterUniversities(universities));
+      professionFilter.addEventListener('change', () => filterUniversities(universities));
+    }
 
-                // Фильтрация по профессии
-                professionFilter.addEventListener('change', () => {
-                    const profession = professionFilter.value;
-                    const city = cityFilter.value;
-
-                    const filteredUniversities = universities.filter(u => {
-                        return (city ? u["Город"] === city : true) &&
-                               (profession ? u["Профессия"] === profession : true);
-                    });
-
-                    displayUniversities(filteredUniversities);
-                });
-            })
-            .catch(error => {
-                console.error('Ошибка при загрузке данных:', error);
-                document.getElementById('university-list').innerHTML = "<p>Ошибка загрузки данных.</p>";
-            });
-    </script>
+    initialize();
+  </script>
 </body>
 </html>
