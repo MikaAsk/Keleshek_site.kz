@@ -14,45 +14,61 @@
     }
 
     /* Navbar Style */
-    .navbar {
-      background-color: white;
-      padding: 16px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    }
-
-    .navbar .logo img {
-      height: 60px;
-      width: auto;
-    }
-
-    .navbar .center-links {
-      display: flex;
-      gap: 24px;
-      justify-content: center;
-      flex: 1;
-    }
-
-    .navbar .right-buttons {
-      display: flex;
-      gap: 12px;
-    }
-
-    .navbar a {
-      color: black;
-      text-decoration: none;
+      nav a {
       font-size: 14px;
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
       padding: 8px;
       transition: color 0.3s ease, border-bottom 0.3s ease;
     }
 
-    .navbar a:hover,
-    .navbar a.active {
+    nav a:hover,
+    nav a.active {
       color: #009688;
       border-bottom: 2px solid #009688;
     }
+
+    .nav-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end; /* Align buttons to the right */
+      margin-right: 10px;
+    }
+
+.nav-actions button {
+  margin-left: 12px;
+  padding: 6px 10px;  /* Reduced padding to make the buttons smaller */
+  min-width: 100px;  /* Ensures buttons are not too wide */
+  width: auto;  /* Adjusts width based on content */
+  white-space: nowrap; /* Keeps text in one line */
+  border: none;
+  background-color: #009688;
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nav-actions button.primary {
+  background-color: #009688;
+  color: white;
+  border: none;
+}
+
+.nav-actions button.secondary {
+  background-color: white;
+  color: #1f1f1f;
+  border: 1px solid #ccc;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 4px;  /* Reduced the gap between buttons */
+  justify-content: flex-end; 
+  margin-left: auto;
+}
+
 
     /* Form Styling */
     .container {
