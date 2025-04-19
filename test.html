@@ -12,38 +12,49 @@
       padding: 0;
       background-color: #fff;
     }
-    header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 80px;
-    border-bottom: 1px solid #eaeaea;
-  }
 
-  .logo img {
-    height: 60px; /* уменьшили размер логотипа */
-    width: auto;
-  }
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #1f1f1f;
-      font-weight: 500;
-    }
-    .nav-actions {
+    /* Navbar Style */
+    .navbar {
+      background-color: white;
+      padding: 16px 32px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
-    .nav-actions button {
-      margin-left: 12px;
-      padding: 8px 16px;
-      border: none;
-      background-color: #009688;
-      color: white;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
+
+    .navbar .logo img {
+      height: 60px;
+      width: auto;
     }
+
+    .navbar .center-links {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .navbar .right-buttons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .navbar a {
+      color: black;
+      text-decoration: none;
+      font-size: 14px;
+      padding: 8px;
+      transition: color 0.3s ease, border-bottom 0.3s ease;
+    }
+
+    .navbar a:hover,
+    .navbar a.active {
+      color: #009688;
+      border-bottom: 2px solid #009688;
+    }
+
+    /* Form Styling */
     .container {
       width: 100%;
       max-width: 600px;
@@ -53,21 +64,25 @@
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
+
     .question {
       font-size: 18px;
       margin-bottom: 20px;
       font-weight: 600;
     }
+
     .answers {
       display: flex;
       flex-direction: column;
       gap: 12px;
     }
+
     .answer {
       display: flex;
       align-items: center;
       font-size: 16px;
     }
+
     .submit-btn {
       margin-top: 20px;
       background-color: #009688;
@@ -78,39 +93,43 @@
       cursor: pointer;
       font-size: 16px;
     }
+
     .submit-btn:hover {
       background-color: #00796b;
     }
+
     .result {
       background: #e0f7fa;
       padding: 20px;
       margin-top: 20px;
       border-radius: 8px;
       text-align: center;
-      font-size: 18px;}
+      font-size: 18px;
+    }
   </style>
 </head>
 
 <body>
-
-  <header>
+  <!-- Navigation Bar -->
+  <div class="navbar">
     <div class="logo">
       <a href="index.html">
         <img src="logo.jpg" alt="Keleshek logo">
       </a>
     </div>
-    <nav>
-      <a href="study.html">Study</a>
-      <a href="test.html">Test</a>
+    <div class="center-links">
+      <a href="index.html">Study</a>
+      <a href="test.html" class="active">Test</a>
       <a href="analytics.html">Analytics</a>
+      <a href="universities.html">Universities</a>
       <a href="about.html">About us</a>
-    </nav>
-    <div class="nav-actions">
-
-      <button style="background-color: white; border: 1px solid #ccc; color: #1f1f1f; font-weight: 600; padding: 10px 16px; border-radius: 8px; margin-right: 10px;"><a href="login.html" class="button secondary" style="color:#009688">Log in</a></button>
-      <button style="background-color: #009688; color: white; font-weight: 600; padding: 10px 16px; border: none; border-radius: 8px; margin-right: 10px;"><a href="signup.html" class="button secondary" style="color:#ffffff">Sign up</a></button>
     </div>
-  </header>
+    <div class="right-buttons">
+      <a href="login.html"><button style="border: 1px solid #ccc; background-color: white;">Log in</button></a>
+      <a href="signup.html"><button style="background-color: #009688; color: white;">Sign up</button></a>
+    </div>
+  </div>
+
   <div class="container">
     <h2>Career Orientation Test</h2>
 
