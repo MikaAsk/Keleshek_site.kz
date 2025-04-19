@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Keleshek</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -15,6 +14,7 @@
       overflow-x: hidden;
     }
 
+    /* Header styles */
     header {
       display: flex;
       justify-content: space-between;
@@ -28,6 +28,7 @@
       width: auto;
     }
 
+    /* Navigation styles */
     nav a {
       margin: 0 15px;
       text-decoration: none;
@@ -37,8 +38,7 @@
 
     nav a.active {
       color: #009688;
-      font-weight: 700;
-      border-bottom: 2px solid #009688;
+      text-decoration: underline;
     }
 
     .nav-actions {
@@ -57,6 +57,7 @@
       cursor: pointer;
     }
 
+    /* Hero section */
     .hero {
       display: flex;
       justify-content: space-between;
@@ -98,6 +99,7 @@
       border: 1px solid #ccc;
     }
 
+    /* Charts section */
     .charts-section {
       padding: 100px 40px;
       text-align: center;
@@ -108,6 +110,7 @@
       margin-bottom: 30px;
     }
 
+    /* Connect section */
     .connect-section {
       background-color: #f5faff;
       padding: 80px 20px;
@@ -158,7 +161,7 @@
       text-align: left;
     }
 
-    /* Scroll animation for charts */
+    /* Fade-in animations for sections */
     .charts-section,
     .features-grid .feature-box {
       opacity: 0;
@@ -171,10 +174,21 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* Scroll-triggered animations */
+    .hero {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s ease-out;
+    }
+
+    .hero.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
-
   <header>
     <div class="logo">
       <a href="index.html">
@@ -182,15 +196,15 @@
       </a>
     </div>
     <nav>
-      <a href="study.html">Study</a>
+      <a href="index.html" class="active">Study</a>
       <a href="test.html">Test</a>
       <a href="analytics.html">Analytics</a>
       <a href="universities.html">Universities</a>
       <a href="about.html">About us</a>
     </nav>
     <div class="nav-actions">
-      <button style="background-color: white; border: 1px solid #ccc; color: #1f1f1f; font-weight: 600; padding: 10px 16px; border-radius: 8px; margin-right: 10px; color: #009688;"><a href="login.html" class="button secondary" style="color:#009688">Log in</a></button>
-      <button style="background-color: #009688; color: white; font-weight: 600; padding: 10px 16px; border: none; border-radius: 8px; margin-right: 10px;"><a href="signup.html" class="button secondary" style="color:#ffffff">Sign up</a></button>
+      <button><a href="login.html" style="color:#009688">Log in</a></button>
+      <button><a href="signup.html" style="color:white">Sign up</a></button>
     </div>
   </header>
 
@@ -223,7 +237,7 @@
       </iframe>
     </div>
   </section>
-
+    
   <section class="connect-section">
     <h2>Keleshek connects</h2>
     <div class="features-grid">
@@ -270,14 +284,24 @@
   </section>
 
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      const navLinks = document.querySelectorAll('nav a');
-      const currentPage = window.location.pathname.split('/').pop(); // Get current page
+    document.addEventListener("DOMContentLoaded", function () {
+      const observerOptions = {
+        threshold: 0.1
+      };
 
-      navLinks.forEach(link => {
-        if (link.href.includes(currentPage)) {
-          link.classList.add('active'); // Add 'active' class to current page
-        }
+      const onEntry = (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(onEntry, observerOptions);
+
+      document.querySelectorAll('.hero, .charts-section, .features-grid .feature-box').forEach((el) => {
+        observer.observe(el);
       });
     });
   </script>
