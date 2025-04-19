@@ -6,114 +6,137 @@
   <title>Career Orientation Test</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #fff;
-    }
+  body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+  }
 
-    /* Navbar Style */
-    nav a {
-      font-size: 14px;
-      color: #333;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 8px;
-      transition: color 0.3s ease, border-bottom 0.3s ease;
-    }
+  /* Navbar Style */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px;
+    border-bottom: 1px solid #eaeaea;
+  }
 
-    nav a:hover,
-    nav a.active {
-      color: #009688;
-      border-bottom: 2px solid #009688;
-    }
+  .logo img {
+    height: 60px;
+    width: auto;
+  }
 
-    .nav-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: flex-end;
-    }
+  /* Style for Navigation Links */
+  nav {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+  }
 
-    .nav-actions button {
-      margin-left: 12px;
-      padding: 6px 10px;
-      min-width: 100px;
-      width: auto;
-      white-space: nowrap;
-      border: none;
-      background-color: #009688;
-      color: white;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
+  nav a {
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+  }
 
-    .nav-actions button.primary {
-      background-color: #009688;
-      color: white;
-      border: none;
-    }
+  nav a:hover,
+  nav a.active {
+    color: #009688;
+    border-bottom: 2px solid #009688;
+  }
 
-    .nav-actions button.secondary {
-      background-color: white;
-      color: #1f1f1f;
-      border: 1px solid #ccc;
-    }
+  .nav-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    margin-left: auto;
+  }
 
-    /* Form Styling */
-    .container {
-      width: 100%;
-      max-width: 600px;
-      margin: 50px auto;
-      padding: 20px;
-      background: #f4f7fa;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
+  /* Buttons in the Navbar */
+  .nav-actions button {
+    padding: 6px 14px;
+    min-width: 90px;
+    width: auto;
+    white-space: nowrap;
+    border: none;
+    background-color: #009688;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
 
-    .question {
-      font-size: 18px;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
+  .nav-actions button.primary {
+    background-color: #009688;
+    color: white;
+    border: none;
+  }
 
-    .answers {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
+  .nav-actions button.secondary {
+    background-color: white;
+    color: #1f1f1f;
+    border: 1px solid #ccc;
+  }
 
-    .answer {
-      display: flex;
-      align-items: center;
-      font-size: 16px;
-    }
+  /* Content Styling */
+  .container {
+    width: 100%;
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #f4f7fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
 
-    .submit-btn {
-      margin-top: 20px;
-      background-color: #009688;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      font-size: 16px;
-    }
+  .question {
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
 
-    .submit-btn:hover {
-      background-color: #00796b;
-    }
+  .answers {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
 
-    .result {
-      background: #e0f7fa;
-      padding: 20px;
-      margin-top: 20px;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 18px;
-    }
-  </style>
+  .answer {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+  }
+
+  .submit-btn {
+    margin-top: 20px;
+    background-color: #009688;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .submit-btn:hover {
+    background-color: #00796b;
+  }
+
+  .result {
+    background: #e0f7fa;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 18px;
+  }
+</style>
+
 </head>
 
 <body>
