@@ -7,22 +7,87 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
         }
-        .university-card {
+
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #2a3d66;
+            color: white;
+            margin: 0;
+        }
+
+        .filters {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .filters select {
+            padding: 10px;
+            margin: 0 10px;
+            font-size: 16px;
+            border-radius: 5px;
             border: 1px solid #ccc;
+            background-color: white;
+        }
+
+        #university-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 20px;
+        }
+
+        .university-card {
+            border: 1px solid #ddd;
             padding: 20px;
             margin: 10px;
             width: 250px;
-            display: inline-block;
-            vertical-align: top;
+            background-color: white;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        select {
-            padding: 5px;
-            margin-right: 10px;
+
+        .university-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
-        .filters {
-            margin-bottom: 20px;
+
+        .university-card h3 {
+            font-size: 18px;
+            color: #2a3d66;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .university-card p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .university-card a {
+            color: #2a3d66;
+            text-decoration: none;
+        }
+
+        .university-card a:hover {
+            text-decoration: underline;
+        }
+
+        .programs h4 {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #2a3d66;
+        }
+
+        .programs p {
+            font-size: 14px;
+            margin: 5px 0;
+            color: #555;
         }
     </style>
 </head>
@@ -103,10 +168,11 @@
                                 <div class="programs">
                                     <h4>Образовательные программы:</h4>
                                     ${Array.isArray(university["Образовательная программа"]) 
-                                        ? university["Образовательная программа"].map(program => `
+                                        ? university["Образовательная программа"].map(program => ` 
                                             <p><strong>Программа:</strong> ${program} <br> <strong>Профессия:</strong> ${university["Профессия"]}</p>
-                                        `).join('')
-                                        : `<p>${university["Образовательная программа"]}</p>`}
+                                        `).join('') 
+                                        : `<p>${university["Образовательная программа"]}</p>`
+                                    }
                                 </div>
                             `;
                             universityList.appendChild(card);
