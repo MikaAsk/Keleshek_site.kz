@@ -58,10 +58,10 @@
 
 .nav-actions button {
   margin-left: 12px;
-  padding: 8px 30px;  /* Adjust padding to make button more elongated */
-  min-width: 120px; /* Ensures the button isn't too narrow */
-  width: auto;  /* Automatically adjusts width based on content */
-  white-space: nowrap; /* Prevents text from wrapping */
+  padding: 6px 16px;  /* Reduced padding to make the buttons smaller */
+  min-width: 100px;  /* Ensures buttons are not too wide */
+  width: auto;  /* Adjusts width based on content */
+  white-space: nowrap; /* Keeps text in one line */
   border: none;
   background-color: #009688;
   color: white;
@@ -80,6 +80,12 @@
   background-color: white;
   color: #1f1f1f;
   border: 1px solid #ccc;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 8px;  /* Reduced the gap between buttons */
+  justify-content: flex-end;  /* Align buttons to the right */
 }
 
     .about-us {
