@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Университеты</title>
+    <title>Главная</title>
     <style>
         /* Основной стиль страницы */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,7 +45,8 @@
             transition: color 0.3s ease, border-bottom 0.3s ease;
         }
 
-        nav a:hover {
+        nav a:hover,
+        nav a.active {
             color: #009688;
             border-bottom: 2px solid #009688;
         }
@@ -153,16 +154,16 @@
 <body>
   <header>
     <div class="logo">
-      <a href="home.html">
+      <a href="index.html">
         <img src="logo.jpg" alt="Keleshek logo">
       </a>
     </div>
     <nav>
-      <a href="study.html">Study</a>
-      <a href="test.html">Test</a>
-      <a href="analytics.html">Analytics</a>
-      <a href="universities.html">Universities</a>
-      <a href="about.html">About us</a>
+      <a href="index.html" class="active" id="study-link">Study</a>
+      <a href="test.html" id="test-link">Test</a>
+      <a href="analytics.html" id="analytics-link">Analytics</a>
+      <a href="universities.html" id="universities-link">Universities</a>
+      <a href="about.html" id="about-link">About us</a>
     </nav>
     <div class="nav-actions">
       <button class="secondary"><a href="login.html" style="color:#009688">Log in</a></button>
@@ -243,7 +244,7 @@
                               <div class="programs">
                                   <h4>Образовательные программы:</h4>
                                   ${Array.isArray(university["Образовательная программа"]) 
-                                      ? university["Образовательная программа"].map(program => `
+                                      ? university["Образовательная программа"].map(program => ` 
                                           <p><strong>Программа:</strong> ${program} <br> <strong>Профессия:</strong> ${university["Профессия"]}</p>
                                       `).join('') 
                                       : `<p>${university["Образовательная программа"]}</p>`
@@ -288,6 +289,13 @@
               console.error('Ошибка при загрузке данных:', error);
               document.getElementById('university-list').innerHTML = "<p>Ошибка загрузки данных.</p>";
           });
+
+      // Highlight the active page in the navigation
+      document.querySelectorAll('nav a').forEach(link => {
+        if (window.location.href.includes(link.href)) {
+          link.classList.add('active');
+        }
+      });
   </script>
 </body>
 </html>
