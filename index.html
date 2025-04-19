@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
   <style>
-    .charts-section,
-    .features-grid .feature-box {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.8s ease-out;
-    }
+  .charts-section,
+  .features-grid .feature-box {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s ease-out;
+  }
 
-    .charts-section.visible,
-    .features-grid .feature-box.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+  .charts-section.visible,
+  .features-grid .feature-box.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,17 +29,17 @@
       overflow-x: hidden;
     }
     header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 80px;
-      border-bottom: 1px solid #eaeaea;
-    }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px;
+    border-bottom: 1px solid #eaeaea;
+  }
 
-    .logo img {
-      height: 60px; /* уменьшили размер логотипа */
-      width: auto;
-    }
+  .logo img {
+    height: 60px; /* уменьшили размер логотипа */
+    width: auto;
+  }
     nav a {
       margin: 0 15px;
       text-decoration: none;
@@ -60,41 +60,41 @@
       font-weight: 600;
       cursor: pointer;
     }
-    .hero {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 100px 80px 60px 80px;
-      gap: 40px;
-    }
-    .hero-text {
-      max-width: 600px;
-    }
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-    .hero-buttons .primary,
-    .hero-buttons .secondary {
-      padding: 14px 20px;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-    }
-    .hero-buttons .primary {
-      background-color: #009688;
-      color: white;
-      border: none;
-    }
-    .hero-buttons .secondary {
-      background-color: white;
-      color: #1f1f1f;
-      border: 1px solid #ccc;
-    }
+  .hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 100px 80px 60px 80px;
+    gap: 40px;
+  }
+  .hero-text {
+    max-width: 600px;
+  }
+  .hero-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .hero-buttons .primary,
+  .hero-buttons .secondary {
+    padding: 14px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .hero-buttons .primary {
+    background-color: #009688;
+    color: white;
+    border: none;
+  }
+  .hero-buttons .secondary {
+    background-color: white;
+    color: #1f1f1f;
+    border: 1px solid #ccc;
+  }
     .charts-section {
       padding: 100px 40px;
       text-align: center;
@@ -104,6 +104,8 @@
       margin-bottom: 30px;
     }
 
+
+    
     .connect-section {
       background-color: #f5faff;
       padding: 80px 20px;
@@ -146,42 +148,32 @@
       font-size: 14px;
       color: #333;
       text-align: left;
-    }
 
-    /* Навигация */
-    nav {
-      background-color: #ffffff;
-      padding: 20px;
-      border-bottom: 2px solid #eaeaea;
-    }
+      .connect-section {
+  margin-top: 80px;
+  text-align: center;
+}
+.hero {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease-out;
+}
+.hero.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-    nav a {
-      color: #009688;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 18px;
-      margin: 0 20px;
-      transition: color 0.3s ease;
-    }
 
-    nav a:hover {
-      color: #00796b;
-    }
 
-    .nav-actions {
-      display: flex;
-      gap: 12px;
-    }
   </style>
 </head>
 <body>
-
   <header>
-    <div class="logo">
-      <a href="home.html">
-        <img src="logo.jpg" alt="Keleshek logo">
-      </a>
-    </div>
+  <div class="logo">
+    <a href="home.html">
+      <img src="logo.jpg" alt="Keleshek logo">
+    </a>
+  </div>
     <nav>
       <a href="study.html">Study</a>
       <a href="test.html">Test</a>
@@ -190,41 +182,42 @@
       <a href="about.html">About us</a>
     </nav>
     <div class="nav-actions">
-      <button class="secondary"><a href="login.html">Log in</a></button>
-      <button class="primary"><a href="signup.html">Sign up</a></button>
+      <button style="background-color: white; border: 1px solid #ccc; color: #1f1f1f; font-weight: 600; padding: 10px 16px; border-radius: 8px; margin-right: 10px; color: #009688;"><a href="login.html" class="button secondary"; style="color:#009688">Log in</a></button>
+      <button style="background-color: #009688; color: white; font-weight: 600; padding: 10px 16px; border: none; border-radius: 8px; margin-right: 10px;"><a href="signup.html" class="button secondary"; style="color:#ffffff">Sign up</a></button>
     </div>
   </header>
 
-  <section class="hero">
-    <div class="hero-text">
-      <h1>Your <span style="color: #009688;">Career Compass</span></h1>
-      <p style="color: #666; font-size: 16px; margin-bottom: 24px;">
-        Labor market analytics — your guide to future-proof professions!<br>
-        <strong style="color:#1f1f1f;">Choose with clarity. Stay ahead of the curve.</strong>
-      </p>
-      <div class="hero-buttons">
-        <a class="primary" href="https://wa.me/77767386270?text=I%20need%20a%20consultation!">Free consultation</a>
-        <a class="secondary" href="analytics.html">Try platform for free</a>
-      </div>
+ <section class="hero">
+  <div class="hero-text">
+    <h1>Your <span style="color: #009688;">Career Compass</span></h1>
+    <p style="color: #666; font-size: 16px; margin-bottom: 24px;">
+      Labor market analytics — your guide to future-proof professions!<br>
+      <strong style="color:#1f1f1f;">Choose with clarity. Stay ahead of the curve.</strong>
+    </p>
+    <div class="hero-buttons">
+      <a class="primary" href="https://wa.me/77767386270?text=I%20need%20a%20consultation!">Free consultation</a>
+      <a class="secondary" href="analytics.html">Try platform for free</a>
     </div>
-    <div class="hero-image">
-      <img src="home1.png" alt="Analytics Dashboard">
-    </div>
-  </section>
+  </div>
+  <div class="hero-image">
+    <img src="home1.png" alt="Analytics Dashboard">
+  </div>
+</section>
 
-  <section class="charts-section">
-    <h2>Make <span style="color:#009688">informed choices</span> about <span style="color:#009688">your future</span><br>backed by <span style="color:#009688">real market data</span></h2>
 
-    <div style="max-width: 1440px; margin: 40px auto 0 auto;">
-      <iframe 
-        src="https://app.powerbi.com/view?r=eyJrIjoiYjJiZWQ3NTMtMjYzNC00MTNkLTgxNTAtYjFkZDU3MTFhMDk4IiwidCI6IjZlZWVhZjNlLTY3MTItNDhhNC05NzY3LTNmY2E1NGUxMTc1YyIsImMiOjl9&pageName=ReportSection"
-        style="width: 100%; height: 1100px; border: none; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);"
-        frameborder="0"
-        allowfullscreen="true">
-      </iframe>
-    </div>
-  </section>
+<section class="charts-section">
+  <h2>Make <span style="color:#009688">informed choices</span> about <span style="color:#009688">your future</span><br>backed by <span style="color:#009688">real market data</span></h2>
 
+  <div style="max-width: 1440px; margin: 40px auto 0 auto;">
+    <iframe 
+      src="https://app.powerbi.com/view?r=eyJrIjoiYjJiZWQ3NTMtMjYzNC00MTNkLTgxNTAtYjFkZDU3MTFhMDk4IiwidCI6IjZlZWVhZjNlLTY3MTItNDhhNC05NzY3LTNmY2E1NGUxMTc1YyIsImMiOjl9&pageName=ReportSection"
+      style="width: 100%; height: 1100px; border: none; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);"
+      frameborder="0"
+      allowfullscreen="true">
+    </iframe>
+  </div>
+</section>
+    
   <section class="connect-section">
     <h2>Keleshek connects</h2>
     <div class="features-grid">
@@ -268,7 +261,8 @@
         </p>
       </div>
     </div>
-  </section>
+    
+
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
@@ -292,6 +286,8 @@
     });
   });
 </script>
+
+
 
 </body>
 </html>
