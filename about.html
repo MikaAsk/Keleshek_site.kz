@@ -28,36 +28,27 @@
       width: auto;
     }
 
-    nav a {
-      margin: 0 15px;
-      text-decoration: none;
-      color: #1f1f1f;
-      font-weight: 500;
-      padding-bottom: 5px;
-      transition: all 0.3s ease;
-    }
-     nav a:hover,
-     nav a.active {
+    header nav {
+            display: flex;
+            justify-content: center; /* Центрируем навигацию */
+            gap: 30px;
+            width: 100%;
+        }
+
+        nav a {
+            font-size: 16px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px;
+            transition: color 0.3s ease, border-bottom 0.3s ease;
+        }
+
+        nav a:hover,
+        nav a.active {
             color: #009688;
             border-bottom: 2px solid #009688;
         }
-
-    .nav-actions {
-      display: flex;
-      align-items: center;
-    }
-
-    .nav-actions button {
-      margin-left: 12px;
-      padding: 8px 16px;
-      border: none;
-      background-color: #009688;
-      color: white;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
     .about-us {
       background-color: #f5faff;
       padding: 40px 20px;
