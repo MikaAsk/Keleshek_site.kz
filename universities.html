@@ -3,64 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Информация о университете</title>
+    <title>Университеты</title>
     <style>
         body {
             font-family: Arial, sans-serif;
         }
-        .university-detail {
-            margin: 20px;
+        .university-card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 10px;
+            width: 250px;
+            display: inline-block;
+            vertical-align: top;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .university-detail h2 {
+        select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .filters {
             margin-bottom: 20px;
-        }
-        .programs {
-            margin-top: 15px;
         }
     </style>
 </head>
 <body>
-    <h1>Информация о университете</h1>
-    <div id="university-detail"></div>
+    <h1>Список университетов</h1>
+
+    <!-- Фильтры -->
+    <div class="filters">
+        <select id="cityFilter">
+            <option value="">Выберите город</option>
+        </select>
+        <select id="programFilter">
+            <option value="">Выберите специальность</option>
+        </select>
+    </div>
+
+    <!-- Список университетов -->
+    <div id="university-list"></div>
 
     <script>
-        // URL для загрузки вашего JSON файла
-        const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json';
+        const jsonFilePath = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json'; // Путь к вашему JSON файлу
 
         let universities = [];
 
-        // Получаем параметр "name" из URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const universityName = urlParams.get('name');  // Извлекаем название университета из URL
-
+        // Загрузка данных о университетах
         fetch(jsonFilePath)
             .then(response => response.json())
             .then(data => {
                 universities = data;
+                const cityFilter = document.getElementById('cityFilter');
+                const programFilter = document.getElementById('programFilter');
+                const universityList = document.getElementById('university-list');
 
-                const university = universities.find(u => u["Название университета"] === universityName);
+                // Получаем уникальные города и специальности
+                const cities = [...new Set(data.map(u => u["Город"]))];
+                const programs = [...new Set(data.map(u => u["Образовательная программа"]))];
 
-                if (university) {
-                    const detailContainer = document.getElementById('university-detail');
-                    detailContainer.innerHTML = `
-                        <h2>${university["Название университета"]}</h2>
-                        <p><strong>Город:</strong> ${university["Город"]}</p>
-                        <p><strong>Описание:</strong> ${university["Описание"]}</p>
-                        <a href="${university["Сайт"]}" target="_blank">Сайт</a>
-                        <div class="programs">
-                            <h4>Образовательные программы:</h4>
-                            ${university["Образовательная программа"].map(program => `
-                                <p><strong>Программа:</strong> ${program} <br> <strong>Профессия:</strong> ${university["Профессия"]}</p>
-                            `).join('')}
-                        </div>
-                    `;
-                } else {
-                    document.getElementById('university-detail').innerHTML = "<p>Университет не найден</p>";
+                // Добавляем города в фильтр
+                cities.forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    cityFilter.appendChild(option);
+                });
+
+                // Добавляем специальности в фильтр
+                programs.forEach(program => {
+                    const option = document.createElement('option');
+                    option.value = program;
+                    option.textContent = program;
+                    programFilter.appendChild(option);
+                });
+
+                // Функция для отображения списка университетов
+                function displayUniversities(filteredData) {
+                    universityList.innerHTML = '';  // Очистить список
+                    filteredData.forEach(university => {
+                        const card = document.createElement('div');
+                        card.classList.add('university-card');
+                        card.innerHTML = `
+                            <h3><a href="university.html?name=${encodeURIComponent(university["Название университета"])}">${university["Название университета"]}</a></h3>
+                            <p><strong>Город:</strong> ${university["Город"]}</p>
+                            <p><strong>Описание:</strong> ${university["Описание"]}</p>
+                        `;
+                        universityList.appendChild(card);
+                    });
                 }
+
+                // Изначально отображаем все университеты
+                displayUniversities(universities);
+
+                // Фильтрация по городу
+                cityFilter.addEventListener('change', () => {
+                    const city = cityFilter.value;
+                    const program = programFilter.value;
+
+                    const filteredUniversities = universities.filter(u => {
+                        return (city ? u["Город"] === city : true) && 
+                               (program ? u["Образовательная программа"] === program : true);
+                    });
+
+                    displayUniversities(filteredUniversities);
+                });
+
+                // Фильтрация по специальности
+                programFilter.addEventListener('change', () => {
+                    const program = programFilter.value;
+                    const city = cityFilter.value;
+
+                    const filteredUniversities = universities.filter(u => {
+                        return (city ? u["Город"] === city : true) &&
+                               (program ? u["Образовательная программа"] === program : true);
+                    });
+
+                    displayUniversities(filteredUniversities);
+                });
             })
-            .catch(error => {
-                console.error('Ошибка при загрузке данных:', error);
-            });
+            .catch(error => console.error('Ошибка при загрузке данных:', error));
     </script>
 </body>
 </html>
