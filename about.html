@@ -7,34 +7,46 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     body {
       font-family: 'Inter', sans-serif;
       background-color: #ffffff;
       color: #1f1f1f;
       overflow-x: hidden;
     }
-   header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 80px;
-    border-bottom: 1px solid #eaeaea;
-  }
 
-  .logo img {
-    height: 60px; /* уменьшили размер логотипа */
-    width: auto;
-  }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 80px;
+      border-bottom: 1px solid #eaeaea;
+    }
+
+    .logo img {
+      height: 60px;
+      width: auto;
+    }
+
     nav a {
       margin: 0 15px;
       text-decoration: none;
       color: #1f1f1f;
       font-weight: 500;
+      padding-bottom: 5px;
+      transition: all 0.3s ease;
     }
+
+    nav a.active {
+      border-bottom: 2px solid #009688;
+      color: #009688;
+    }
+
     .nav-actions {
       display: flex;
       align-items: center;
     }
+
     .nav-actions button {
       margin-left: 12px;
       padding: 8px 16px;
@@ -45,100 +57,123 @@
       font-weight: 600;
       cursor: pointer;
     }
-.about-us {
-  background-color: #f5faff;
-  padding: 40px 20px;
-  text-align: center;
-}
 
-.about-us h2 {
-  font-size: 28px;
-  margin-bottom: 40px;
-  color: #009688;
-}
+    .about-us {
+      background-color: #f5faff;
+      padding: 40px 20px;
+      text-align: center;
+    }
 
-.team-container {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
+    .about-us h2 {
+      font-size: 28px;
+      margin-bottom: 40px;
+      color: #009688;
+    }
 
-.team-member {
-  background: white;
-  padding: 20px;
-  border-radius: 16px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 250px;
-  max-width: 100%;
-}
+    .team-container {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
 
-.team-member img.team-photo {
-  width: 100%;
-  height: auto;
-  border-radius: 50%;
-  margin-bottom: 16px;
-}
+    .team-member {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 250px;
+      max-width: 100%;
+    }
 
-.team-member h3 {
-  font-size: 18px;
-  color: #333;
-  margin-bottom: 8px;
-}
+    .team-member img.team-photo {
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+      margin-bottom: 16px;
+    }
 
-.team-member p {
-  font-size: 14px;
-  color: #555;
-  text-align: center;
-}
+    .team-member h3 {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 8px;
+    }
 
+    .team-member p {
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+    }
   </style>
 </head>
-<body>
-  <header>
-  <div class="logo">
-    <a href="index.html">
-  <img src="logo.jpg" alt="Keleshek logo">
-    </a>
 
-  </div>
+<body>
+
+  <!-- Navigation Header -->
+  <header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="logo.jpg" alt="Keleshek logo">
+      </a>
+    </div>
     <nav>
-      <a href="study.html">Study</a>
+      <a href="index.html" id="study-link">Study</a>
       <a href="test.html">Test</a>
       <a href="analytics.html">Analytics</a>
+      <a href="universities.html">Universities</a>
       <a href="about.html">About us</a>
     </nav>
     <div class="nav-actions">
-      <button style="background-color: white; border: 1px solid #ccc; color: #1f1f1f; font-weight: 600; padding: 10px 16px; border-radius: 8px; margin-right: 10px; color: #009688;"><a href="login.html" class="button secondary"; style="color:#009688">Log in</a></button>
-      <button style="background-color: #009688; color: white; font-weight: 600; padding: 10px 16px; border: none; border-radius: 8px; margin-right: 10px;"><a href="signup.html" class="button secondary"; style="color:#ffffff">Sign up</a></button>
+      <button style="background-color: white; border: 1px solid #ccc; color: #1f1f1f; font-weight: 600; padding: 10px 16px; border-radius: 8px; margin-right: 10px; color: #009688;">
+        <a href="login.html" class="button secondary" style="color:#009688">Log in</a>
+      </button>
+      <button style="background-color: #009688; color: white; font-weight: 600; padding: 10px 16px; border: none; border-radius: 8px; margin-right: 10px;">
+        <a href="signup.html" class="button secondary" style="color:#ffffff">Sign up</a>
+      </button>
     </div>
   </header>
-  
-<section class="about-us">
-  <h2>О проекте и разработчиках</h2>
-  <div class="team-container">
-    <div class="team-member">
-      <img src="aruzhan.jpg" alt="Aruzhan Bagdatova" class="team-photo">
-      <h3>Багдатова Аружан</h3>
-      <p>Базовый опыт в аналитике данных. Занимается сбором и обработкой данных, а также созданием отчетов в Power BI для различных проектов компании.</p>
-    </div>
-    <div class="team-member">
-      <img src="samal.jpg" alt="Samal Alibekova" class="team-photo">
-      <h3>Алибекова Самал</h3>
-      <p>Студентка, увлекающаяся анализом данных и разработкой интерфейсов. Работает над улучшением пользовательского интерфейса и обеспечением качества данных.</p>
-    </div>
-    <div class="team-member">
-      <img src="meruyert.jpg" alt="Assat Meruert" class="team-photo">
-      <h3>Асхат Меруерт</h3>
-      <p>Специализируется на системах управления данными и их визуализации. Обрабатывает большие объемы данных и представляет результаты в понятной и доступной форме.</p>
-    </div>
-  </div>
-</section>
 
-    
+  <!-- About Us Section -->
+  <section class="about-us">
+    <h2>О проекте и разработчиках</h2>
+    <div class="team-container">
+      <div class="team-member">
+        <img src="aruzhan.jpg" alt="Aruzhan Bagdatova" class="team-photo">
+        <h3>Багдатова Аружан</h3>
+        <p>Базовый опыт в аналитике данных. Занимается сбором и обработкой данных, а также созданием отчетов в Power BI для различных проектов компании.</p>
+      </div>
+      <div class="team-member">
+        <img src="samal.jpg" alt="Samal Alibekova" class="team-photo">
+        <h3>Алибекова Самал</h3>
+        <p>Студентка, увлекающаяся анализом данных и разработкой интерфейсов. Работает над улучшением пользовательского интерфейса и обеспечением качества данных.</p>
+      </div>
+      <div class="team-member">
+        <img src="meruyert.jpg" alt="Assat Meruert" class="team-photo">
+        <h3>Асхат Меруерт</h3>
+        <p>Специализируется на системах управления данными и их визуализации. Обрабатывает большие объемы данных и представляет результаты в понятной и доступной форме.</p>
+      </div>
+    </div>
+  </section>
 
+  <script>
+    // Get all navigation links
+    const navLinks = document.querySelectorAll('nav a');
 
+    // Function to highlight the current page link
+    function highlightActiveLink() {
+      navLinks.forEach(link => {
+        if (window.location.href.includes(link.href)) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
+    // Call the function to highlight active link when the page loads
+    highlightActiveLink();
+  </script>
 
 </body>
 </html>
