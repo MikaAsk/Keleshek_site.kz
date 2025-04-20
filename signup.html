@@ -12,12 +12,6 @@
       padding: 0;
       background-color: #f5f9fa;
     }
-
-    /* Скрыть навигацию на странице регистрации */
-    .hide-nav header {
-      display: none;
-    }
-
     .navbar {
       background-color: white;
       padding: 16px 32px;
@@ -26,30 +20,25 @@
       justify-content: space-between;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
-
     .navbar .logo img {
       height: 60px;
       width: auto;
     }
-
     .navbar .center-links {
       display: flex;
       gap: 24px;
       justify-content: center;
       flex: 1;
     }
-
     .navbar .right-buttons {
       display: flex;
       gap: 12px;
     }
-
     .navbar a {
       color: black;
       text-decoration: none;
       font-size: 14px;
     }
-
     .navbar button {
       padding: 8px 16px;
       border-radius: 8px;
@@ -58,11 +47,13 @@
       cursor: pointer;
     }
 
+    /* Изменения в позиции формы */
     .signup-wrapper {
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: calc(100vh - 80px);
+      align-items: flex-start; /* Выравнивание формы вверх */
+      height: 80vh; /* Уменьшена высота, чтобы форма была выше */
+      margin-top: 20px; /* Добавлен отступ сверху */
     }
 
     .signup-container {
@@ -130,7 +121,25 @@
     }
   </style>
 </head>
-<body class="hide-nav">
+<body>
+  <div class="navbar">
+    <div class="logo">
+      <a href="index.html">
+        <img src="logo.jpg" alt="Keleshek logo">
+      </a>
+    </div>
+    <div class="center-links">
+      <a href="study.html">Study</a>
+      <a href="test.html">Test</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="universities.html">Universities</a>
+      <a href="about.html">About us</a>
+    </div>
+    <div class="right-buttons">
+      <a href="login.html"><button style="border: 1px solid #ccc; background-color: white;">Log in</button></a>
+      <a href="signup.html"><button style="background-color: #009688; color: white;">Sign up</button></a>
+    </div>
+  </div>
 
   <div class="signup-wrapper">
     <div class="signup-container">
