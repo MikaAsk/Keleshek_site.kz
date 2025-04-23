@@ -192,6 +192,88 @@
       color: #333;
       text-align: left;
     }
+/* 📱 Мобильные устройства (до 768px) */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 20px;
+  }
+
+  header nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  .nav-actions {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .hero {
+    flex-direction: column;
+    padding: 60px 20px 40px 20px;
+    text-align: center;
+  }
+
+  .hero-text {
+    max-width: 100%;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: auto;
+    margin-top: 20px;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .charts-section {
+    padding: 60px 20px;
+  }
+
+  .connect-section {
+    padding: 60px 20px;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 📱 Маленькие экраны (до 480px) */
+@media (max-width: 480px) {
+  nav a {
+    font-size: 13px;
+  }
+
+  .hero h1 {
+    font-size: 24px;
+  }
+
+  .charts-section h2,
+  .connect-section h2 {
+    font-size: 22px;
+  }
+
+  .feature-box h3 {
+    font-size: 15px;
+  }
+
+  .feature-box p {
+    font-size: 13px;
+  }
+}
+
   </style>
 </head>
 <body>
