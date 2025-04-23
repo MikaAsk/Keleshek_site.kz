@@ -6,275 +6,281 @@
   <title>Keleshek</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box; 
-    }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #ffffff;
-      color: #1f1f1f;
-      overflow-x: hidden;
-    }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 80px;
-      border-bottom: 1px solid #eaeaea;
-    }
+  * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+  }
 
-    .logo img {
-      height: 60px;
-      width: auto;
-    }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #ffffff;
+    color: #1f1f1f;
+    overflow-x: hidden;
+  }
 
-   header nav {
-      display: flex;
-      justify-content: center; /* Центрируем навигацию */
-      gap: 30px;
-      width: 100%;
-    }
-
-    nav a {
-      font-size: 14px;
-      color: #333;
-      text-decoration: none;
-      font-weight: 500;
-      padding: 8px;
-      transition: color 0.3s ease, border-bottom 0.3s ease;
-    }
-
-    nav a:hover,
-    nav a.active {
-      color: #009688;
-      border-bottom: 2px solid #009688;
-    }
-
-    .nav-actions {
-      display: flex;
-      gap: 12px;
-      justify-content: flex-end; /* Align buttons to the right */
-      margin-right: 10px;
-    }
-
-.nav-actions button {
-  margin-left: 12px;
-  padding: 6px 10px;  /* Reduced padding to make the buttons smaller */
-  min-width: 100px;  /* Ensures buttons are not too wide */
-  width: auto;  /* Adjusts width based on content */
-  white-space: nowrap; /* Keeps text in one line */
-  border: none;
-  background-color: #009688;
-  color: white;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.nav-actions button.primary {
-  background-color: #009688;
-  color: white;
-  border: none;
-}
-
-.nav-actions button.secondary {
-  background-color: white;
-  color: #1f1f1f;
-  border: 1px solid #ccc;
-}
-
-.nav-actions {
-  display: flex;
-  gap: 4px;  /* Reduced the gap between buttons */
-  justify-content: flex-end; 
-  margin-left: auto;
-}
-
-    .hero {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 100px 80px 60px 80px;
-      gap: 40px;
-    }
-
-    .hero-text {
-      max-width: 600px;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      margin-top: 20px;
-    }
-
-    .hero-buttons .primary,
-    .hero-buttons .secondary {
-      padding: 14px 20px;
-      border-radius: 6px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .hero-buttons .primary {
-      background-color: #009688;
-      color: white;
-      border: none;
-    }
-
-    .hero-buttons .secondary {
-      background-color: white;
-      color: #1f1f1f;
-      border: 1px solid #ccc;
-    }
-
-    .charts-section {
-      padding: 100px 40px;
-      text-align: center;
-    }
-
-    .charts-section h2 {
-      font-size: 28px;
-      margin-bottom: 30px;
-    }
-
-    .connect-section {
-      background-color: #f5faff;
-      padding: 80px 20px;
-      text-align: center;
-      position: relative;
-    }
-
-    .connect-section h2 {
-      font-size: 28px;
-      margin-bottom: 48px;
-    }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: auto auto auto;
-      gap: 32px;
-      max-width: 1100px;
-      margin: 0 auto;
-      position: relative;
-    }
-
-    .feature-box {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      position: relative;
-    }
-
-    .feature-box img.icon {
-      background-color: #e6f6f3;
-      border-radius: 20px;
-      width: 72px;
-      padding: 12px;
-      margin-bottom: 12px;
-    }
-
-    .feature-box h3 {
-      font-size: 16px;
-      margin-bottom: 10px;
-    }
-
-    .feature-box p {
-      font-size: 14px;
-      color: #333;
-      text-align: left;
-    }
-/* 📱 Мобильные устройства (до 768px) */
-@media (max-width: 768px) {
   header {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 80px;
+    border-bottom: 1px solid #eaeaea;
+  }
+
+  .logo img {
+    height: 60px;
+    width: auto;
   }
 
   header nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+  }
+
+  nav a {
+    font-size: 14px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+  }
+
+  nav a:hover,
+  nav a.active {
+    color: #009688;
+    border-bottom: 2px solid #009688;
   }
 
   .nav-actions {
-    flex-direction: column;
-    width: 100%;
-    align-items: flex-start;
-    gap: 8px;
-    margin-top: 10px;
+    display: flex;
+    gap: 4px;
+    justify-content: flex-end; 
+    margin-left: auto;
   }
 
+  .nav-actions button {
+    margin-left: 12px;
+    padding: 6px 10px;
+    min-width: 100px;
+    width: auto;
+    white-space: nowrap;
+    border: none;
+    background-color: #009688;
+    color: white;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .nav-actions button.primary {
+    background-color: #009688;
+    color: white;
+  }
+
+  .nav-actions button.secondary {
+    background-color: white;
+    color: #1f1f1f;
+    border: 1px solid #ccc;
+  }
+
+  /* ✅ ОБНОВЛЕННАЯ .hero секция */
   .hero {
-    flex-direction: column;
-    padding: 60px 20px 40px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 40px 60px 40px;
+    gap: 40px;
     text-align: center;
   }
 
   .hero-text {
-    max-width: 100%;
+    max-width: 600px;
+    flex: 1 1 300px;
+  }
+
+  .hero-image {
+    flex: 1 1 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .hero-image img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
-    margin-top: 20px;
+    display: block;
   }
 
   .hero-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
     justify-content: center;
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .hero-buttons .primary,
+  .hero-buttons .secondary {
+    padding: 14px 20px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .hero-buttons .primary {
+    background-color: #009688;
+    color: white;
+    border: none;
+  }
+
+  .hero-buttons .secondary {
+    background-color: white;
+    color: #1f1f1f;
+    border: 1px solid #ccc;
   }
 
   .charts-section {
-    padding: 60px 20px;
+    padding: 100px 40px;
+    text-align: center;
+  }
+
+  .charts-section h2 {
+    font-size: 28px;
+    margin-bottom: 30px;
   }
 
   .connect-section {
-    padding: 60px 20px;
+    background-color: #f5faff;
+    padding: 80px 20px;
+    text-align: center;
+    position: relative;
+  }
+
+  .connect-section h2 {
+    font-size: 28px;
+    margin-bottom: 48px;
   }
 
   .features-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* 📱 Маленькие экраны (до 480px) */
-@media (max-width: 480px) {
-  nav a {
-    font-size: 13px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
   }
 
-  .hero h1 {
-    font-size: 24px;
+  .feature-box {
+    background: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    position: relative;
   }
 
-  .charts-section h2,
-  .connect-section h2 {
-    font-size: 22px;
+  .feature-box img.icon {
+    background-color: #e6f6f3;
+    border-radius: 20px;
+    width: 72px;
+    padding: 12px;
+    margin-bottom: 12px;
   }
 
   .feature-box h3 {
-    font-size: 15px;
+    font-size: 16px;
+    margin-bottom: 10px;
   }
 
   .feature-box p {
-    font-size: 13px;
+    font-size: 14px;
+    color: #333;
+    text-align: left;
   }
-}
 
-  </style>
+  /* 📱 Мобильные устройства (до 768px) */
+  @media (max-width: 768px) {
+    header {
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 20px;
+    }
+
+    header nav {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .nav-actions {
+      flex-direction: column;
+      width: 100%;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .hero {
+      flex-direction: column;
+      padding: 60px 20px 40px 20px;
+    }
+
+    .hero-buttons {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .hero-text {
+      max-width: 100%;
+    }
+
+    .charts-section {
+      padding: 60px 20px;
+    }
+
+    .connect-section {
+      padding: 60px 20px;
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* 📱 Маленькие экраны (до 480px) */
+  @media (max-width: 480px) {
+    nav a {
+      font-size: 13px;
+    }
+
+    .hero h1 {
+      font-size: 24px;
+    }
+
+    .charts-section h2,
+    .connect-section h2 {
+      font-size: 22px;
+    }
+
+    .feature-box h3 {
+      font-size: 15px;
+    }
+
+    .feature-box p {
+      font-size: 13px;
+    }
+  }
+</style>
+
 </head>
 <body>
   <header>
