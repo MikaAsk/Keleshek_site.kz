@@ -52,6 +52,13 @@
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
+      background: none;
+      border: 1px solid #009688;
+    }
+    .nav-actions .primary {
+      background: #009688;
+      color: white;
+      border: none;
     }
     .filters-colleges {
       display: flex;
@@ -102,7 +109,9 @@
 <body>
   <header>
     <div class="logo">
-      <a href="index.html"><img src="logo.jpg" alt="Keleshek logo" /></a>
+      <a href="index.html">
+        <img src="logo.jpg" alt="Keleshek logo" />
+      </a>
     </div>
     <nav>
       <a href="index.html">Study</a>
@@ -115,7 +124,7 @@
       <button class="secondary">
         <a href="login.html" style="color:#009688">Log in</a>
       </button>
-      <button class="primary" style="background:#009688; color:white;">
+      <button class="primary">
         <a href="signup.html" style="color:white">Sign up</a>
       </button>
     </div>
@@ -137,48 +146,52 @@
     function displayColleges(data) {
       const list = document.getElementById('college-list');
       list.innerHTML = '';
-      data.forEach((c) => {
-        const div = document.createElement('div');
-        div.className = 'university-card';
-        div.innerHTML = `
-          <h3>
-            <a href="${c['Ссылка']}" target="_blank">
-              ${c['Колледж']}
-            </a>
-          </h3>
-          <p><strong>Город:</strong> ${c['Город']}</p>
-          <p>${c['Описание'] || ''}</p>
-        `;
-        list.appendChild(div);
+
+      data.forEach(c => {
+        // отладка
+        console.log('Объект колледжа:', c);
+        console.log('Ключи объекта:', Object.keys(c));
+
+        const name = c['Колледж']   || 'без названия';
+        const url  = c['Ссылка']    || '#';
+        const city = c['Город']     || '';
+        const desc = c['Описание']  || '';
+
+        const titleHTML = url !== '#'
+          ? `<a href="${url}" target="_blank">${name}</a>`
+          : name;
+
+        list.insertAdjacentHTML('beforeend', `
+          <div class="university-card">
+            <h3>${titleHTML}</h3>
+            <p><strong>Город:</strong> ${city}</p>
+            <p>${desc}</p>
+          </div>
+        `);
       });
     }
 
-    // Загрузка и инициализация
     fetch(collegeURL)
-      .then((r) => r.json())
-      .then((data) => {
+      .then(r => r.json())
+      .then(data => {
         colleges = data;
-        // Сбор уникальных городов
-        const cities = [...new Set(data.map((c) => c['Город']))];
-        cities.forEach((city) =>
-          $('#cityFilter').append(new Option(city, city))
-        );
 
-        // Отрисовка всех колледжей
+        const cities = [...new Set(data.map(c => c['Город']))];
+        cities.forEach(city => {
+          $('#cityFilter').append(new Option(city, city));
+        });
+
         displayColleges(colleges);
 
-        // Фильтрация
         $('#cityFilter').on('change', () => {
-          const city = $('#cityFilter').val();
-          const filtered = colleges.filter(
-            (c) => !city || c['Город'] === city
-          );
+          const selected = $('#cityFilter').val();
+          const filtered = colleges.filter(c => !selected || c['Город'] === selected);
           displayColleges(filtered);
         });
 
         $('#cityFilter').select2({ placeholder: 'Выберите город' });
       })
-      .catch((err) => console.error('Ошибка загрузки данных:', err));
+      .catch(err => console.error('Ошибка загрузки данных:', err));
   </script>
 </body>
 </html>
