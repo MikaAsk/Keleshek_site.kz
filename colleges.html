@@ -180,10 +180,11 @@
           const card = document.createElement('div');
           card.classList.add('college-card');
           card.innerHTML = `
-            <h3><a href="${college['Сайт']}" target="_blank">${college['Название колледжа']}</a></h3>
-            <p><strong>Город:</strong> ${college['Город']}</p>
-            <p>${college['Описание'] || ' '}</p>
-          `;
+  <h3><a href="${college["Ссылка"]}" target="_blank">${college["Колледж"]}</a></h3>
+  <p><strong>Город:</strong> ${college["Город"]}</p>
+  <p>${college["Описание"]}</p>
+`;
+
           collegeList.appendChild(card);
         });
       }
