@@ -12,6 +12,9 @@
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <style>
+    /* общий сброс outline */
+    *, *:focus { outline: none; }
+
     body { font-family: Arial, sans-serif; background: #fff; color: #333; margin:0; }
     header { display:flex; align-items:center; padding:20px 80px; border-bottom:1px solid #eee; }
     .logo img { height:60px; }
@@ -19,16 +22,36 @@
     nav a { text-decoration:none; color:#333; padding:8px; font-weight:500; }
     nav a.active, nav a:hover { color:#009688; border-bottom:2px solid #009688; }
     .nav-actions { display:flex; gap:8px; }
-    .nav-actions button { padding:6px 10px; border-radius:8px; border:none; font-weight:600; cursor:pointer; }
-    .nav-actions .primary { background:#009688; color:#fff; }
-    .nav-actions .secondary { background:#fff; border:1px solid #ccc; color:#009688; }
+    .nav-actions button {
+      padding:6px 10px; border-radius:8px; border:none; font-weight:600; cursor:pointer;
+      background: transparent;
+    }
+    .nav-actions .primary {
+      background:#009688; color:#fff;
+    }
+    .nav-actions .secondary {
+      background:#fff; border:1px solid #009688; color:#009688;
+    }
+    .nav-actions a { display:block; text-decoration:none; color:inherit; }
+    
     .filters { display:flex; justify-content:center; margin:20px 0; }
     .filters select { width:250px; }
     .select2-container { width:250px !important; }
-    #college-list { display:flex; flex-wrap:wrap; gap:20px; justify-content:center; padding:20px; }
-    .college-card { background:#fff; border:1px solid #e0e0e0; border-radius:8px; width:280px; padding:20px; box-shadow:0 4px 8px rgba(0,0,0,0.1); transition:0.3s; }
-    .college-card:hover { transform:translateY(-5px); box-shadow:0 8px 16px rgba(0,0,0,0.1); }
-    .college-card h3 { text-align:center; color:#2980b9; margin-bottom:10px; }
+
+    #college-list {
+      display:flex; flex-wrap:wrap; gap:20px; justify-content:center; padding:20px;
+    }
+    .college-card {
+      background:#fff; border:1px solid #e0e0e0; border-radius:8px;
+      width:280px; padding:20px; box-shadow:0 4px 8px rgba(0,0,0,0.1);
+      transition:0.3s;
+    }
+    .college-card:hover {
+      transform:translateY(-5px); box-shadow:0 8px 16px rgba(0,0,0,0.1);
+    }
+    .college-card h3 {
+      text-align:center; color:#2980b9; margin-bottom:10px;
+    }
     .college-card p { font-size:14px; line-height:1.4; margin:5px 0; }
     .college-card a { color:#2980b9; text-decoration:none; }
     .college-card a:hover { text-decoration:underline; }
@@ -37,7 +60,9 @@
 <body>
 
 <header>
-  <div class="logo"><a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a></div>
+  <div class="logo">
+    <a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a>
+  </div>
   <nav>
     <a href="index.html">Study</a>
     <a href="test.html">Test</a>
@@ -47,8 +72,8 @@
     <a href="about.html">About us</a>
   </nav>
   <div class="nav-actions">
-    <button class="secondary"><a href="login.html" style="color:inherit; text-decoration:none;">Log in</a></button>
-    <button class="primary"><a href="signup.html" style="color:inherit; text-decoration:none;">Sign up</a></button>
+    <button class="secondary"><a href="login.html">Log in</a></button>
+    <button class="primary"><a href="signup.html">Sign up</a></button>
   </div>
 </header>
 
@@ -62,26 +87,35 @@
   const JSON_URL = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/colleges_with_links.json';
 
   fetch(JSON_URL)
-    .then(r => r.json())
-    .then(data => {
-      console.log('Полный ответ:', data);
-      // если JSON — просто массив, используем его, иначе, например, data.colleges
-      const colleges = Array.isArray(data) ? data : (data.colleges || []);
-      console.log('Первый колледж:', colleges[0]);
+    .then(res => res.json())
+    .then(rawData => {
+      console.log('Сырые данные из JSON:', rawData);
 
-      // Заполняем список городов
-      const cities = [...new Set(colleges.map(c => c.Город))];
-      cities.forEach(city => $('#cityFilter').append(`<option value="${city}">${city}</option>`));
+      // Если JSON — объект вида { colleges: [...] }, берем массив, иначе сам массив
+      let arr = Array.isArray(rawData) ? rawData : (rawData.colleges || []);
+      // Нормализуем ключи: обрезаем пробелы вокруг
+      const colleges = arr.map(item => {
+        const norm = {};
+        Object.entries(item).forEach(([k,v]) => norm[k.trim()] = v);
+        return norm;
+      });
+
+      console.log('Ключи первого объекта после нормализации:', Object.keys(colleges[0]));
+
+      // Заполняем фильтр городов
+      const cities = [...new Set(colleges.map(c => c['Город']))];
+      cities.forEach(city => {
+        $('#cityFilter').append(`<option value="${city}">${city}</option>`);
+      });
 
       function render(list) {
         $('#college-list').empty();
         list.forEach(c => {
-          // если ключи не совпадают, вы увидите undefined в консоли:
-          console.log('Ключи объекта:', Object.keys(c));
-          const name = c['Колледж'] || c['college'] || 'Без названия';
-          const link = c['Ссылка'] || c['link'] || '#';
-          const city = c['Город'] || c['city'] || '';
-          const desc = c['Описание'] || c['description'] || '';
+          const name = c['Колледж'] || 'Без названия';
+          const link = c['Ссылка'] || '#';
+          const city = c['Город'] || '';
+          const desc = c['Описание'] || '';
+
           $('#college-list').append(`
             <div class="college-card">
               <h3><a href="${link}" target="_blank">${name}</a></h3>
@@ -92,12 +126,15 @@
         });
       }
 
+      // Показать все при старте
       render(colleges);
 
-      $('#cityFilter').select2({ placeholder: "Выберите город", allowClear: true })
-        .on('change', function(){
-          const sel = $(this).val();
-          render(colleges.filter(c => !sel || c.Город === sel));
+      // Инициализация Select2 + фильтрация
+      $('#cityFilter')
+        .select2({ placeholder: "Выберите город", allowClear: true })
+        .on('change', () => {
+          const sel = $('#cityFilter').val();
+          render(colleges.filter(c => !sel || c['Город'] === sel));
         });
 
     })
