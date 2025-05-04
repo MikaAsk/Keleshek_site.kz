@@ -49,24 +49,19 @@
       color: #009688;
       border-bottom: 2px solid #009688;
     }
-
     .nav-actions {
       display: flex;
       gap: 8px;
-      justify-content: flex-end;
-      margin-left: auto;
     }
-    .primary-button,
-    .secondary-button {
+    .primary-button, .secondary-button {
       padding: 6px 10px;
       min-width: 100px;
-      display: inline-block;
       text-align: center;
       font-weight: 600;
       border-radius: 8px;
-      text-decoration: none;
-      cursor: pointer;
       font-size: 14px;
+      text-decoration: none;
+      display: inline-block;
     }
     .primary-button {
       background-color: #009688;
@@ -77,7 +72,6 @@
       color: #009688;
       border: 1px solid #ccc;
     }
-
     .filters {
       display: flex;
       justify-content: center;
@@ -90,7 +84,6 @@
     .select2-container {
       width: 250px !important;
     }
-
     #college-list {
       display: flex;
       flex-wrap: wrap;
@@ -98,7 +91,6 @@
       gap: 20px;
       padding: 20px;
     }
-
     .college-card {
       background-color: #fff;
       border-radius: 8px;
@@ -108,12 +100,10 @@
       padding: 20px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-
     .college-card:hover {
       transform: translateY(-10px);
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     }
-
     .college-card h3 {
       font-size: 18px;
       color: #2980b9;
@@ -121,19 +111,16 @@
       margin-bottom: 15px;
       font-weight: bold;
     }
-
     .college-card p {
       font-size: 14px;
       margin: 5px 0;
       color: #555;
     }
-
     .college-card a {
       color: #2980b9;
       text-decoration: none;
       font-weight: bold;
     }
-
     .college-card a:hover {
       text-decoration: underline;
     }
@@ -168,7 +155,7 @@
 <div id="college-list"></div>
 
 <script>
-  const collegesJsonUrl = "https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/refs/heads/main/colleges_with_links.json";
+  const collegesJsonUrl = "https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/colleges_with_links.json";
   let colleges = [];
 
   fetch(collegesJsonUrl)
@@ -176,6 +163,7 @@
     .then(data => {
       colleges = data;
 
+      // Список уникальных городов
       const cities = [...new Set(colleges.map(college => college["Город"]))];
       cities.forEach(city => {
         const option = document.createElement('option');
@@ -184,24 +172,32 @@
         document.getElementById('cityFilter').appendChild(option);
       });
 
+      // Отображение карточек
       function displayColleges(filteredData) {
         const collegeList = document.getElementById('college-list');
         collegeList.innerHTML = '';
 
         filteredData.forEach(college => {
+          const name = college["Колледж"] || "Без названия";
+          const city = college["Город"] || "Не указан";
+          const url = college["Ссылка"] || "#";
+          const desc = college["Описание"] || "";
+
           const card = document.createElement('div');
           card.classList.add('college-card');
           card.innerHTML = `
-            <h3><a href="${college["Ссылка"]}" target="_blank">${college["Колледж"]}</a></h3>
-            <p><strong>Город:</strong> ${college["Город"]}</p>
-            <p>${college["Описание"]}</p>
+            <h3><a href="${url}" target="_blank">${name}</a></h3>
+            <p><strong>Город:</strong> ${city}</p>
+            <p>${desc}</p>
           `;
           collegeList.appendChild(card);
         });
       }
 
+      // Начальная загрузка
       displayColleges(colleges);
 
+      // Фильтрация
       $('#cityFilter').on('change', function () {
         const city = $(this).val();
         const filtered = colleges.filter(c => !city || c["Город"] === city);
