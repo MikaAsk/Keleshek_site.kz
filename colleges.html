@@ -49,28 +49,35 @@
       color: #009688;
       border-bottom: 2px solid #009688;
     }
+
     .nav-actions {
       display: flex;
-      gap: 4px;
+      gap: 8px;
       justify-content: flex-end;
       margin-left: auto;
     }
-    .nav-actions button {
-      margin-left: 12px;
+    .primary-button,
+    .secondary-button {
       padding: 6px 10px;
       min-width: 100px;
-      border: none;
+      display: inline-block;
+      text-align: center;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .primary-button {
       background-color: #009688;
       color: white;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
     }
-    .nav-actions button.secondary {
+    .secondary-button {
       background-color: white;
-      color: #1f1f1f;
+      color: #009688;
       border: 1px solid #ccc;
     }
+
     .filters {
       display: flex;
       justify-content: center;
@@ -83,6 +90,7 @@
     .select2-container {
       width: 250px !important;
     }
+
     #college-list {
       display: flex;
       flex-wrap: wrap;
@@ -90,6 +98,7 @@
       gap: 20px;
       padding: 20px;
     }
+
     .college-card {
       background-color: #fff;
       border-radius: 8px;
@@ -99,10 +108,12 @@
       padding: 20px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
+
     .college-card:hover {
       transform: translateY(-10px);
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     }
+
     .college-card h3 {
       font-size: 18px;
       color: #2980b9;
@@ -110,16 +121,19 @@
       margin-bottom: 15px;
       font-weight: bold;
     }
+
     .college-card p {
       font-size: 14px;
       margin: 5px 0;
       color: #555;
     }
+
     .college-card a {
       color: #2980b9;
       text-decoration: none;
       font-weight: bold;
     }
+
     .college-card a:hover {
       text-decoration: underline;
     }
@@ -140,8 +154,8 @@
     <a href="about.html">About us</a>
   </nav>
   <div class="nav-actions">
-    <button class="secondary"><a href="login.html" style="color:#009688">Log in</a></button>
-    <button class="primary"><a href="signup.html" style="color:white">Sign up</a></button>
+    <a href="login.html" class="secondary-button">Log in</a>
+    <a href="signup.html" class="primary-button">Sign up</a>
   </div>
 </header>
 
@@ -162,7 +176,6 @@
     .then(data => {
       colleges = data;
 
-      // Получаем список уникальных городов
       const cities = [...new Set(colleges.map(college => college["Город"]))];
       cities.forEach(city => {
         const option = document.createElement('option');
@@ -171,7 +184,6 @@
         document.getElementById('cityFilter').appendChild(option);
       });
 
-      // Отображение колледжей
       function displayColleges(filteredData) {
         const collegeList = document.getElementById('college-list');
         collegeList.innerHTML = '';
@@ -180,26 +192,22 @@
           const card = document.createElement('div');
           card.classList.add('college-card');
           card.innerHTML = `
-  <h3><a href="${college["Ссылка"]}" target="_blank">${college["Колледж"]}</a></h3>
-  <p><strong>Город:</strong> ${college["Город"]}</p>
-  <p>${college["Описание"]}</p>
-`;
-
+            <h3><a href="${college["Ссылка"]}" target="_blank">${college["Колледж"]}</a></h3>
+            <p><strong>Город:</strong> ${college["Город"]}</p>
+            <p>${college["Описание"]}</p>
+          `;
           collegeList.appendChild(card);
         });
       }
 
-      // Начальное отображение
       displayColleges(colleges);
 
-      // Фильтрация по городу
       $('#cityFilter').on('change', function () {
         const city = $(this).val();
         const filtered = colleges.filter(c => !city || c["Город"] === city);
         displayColleges(filtered);
       });
 
-      // Select2 стилизация
       $('#cityFilter').select2({ placeholder: "Выберите город", allowClear: true });
     })
     .catch(error => {
