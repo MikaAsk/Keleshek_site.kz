@@ -2,147 +2,183 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Колледжи</title>
-
-  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <!-- Select2 CSS/JS -->
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
+    rel="stylesheet"
+  />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
   <style>
-    /* общий сброс outline */
-    *, *:focus { outline: none; }
-
-    body { font-family: Arial, sans-serif; background: #fff; color: #333; margin:0; }
-    header { display:flex; align-items:center; padding:20px 80px; border-bottom:1px solid #eee; }
-    .logo img { height:60px; }
-    nav { flex:1; display:flex; gap:30px; justify-content:center; }
-    nav a { text-decoration:none; color:#333; padding:8px; font-weight:500; }
-    nav a.active, nav a:hover { color:#009688; border-bottom:2px solid #009688; }
-    .nav-actions { display:flex; gap:8px; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 80px;
+      border-bottom: 1px solid #eaeaea;
+    }
+    .logo img {
+      height: 60px;
+    }
+    nav {
+      display: flex;
+      gap: 30px;
+    }
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding: 8px;
+    }
+    nav a:hover,
+    nav a.active {
+      color: #009688;
+      border-bottom: 2px solid #009688;
+    }
+    .nav-actions {
+      display: flex;
+      gap: 10px;
+    }
     .nav-actions button {
-      padding:6px 10px; border-radius:8px; border:none; font-weight:600; cursor:pointer;
-      background: transparent;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
     }
-    .nav-actions .primary {
-      background:#009688; color:#fff;
+    .filters-colleges {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
     }
-    .nav-actions .secondary {
-      background:#fff; border:1px solid #009688; color:#009688;
+    .select2-container {
+      width: 250px !important;
     }
-    .nav-actions a { display:block; text-decoration:none; color:inherit; }
-    
-    .filters { display:flex; justify-content:center; margin:20px 0; }
-    .filters select { width:250px; }
-    .select2-container { width:250px !important; }
-
-    #college-list {
-      display:flex; flex-wrap:wrap; gap:20px; justify-content:center; padding:20px;
+    .card-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
     }
-    .college-card {
-      background:#fff; border:1px solid #e0e0e0; border-radius:8px;
-      width:280px; padding:20px; box-shadow:0 4px 8px rgba(0,0,0,0.1);
-      transition:0.3s;
+    .university-card {
+      width: 280px;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: 0.3s;
     }
-    .college-card:hover {
-      transform:translateY(-5px); box-shadow:0 8px 16px rgba(0,0,0,0.1);
+    .university-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
     }
-    .college-card h3 {
-      text-align:center; color:#2980b9; margin-bottom:10px;
+    .university-card h3 {
+      font-size: 18px;
+      color: #2980b9;
+      text-align: center;
+      margin-bottom: 15px;
     }
-    .college-card p { font-size:14px; line-height:1.4; margin:5px 0; }
-    .college-card a { color:#2980b9; text-decoration:none; }
-    .college-card a:hover { text-decoration:underline; }
+    .university-card p {
+      font-size: 14px;
+      color: #555;
+      margin: 5px 0;
+    }
+    .university-card a {
+      color: #2980b9;
+      text-decoration: none;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.jpg" alt="Keleshek logo" /></a>
+    </div>
+    <nav>
+      <a href="index.html">Study</a>
+      <a href="test.html">Test</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="#" class="active">Universities & Colleges</a>
+      <a href="about.html">About us</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="secondary">
+        <a href="login.html" style="color:#009688">Log in</a>
+      </button>
+      <button class="primary" style="background:#009688; color:white;">
+        <a href="signup.html" style="color:white">Sign up</a>
+      </button>
+    </div>
+  </header>
 
-<header>
-  <div class="logo">
-    <a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a>
+  <div class="filters-colleges">
+    <select id="cityFilter">
+      <option value="">Выберите город</option>
+    </select>
   </div>
-  <nav>
-    <a href="index.html">Study</a>
-    <a href="test.html">Test</a>
-    <a href="analytics.html">Analytics</a>
-    <a href="universities.html">Universities</a>
-    <a href="colleges.html" class="active">Colleges</a>
-    <a href="about.html">About us</a>
-  </nav>
-  <div class="nav-actions">
-    <button class="secondary"><a href="login.html">Log in</a></button>
-    <button class="primary"><a href="signup.html">Sign up</a></button>
-  </div>
-</header>
 
-<div class="filters">
-  <select id="cityFilter"><option value="">Выберите город</option></select>
-</div>
+  <div id="college-list" class="card-list"></div>
 
-<div id="college-list"></div>
+  <script>
+    const collegeURL =
+      'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/refs/heads/main/colleges_with_links.json';
+    let colleges = [];
 
-<script>
-  const JSON_URL = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/colleges_with_links.json';
-
-  fetch(JSON_URL)
-    .then(res => res.json())
-    .then(rawData => {
-      console.log('Сырые данные из JSON:', rawData);
-
-      // Если JSON — объект вида { colleges: [...] }, берем массив, иначе сам массив
-      let arr = Array.isArray(rawData) ? rawData : (rawData.colleges || []);
-      // Нормализуем ключи: обрезаем пробелы вокруг
-      const colleges = arr.map(item => {
-        const norm = {};
-        Object.entries(item).forEach(([k,v]) => norm[k.trim()] = v);
-        return norm;
+    function displayColleges(data) {
+      const list = document.getElementById('college-list');
+      list.innerHTML = '';
+      data.forEach((c) => {
+        const div = document.createElement('div');
+        div.className = 'university-card';
+        div.innerHTML = `
+          <h3>
+            <a href="${c['Ссылка']}" target="_blank">
+              ${c['Колледж']}
+            </a>
+          </h3>
+          <p><strong>Город:</strong> ${c['Город']}</p>
+          <p>${c['Описание'] || ''}</p>
+        `;
+        list.appendChild(div);
       });
+    }
 
-      console.log('Ключи первого объекта после нормализации:', Object.keys(colleges[0]));
+    // Загрузка и инициализация
+    fetch(collegeURL)
+      .then((r) => r.json())
+      .then((data) => {
+        colleges = data;
+        // Сбор уникальных городов
+        const cities = [...new Set(data.map((c) => c['Город']))];
+        cities.forEach((city) =>
+          $('#cityFilter').append(new Option(city, city))
+        );
 
-      // Заполняем фильтр городов
-      const cities = [...new Set(colleges.map(c => c['Город']))];
-      cities.forEach(city => {
-        $('#cityFilter').append(`<option value="${city}">${city}</option>`);
-      });
+        // Отрисовка всех колледжей
+        displayColleges(colleges);
 
-      function render(list) {
-        $('#college-list').empty();
-        list.forEach(c => {
-          const name = c['Колледж'] || 'Без названия';
-          const link = c['Ссылка'] || '#';
-          const city = c['Город'] || '';
-          const desc = c['Описание'] || '';
-
-          $('#college-list').append(`
-            <div class="college-card">
-              <h3><a href="${link}" target="_blank">${name}</a></h3>
-              <p><strong>Город:</strong> ${city}</p>
-              <p>${desc}</p>
-            </div>
-          `);
-        });
-      }
-
-      // Показать все при старте
-      render(colleges);
-
-      // Инициализация Select2 + фильтрация
-      $('#cityFilter')
-        .select2({ placeholder: "Выберите город", allowClear: true })
-        .on('change', () => {
-          const sel = $('#cityFilter').val();
-          render(colleges.filter(c => !sel || c['Город'] === sel));
+        // Фильтрация
+        $('#cityFilter').on('change', () => {
+          const city = $('#cityFilter').val();
+          const filtered = colleges.filter(
+            (c) => !city || c['Город'] === city
+          );
+          displayColleges(filtered);
         });
 
-    })
-    .catch(err => {
-      console.error('Ошибка при загрузке JSON:', err);
-      $('#college-list').html('<p>Не удалось загрузить данные.</p>');
-    });
-</script>
-
+        $('#cityFilter').select2({ placeholder: 'Выберите город' });
+      })
+      .catch((err) => console.error('Ошибка загрузки данных:', err));
+  </script>
 </body>
 </html>
