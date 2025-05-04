@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Колледжи</title>
 
-  <!-- jQuery и Select2 -->
+  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Select2 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <!-- Select2 JS -->
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <style>
@@ -16,6 +18,7 @@
       font-family: 'Arial', sans-serif;
       background-color: #ffffff;
       color: #333;
+      overflow-x: hidden;
     }
     header {
       display: flex;
@@ -30,9 +33,9 @@
     }
     header nav {
       display: flex;
+      justify-content: center;
       gap: 30px;
       width: 100%;
-      justify-content: center;
     }
     nav a {
       font-size: 14px;
@@ -50,23 +53,23 @@
       display: flex;
       gap: 4px;
       justify-content: flex-end;
+      margin-left: auto;
     }
     .nav-actions button {
+      margin-left: 12px;
       padding: 6px 10px;
       min-width: 100px;
       border: none;
+      background-color: #009688;
+      color: white;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
     }
     .nav-actions button.secondary {
       background-color: white;
-      color: #009688;
+      color: #1f1f1f;
       border: 1px solid #ccc;
-    }
-    .nav-actions button.primary {
-      background-color: #009688;
-      color: white;
     }
     .filters {
       display: flex;
@@ -76,6 +79,9 @@
     }
     .filters select {
       width: 250px;
+    }
+    .select2-container {
+      width: 250px !important;
     }
     #college-list {
       display: flex;
@@ -102,6 +108,7 @@
       color: #2980b9;
       text-align: center;
       margin-bottom: 15px;
+      font-weight: bold;
     }
     .college-card p {
       font-size: 14px;
@@ -133,8 +140,8 @@
     <a href="about.html">About us</a>
   </nav>
   <div class="nav-actions">
-    <button class="secondary"><a href="login.html" style="text-decoration: none; color:#009688;">Log in</a></button>
-    <button class="primary"><a href="signup.html" style="text-decoration: none; color:white;">Sign up</a></button>
+    <button class="secondary"><a href="login.html" style="color:#009688">Log in</a></button>
+    <button class="primary"><a href="signup.html" style="color:white">Sign up</a></button>
   </div>
 </header>
 
@@ -148,7 +155,6 @@
 
 <script>
   const collegesJsonUrl = "https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/colleges_with_links.json";
-
   let colleges = [];
 
   fetch(collegesJsonUrl)
@@ -156,7 +162,7 @@
     .then(data => {
       colleges = data;
 
-      const cities = [...new Set(colleges.map(college => college["Город"]))];
+      const cities = [...new Set(colleges.map(item => item["Город"]))];
       cities.forEach(city => {
         const option = document.createElement('option');
         option.value = city;
@@ -183,16 +189,12 @@
       displayColleges(colleges);
 
       $('#cityFilter').on('change', function () {
-        const selectedCity = $(this).val();
-        const filtered = colleges.filter(college => !selectedCity || college["Город"] === selectedCity);
+        const city = $(this).val();
+        const filtered = colleges.filter(c => !city || c["Город"] === city);
         displayColleges(filtered);
       });
 
-      $('#cityFilter').select2({
-        placeholder: "Выберите город",
-        allowClear: true
-      });
-
+      $('#cityFilter').select2({ placeholder: "Выберите город", allowClear: true });
     })
     .catch(error => {
       console.error("Ошибка загрузки колледжей:", error);
