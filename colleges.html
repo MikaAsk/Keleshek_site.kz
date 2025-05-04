@@ -20,8 +20,8 @@
     nav a.active, nav a:hover { color:#009688; border-bottom:2px solid #009688; }
     .nav-actions { display:flex; gap:8px; }
     .nav-actions button { padding:6px 10px; border-radius:8px; border:none; font-weight:600; cursor:pointer; }
-    .nav-actions button.primary { background:#009688; color:#fff; }
-    .nav-actions button.secondary { background:#fff; border:1px solid #ccc; color:#009688; }
+    .nav-actions .primary { background:#009688; color:#fff; }
+    .nav-actions .secondary { background:#fff; border:1px solid #ccc; color:#009688; }
     .filters { display:flex; justify-content:center; margin:20px 0; }
     .filters select { width:250px; }
     .select2-container { width:250px !important; }
@@ -29,7 +29,7 @@
     .college-card { background:#fff; border:1px solid #e0e0e0; border-radius:8px; width:280px; padding:20px; box-shadow:0 4px 8px rgba(0,0,0,0.1); transition:0.3s; }
     .college-card:hover { transform:translateY(-5px); box-shadow:0 8px 16px rgba(0,0,0,0.1); }
     .college-card h3 { text-align:center; color:#2980b9; margin-bottom:10px; }
-    .college-card p { font-size:14px; line-height:1.4; }
+    .college-card p { font-size:14px; line-height:1.4; margin:5px 0; }
     .college-card a { color:#2980b9; text-decoration:none; }
     .college-card a:hover { text-decoration:underline; }
   </style>
@@ -37,9 +37,7 @@
 <body>
 
 <header>
-  <div class="logo">
-    <a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a>
-  </div>
+  <div class="logo"><a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a></div>
   <nav>
     <a href="index.html">Study</a>
     <a href="test.html">Test</a>
@@ -49,15 +47,13 @@
     <a href="about.html">About us</a>
   </nav>
   <div class="nav-actions">
-    <button class="secondary"><a href="login.html" style="text-decoration:none;">Log in</a></button>
-    <button class="primary"><a href="signup.html" style="color:#fff;text-decoration:none;">Sign up</a></button>
+    <button class="secondary"><a href="login.html" style="color:inherit; text-decoration:none;">Log in</a></button>
+    <button class="primary"><a href="signup.html" style="color:inherit; text-decoration:none;">Sign up</a></button>
   </div>
 </header>
 
 <div class="filters">
-  <select id="cityFilter">
-    <option value="">Выберите город</option>
-  </select>
+  <select id="cityFilter"><option value="">Выберите город</option></select>
 </div>
 
 <div id="college-list"></div>
@@ -68,37 +64,42 @@
   fetch(JSON_URL)
     .then(r => r.json())
     .then(data => {
-      console.log('Loaded colleges:', data);
+      console.log('Полный ответ:', data);
+      // если JSON — просто массив, используем его, иначе, например, data.colleges
       const colleges = Array.isArray(data) ? data : (data.colleges || []);
-      // Сбор уникальных городов
+      console.log('Первый колледж:', colleges[0]);
+
+      // Заполняем список городов
       const cities = [...new Set(colleges.map(c => c.Город))];
-      cities.forEach(city => {
-        $('#cityFilter').append(`<option value="${city}">${city}</option>`);
-      });
+      cities.forEach(city => $('#cityFilter').append(`<option value="${city}">${city}</option>`));
 
       function render(list) {
         $('#college-list').empty();
         list.forEach(c => {
-          // Если какое-то поле всё ещё undefined — вы сразу это увидите в консоли
-          if (!c.Колледж) console.warn('No name for', c);
+          // если ключи не совпадают, вы увидите undefined в консоли:
+          console.log('Ключи объекта:', Object.keys(c));
+          const name = c['Колледж'] || c['college'] || 'Без названия';
+          const link = c['Ссылка'] || c['link'] || '#';
+          const city = c['Город'] || c['city'] || '';
+          const desc = c['Описание'] || c['description'] || '';
           $('#college-list').append(`
             <div class="college-card">
-              <h3><a href="${c.Ссылка}" target="_blank">${c.Колледж || 'Без названия'}</a></h3>
-              <p><strong>Город:</strong> ${c.Город || '—'}</p>
-              <p>${c.Описание || ''}</p>
+              <h3><a href="${link}" target="_blank">${name}</a></h3>
+              <p><strong>Город:</strong> ${city}</p>
+              <p>${desc}</p>
             </div>
           `);
         });
       }
 
-      // Изначально показываем всё
       render(colleges);
 
-      $('#cityFilter').select2({placeholder:"Выберите город", allowClear:true})
+      $('#cityFilter').select2({ placeholder: "Выберите город", allowClear: true })
         .on('change', function(){
           const sel = $(this).val();
           render(colleges.filter(c => !sel || c.Город === sel));
         });
+
     })
     .catch(err => {
       console.error('Ошибка при загрузке JSON:', err);
