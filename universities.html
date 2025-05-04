@@ -165,9 +165,6 @@
       .then(response => response.json())
       .then(data => {
         universities = data;
-        const cityFilter = document.getElementById('cityFilter');
-        const professionFilter = document.getElementById('professionFilter');
-        const universityList = document.getElementById('university-list');
 
         const cities = [...new Set(data.map(u => u["Город"]))];
         const professions = [...new Set(data.map(u => u["Профессия"]))];
@@ -176,17 +173,18 @@
           const option = document.createElement('option');
           option.value = city;
           option.textContent = city;
-          cityFilter.appendChild(option);
+          document.getElementById('cityFilter').appendChild(option);
         });
 
         professions.forEach(profession => {
           const option = document.createElement('option');
           option.value = profession;
           option.textContent = profession;
-          professionFilter.appendChild(option);
+          document.getElementById('professionFilter').appendChild(option);
         });
 
         function displayUniversities(filteredData) {
+          const universityList = document.getElementById('university-list');
           universityList.innerHTML = '';
           let displayedUniversities = [];
 
@@ -214,16 +212,16 @@
 
         displayUniversities(universities);
 
-        cityFilter.addEventListener('change', () => {
-          const city = cityFilter.value;
-          const profession = professionFilter.value;
+        $('#cityFilter').on('change', () => {
+          const city = $('#cityFilter').val();
+          const profession = $('#professionFilter').val();
           const filtered = universities.filter(u => (!city || u["Город"] === city) && (!profession || u["Профессия"] === profession));
           displayUniversities(filtered);
         });
 
-        professionFilter.addEventListener('change', () => {
-          const profession = professionFilter.value;
-          const city = cityFilter.value;
+        $('#professionFilter').on('change', () => {
+          const city = $('#cityFilter').val();
+          const profession = $('#professionFilter').val();
           const filtered = universities.filter(u => (!city || u["Город"] === city) && (!profession || u["Профессия"] === profession));
           displayUniversities(filtered);
         });
