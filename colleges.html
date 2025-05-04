@@ -4,19 +4,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Колледжи</title>
+  <!-- jQuery и Select2 -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link
     href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css"
     rel="stylesheet"
   />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #fff;
-      color: #333;
       margin: 0;
       padding: 0;
+      background: #fff;
+      color: #333;
     }
     header {
       display: flex;
@@ -38,8 +40,8 @@
       font-weight: 500;
       padding: 8px;
     }
-    nav a:hover,
-    nav a.active {
+    nav a.active,
+    nav a:hover {
       color: #009688;
       border-bottom: 2px solid #009688;
     }
@@ -48,18 +50,19 @@
       gap: 10px;
     }
     .nav-actions button {
-      padding: 6px 10px;
+      padding: 6px 12px;
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
-      background: none;
       border: 1px solid #009688;
+      background: none;
     }
     .nav-actions .primary {
       background: #009688;
-      color: white;
+      color: #fff;
       border: none;
     }
+
     .filters-colleges {
       display: flex;
       justify-content: center;
@@ -73,31 +76,31 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
-      padding: 20px;
+      padding: 0 20px 40px;
     }
     .university-card {
       width: 280px;
       padding: 20px;
       border: 1px solid #e0e0e0;
       border-radius: 8px;
-      background: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: 0.3s;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      transition: transform .2s, box-shadow .2s;
     }
     .university-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+      transform: translateY(-6px);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
     }
     .university-card h3 {
       font-size: 18px;
       color: #2980b9;
       text-align: center;
-      margin-bottom: 15px;
+      margin-bottom: 12px;
     }
     .university-card p {
       font-size: 14px;
+      margin: 6px 0;
       color: #555;
-      margin: 5px 0;
     }
     .university-card a {
       color: #2980b9;
@@ -107,6 +110,7 @@
   </style>
 </head>
 <body>
+
   <header>
     <div class="logo">
       <a href="index.html">
@@ -117,7 +121,7 @@
       <a href="index.html">Study</a>
       <a href="test.html">Test</a>
       <a href="analytics.html">Analytics</a>
-      <a href="#" class="active">Universities & Colleges</a>
+      <a href="#" class="active">Universities &amp; Colleges</a>
       <a href="about.html">About us</a>
     </nav>
     <div class="nav-actions">
@@ -130,33 +134,33 @@
     </div>
   </header>
 
+  <!-- Фильтр по городу -->
   <div class="filters-colleges">
     <select id="cityFilter">
       <option value="">Выберите город</option>
     </select>
   </div>
 
+  <!-- Список карточек -->
   <div id="college-list" class="card-list"></div>
 
   <script>
-    const collegeURL =
+    // URL вашего JSON-файла
+    const collegeURL = 
       'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/refs/heads/main/colleges_with_links.json';
     let colleges = [];
 
     function displayColleges(data) {
       const list = document.getElementById('college-list');
       list.innerHTML = '';
-
       data.forEach(c => {
-        // отладка
-        console.log('Объект колледжа:', c);
-        console.log('Ключи объекта:', Object.keys(c));
+        // Получаем данные по актуальным ключам JSON
+        const name = c['Название университета'] || 'без названия';
+        const url  = c['Сайт']                || '#';
+        const city = c['Город']               || '';
+        const desc = c['Описание']            || '';
 
-        const name = c['Колледж']   || 'без названия';
-        const url  = c['Ссылка']    || '#';
-        const city = c['Город']     || '';
-        const desc = c['Описание']  || '';
-
+        // Если ссылка задана — делаем название кликабельным
         const titleHTML = url !== '#'
           ? `<a href="${url}" target="_blank">${name}</a>`
           : name;
@@ -171,27 +175,35 @@
       });
     }
 
+    // Загрузка JSON и инициализация страницы
     fetch(collegeURL)
-      .then(r => r.json())
+      .then(res => res.json())
       .then(data => {
         colleges = data;
 
-        const cities = [...new Set(data.map(c => c['Город']))];
-        cities.forEach(city => {
-          $('#cityFilter').append(new Option(city, city));
-        });
+        // Собираем уникальные города для фильтра
+        const uniqueCities = [...new Set(data.map(c => c['Город']))];
+        uniqueCities.forEach(city =>
+          $('#cityFilter').append(new Option(city, city))
+        );
 
-        displayColleges(colleges);
-
+        // При изменении фильтра отображаем отфильтрованный список
         $('#cityFilter').on('change', () => {
-          const selected = $('#cityFilter').val();
-          const filtered = colleges.filter(c => !selected || c['Город'] === selected);
+          const chosen = $('#cityFilter').val();
+          const filtered = colleges.filter(c => 
+            !chosen || c['Город'] === chosen
+          );
           displayColleges(filtered);
         });
 
+        // Превращаем селект в Select2
         $('#cityFilter').select2({ placeholder: 'Выберите город' });
+
+        // Первичная отрисовка всех карточек
+        displayColleges(colleges);
       })
-      .catch(err => console.error('Ошибка загрузки данных:', err));
+      .catch(err => console.error('Ошибка загрузки JSON:', err));
   </script>
+
 </body>
 </html>
