@@ -74,7 +74,7 @@ let universities = [], collegesLoaded = false;
 function displayUniversities(data) {
   const list = document.getElementById('university-list');
   list.innerHTML = '';
-  let displayed = new Set();
+  const displayed = new Set();
   data.forEach(u => {
     if (!displayed.has(u["Название университета"])) {
       displayed.add(u["Название университета"]);
@@ -94,7 +94,7 @@ function displayColleges(data) {
   data.forEach(c => {
     const div = document.createElement('div');
     div.className = 'university-card';
-    div.innerHTML = `<h3><a href="${c["Сайт"]}" target="_blank">${c["Название колледжа"]}</a></h3>
+    div.innerHTML = `<h3><a href="${c["Сайт"]}" target="_blank">${c["Название университета"]}</a></h3>
       <p><strong>Город:</strong> ${c["Город"]}</p>
       <p>${c["Описание"] || ''}</p>`;
     list.appendChild(div);
@@ -134,18 +134,21 @@ $('#tab-colleges').on('click', function () {
   $(this).addClass('active');
   $('#tab-universities').removeClass('active');
   if (!collegesLoaded) {
-    fetch(collegeURL).then(r => r.json()).then(data => {
-      collegesLoaded = true;
-      const cities = [...new Set(data.map(c => c["Город"]))];
-      cities.forEach(c => $('#collegeCityFilter').append(new Option(c, c)));
-      displayColleges(data);
-      $('#collegeCityFilter').on('change', () => {
-        const city = $('#collegeCityFilter').val();
-        const filtered = data.filter(c => !city || c["Город"] === city);
-        displayColleges(filtered);
+    fetch(collegeURL)
+      .then(r => r.json())
+      .then(data => {
+        const colleges = data.colleges_with_links; // ⬅️ здесь мы правильно берём массив
+        collegesLoaded = true;
+        const cities = [...new Set(colleges.map(c => c["Город"]))];
+        cities.forEach(c => $('#collegeCityFilter').append(new Option(c, c)));
+        displayColleges(colleges);
+        $('#collegeCityFilter').on('change', () => {
+          const city = $('#collegeCityFilter').val();
+          const filtered = colleges.filter(c => !city || c["Город"] === city);
+          displayColleges(filtered);
+        });
+        $('#collegeCityFilter').select2();
       });
-      $('#collegeCityFilter').select2();
-    });
   }
 });
 </script>
