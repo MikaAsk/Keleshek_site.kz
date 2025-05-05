@@ -30,6 +30,7 @@
   </style>
 </head>
 <body>
+
 <header>
   <div class="logo"><a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a></div>
   <nav>
@@ -67,16 +68,16 @@
 
 <script>
 const universityURL = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json';
-const collegeURL = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/refs/heads/main/colleges_with_links.json';
+const collegeURL = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/colleges_with_links.json';
 let universities = [], collegesLoaded = false;
 
 function displayUniversities(data) {
   const list = document.getElementById('university-list');
   list.innerHTML = '';
-  let displayed = [];
+  let displayed = new Set();
   data.forEach(u => {
-    if (!displayed.includes(u["Название университета"])) {
-      displayed.push(u["Название университета"]);
+    if (!displayed.has(u["Название университета"])) {
+      displayed.add(u["Название университета"]);
       const div = document.createElement('div');
       div.className = 'university-card';
       div.innerHTML = `<h3><a href="${u["Сайт"]}" target="_blank">${u["Название университета"]}</a></h3>
@@ -100,23 +101,25 @@ function displayColleges(data) {
   });
 }
 
-fetch(universityURL).then(r => r.json()).then(data => {
-  universities = data;
-  const cities = [...new Set(data.map(u => u["Город"]))];
-  const professions = [...new Set(data.map(u => u["Профессия"]))];
-  cities.forEach(c => $('#cityFilter').append(new Option(c, c)));
-  professions.forEach(p => $('#professionFilter').append(new Option(p, p)));
-  displayUniversities(universities);
+fetch(universityURL)
+  .then(r => r.json())
+  .then(data => {
+    universities = data;
+    const cities = [...new Set(data.map(u => u["Город"]))];
+    const professions = [...new Set(data.map(u => u["Профессия"]))];
+    cities.forEach(c => $('#cityFilter').append(new Option(c, c)));
+    professions.forEach(p => $('#professionFilter').append(new Option(p, p)));
+    displayUniversities(universities);
 
-  $('#cityFilter, #professionFilter').on('change', () => {
-    const city = $('#cityFilter').val();
-    const prof = $('#professionFilter').val();
-    const filtered = universities.filter(u => (!city || u["Город"] === city) && (!prof || u["Профессия"] === prof));
-    displayUniversities(filtered);
+    $('#cityFilter, #professionFilter').on('change', () => {
+      const city = $('#cityFilter').val();
+      const prof = $('#professionFilter').val();
+      const filtered = universities.filter(u => (!city || u["Город"] === city) && (!prof || u["Профессия"] === prof));
+      displayUniversities(filtered);
+    });
+
+    $('#cityFilter, #professionFilter').select2();
   });
-
-  $('#cityFilter, #professionFilter').select2();
-});
 
 $('#tab-universities').on('click', function () {
   $('#university-section').show();
@@ -146,5 +149,6 @@ $('#tab-colleges').on('click', function () {
   }
 });
 </script>
+
 </body>
 </html>
