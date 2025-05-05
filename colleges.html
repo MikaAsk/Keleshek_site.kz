@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Колледжи</title>
+  
   <!-- jQuery и Select2 -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <link
@@ -145,25 +146,19 @@
   <div id="college-list" class="card-list"></div>
 
   <script>
-    // URL вашего JSON-файла
-    const collegeURL = 
-      'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/refs/heads/main/colleges_with_links.json';
+    const collegeURL = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/refs/heads/main/colleges_with_links.json';
     let colleges = [];
 
     function displayColleges(data) {
       const list = document.getElementById('college-list');
       list.innerHTML = '';
       data.forEach(c => {
-        // Получаем данные по актуальным ключам JSON
         const name = c['Название университета'] || 'без названия';
-        const url  = c['Сайт']                || '#';
-        const city = c['Город']               || '';
-        const desc = c['Описание']            || '';
+        const url  = c['Сайт'] || '#';
+        const city = c['Город'] || '';
+        const desc = c['Описание'] || '';
 
-        // Если ссылка задана — делаем название кликабельным
-        const titleHTML = url !== '#'
-          ? `<a href="${url}" target="_blank">${name}</a>`
-          : name;
+        const titleHTML = url !== '#' ? `<a href="${url}" target="_blank">${name}</a>` : name;
 
         list.insertAdjacentHTML('beforeend', `
           <div class="university-card">
@@ -175,31 +170,24 @@
       });
     }
 
-    // Загрузка JSON и инициализация страницы
     fetch(collegeURL)
       .then(res => res.json())
       .then(data => {
-        colleges = data;
+        colleges = data.colleges_with_links;
 
-        // Собираем уникальные города для фильтра
-        const uniqueCities = [...new Set(data.map(c => c['Город']))];
-        uniqueCities.forEach(city =>
-          $('#cityFilter').append(new Option(city, city))
-        );
+        const uniqueCities = [...new Set(colleges.map(c => c['Город']))];
+        uniqueCities.forEach(city => {
+          $('#cityFilter').append(new Option(city, city));
+        });
 
-        // При изменении фильтра отображаем отфильтрованный список
         $('#cityFilter').on('change', () => {
           const chosen = $('#cityFilter').val();
-          const filtered = colleges.filter(c => 
-            !chosen || c['Город'] === chosen
-          );
+          const filtered = colleges.filter(c => !chosen || c['Город'] === chosen);
           displayColleges(filtered);
         });
 
-        // Превращаем селект в Select2
         $('#cityFilter').select2({ placeholder: 'Выберите город' });
 
-        // Первичная отрисовка всех карточек
         displayColleges(colleges);
       })
       .catch(err => console.error('Ошибка загрузки JSON:', err));
