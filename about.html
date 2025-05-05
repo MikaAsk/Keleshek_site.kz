@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Университеты и Колледжи | Keleshek</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keleshek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -15,6 +12,7 @@
       font-family: 'Inter', sans-serif;
       background-color: #ffffff;
       color: #1f1f1f;
+      overflow-x: hidden;
     }
 
     header {
@@ -27,21 +25,27 @@
 
     .logo img {
       height: 60px;
+      width: auto;
     }
 
-    nav {
+   header nav {
       display: flex;
+      justify-content: center; /* Центрируем навигацию */
       gap: 30px;
+      width: 100%;
     }
 
     nav a {
-      text-decoration: none;
+      font-size: 14px;
       color: #333;
+      text-decoration: none;
       font-weight: 500;
       padding: 8px;
+      transition: color 0.3s ease, border-bottom 0.3s ease;
     }
 
-    nav a:hover, nav a.active {
+    nav a:hover,
+    nav a.active {
       color: #009688;
       border-bottom: 2px solid #009688;
     }
@@ -49,234 +53,159 @@
     .nav-actions {
       display: flex;
       gap: 12px;
+      justify-content: flex-end; /* Align buttons to the right */
+      margin-right: 10px;
     }
 
-    .nav-actions .btn {
-      padding: 10px 16px;
-      border-radius: 8px;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 14px;
-      display: inline-block;
-      min-width: 100px;
+.nav-actions button {
+  margin-left: 12px;
+  padding: 6px 10px;  /* Reduced padding to make the buttons smaller */
+  min-width: 100px;  /* Ensures buttons are not too wide */
+  width: auto;  /* Adjusts width based on content */
+  white-space: nowrap; /* Keeps text in one line */
+  border: none;
+  background-color: #009688;
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.nav-actions button.primary {
+  background-color: #009688;
+  color: white;
+  border: none;
+}
+
+.nav-actions button.secondary {
+  background-color: white;
+  color: #1f1f1f;
+  border: 1px solid #ccc;
+}
+
+.nav-actions {
+  display: flex;
+  gap: 4px;  /* Reduced the gap between buttons */
+  justify-content: flex-end; 
+  margin-left: auto;
+}
+
+    .about-us {
+      background-color: #f5faff;
+      padding: 40px 20px;
       text-align: center;
     }
 
-    .nav-actions .btn.primary {
-      background-color: #009688;
-      color: white;
-      border: none;
-    }
-
-    .nav-actions .btn.secondary {
-      background-color: #f5f5f5;
-      color: #009688;
-      border: 1px solid #ccc;
-    }
-
-    .tabs {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 20px;
-    }
-
-    .tab-button {
-      padding: 10px 20px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      cursor: pointer;
-      font-weight: bold;
-      background: white;
+    .about-us h2 {
+      font-size: 28px;
+      margin-bottom: 40px;
       color: #009688;
     }
 
-    .tab-button.active {
-      background: #009688;
-      color: white;
-    }
-
-    .filters, .filters-colleges {
+    .team-container {
       display: flex;
       justify-content: center;
-      gap: 20px;
-      margin: 20px 0;
-    }
-
-    .select2-container {
-      width: 250px !important;
-    }
-
-    .card-list {
-      display: flex;
+      gap: 40px;
       flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
     }
 
-    .university-card {
-      width: 280px;
-      padding: 20px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
+    .team-member {
       background: white;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: 0.3s;
-    }
-
-    .university-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-    }
-
-    .university-card h3 {
-      font-size: 18px;
-      color: #2980b9;
+      padding: 20px;
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
       text-align: center;
-      margin-bottom: 15px;
+      width: 250px;
+      max-width: 100%;
     }
 
-    .university-card p {
+    .team-member img.team-photo {
+      width: 100%;
+      height: auto;
+      border-radius: 50%;
+      margin-bottom: 16px;
+    }
+
+    .team-member h3 {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .team-member p {
       font-size: 14px;
       color: #555;
-      margin: 5px 0;
-    }
-
-    .university-card a {
-      color: #2980b9;
-      text-decoration: none;
-      font-weight: bold;
+      text-align: center;
     }
   </style>
 </head>
+
 <body>
 
-<header>
-  <div class="logo">
-    <a href="index.html">
-      <img src="logo.jpg" alt="Keleshek logo">
-    </a>
-  </div>
-  <nav>
-    <a href="index.html">Study</a>
-    <a href="test.html">Test</a>
-    <a href="analytics.html">Analytics</a>
-    <a href="universities.html" class="active">Universities & Colleges</a>
-    <a href="about.html">About us</a>
-  </nav>
-  <div class="nav-actions">
-    <a href="login.html" class="btn secondary">Log in</a>
-    <a href="signup.html" class="btn primary">Sign up</a>
-  </div>
-</header>
+  <!-- Navigation Header -->
+  <header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="logo.jpg" alt="Keleshek logo">
+      </a>
+    </div>
+    <nav>
+      <a href="index.html" id="study-link">Study</a>
+      <a href="test.html">Test</a>
+      <a href="analytics.html">Analytics</a>
+      <a href="universities.html">Universities</a>
+      <a href="about.html">About us</a>
+    </nav>
+    <div class="nav-actions">
+      <button style="background-color: white; border: 1px solid #ccc; color: #1f1f1f; font-weight: 600; padding: 10px 16px; border-radius: 8px; margin-right: 10px; color: #009688;">
+        <a href="login.html" class="button secondary" style="color:#009688">Log in</a>
+      </button>
+      <button style="background-color: #009688; color: white; font-weight: 600; padding: 10px 16px; border: none; border-radius: 8px; margin-right: 10px;">
+        <a href="signup.html" class="button secondary" style="color:#ffffff">Sign up</a>
+      </button>
+    </div>
+  </header>
 
-<div class="tabs">
-  <button id="tab-universities" class="tab-button active">Университеты</button>
-  <button id="tab-colleges" class="tab-button">Колледжи</button>
-</div>
+  <!-- About Us Section -->
+  <section class="about-us">
+    <h2>О проекте и разработчиках</h2>
+    <div class="team-container">
+      <div class="team-member">
+        <img src="aruzhan.jpg" alt="Aruzhan Bagdatova" class="team-photo">
+        <h3>Багдатова Аружан</h3>
+        <p>Базовый опыт в аналитике данных. Занимается сбором и обработкой данных, а также созданием отчетов в Power BI для различных проектов компании.</p>
+      </div>
+      <div class="team-member">
+        <img src="samal.jpg" alt="Samal Alibekova" class="team-photo">
+        <h3>Алибекова Самал</h3>
+        <p>Студентка, увлекающаяся анализом данных и разработкой интерфейсов. Работает над улучшением пользовательского интерфейса и обеспечением качества данных.</p>
+      </div>
+      <div class="team-member">
+        <img src="meruyert.jpg" alt="Assat Meruert" class="team-photo">
+        <h3>Асхат Меруерт</h3>
+        <p>Специализируется на системах управления данными и их визуализации. Обрабатывает большие объемы данных и представляет результаты в понятной и доступной форме.</p>
+      </div>
+    </div>
+  </section>
 
-<div id="university-section">
-  <div class="filters">
-    <select id="cityFilter"><option value="">Выберите город</option></select>
-    <select id="professionFilter"><option value="">Выберите профессию</option></select>
-  </div>
-  <div id="university-list" class="card-list"></div>
-</div>
+  <script>
+    // Get all navigation links
+    const navLinks = document.querySelectorAll('nav a');
 
-<div id="college-section" style="display:none;">
-  <div class="filters-colleges">
-    <select id="collegeCityFilter"><option value="">Выберите город</option></select>
-  </div>
-  <div id="college-list" class="card-list"></div>
-</div>
-
-<script>
-const universityURL = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/processed_university_data7.json';
-const collegeURL = 'https://raw.githubusercontent.com/MikaAsk/Keleshek_site.kz/main/colleges_with_links.json';
-let universities = [], collegesLoaded = false;
-
-function displayUniversities(data) {
-  const list = document.getElementById('university-list');
-  list.innerHTML = '';
-  const displayed = new Set();
-  data.forEach(u => {
-    if (!displayed.has(u["Название университета"])) {
-      displayed.add(u["Название университета"]);
-      const div = document.createElement('div');
-      div.className = 'university-card';
-      div.innerHTML = `<h3><a href="${u["Сайт"]}" target="_blank">${u["Название университета"]}</a></h3>
-        <p><strong>Город:</strong> ${u["Город"]}</p>
-        <p><strong>Описание:</strong> ${u["Описание"]}</p>`;
-      list.appendChild(div);
-    }
-  });
-}
-
-function displayColleges(data) {
-  const list = document.getElementById('college-list');
-  list.innerHTML = '';
-  data.forEach(c => {
-    const div = document.createElement('div');
-    div.className = 'university-card';
-    div.innerHTML = `<h3><a href="${c["Сайт"]}" target="_blank">${c["Название университета"]}</a></h3>
-      <p><strong>Город:</strong> ${c["Город"]}</p>
-      <p>${c["Описание"] || ''}</p>`;
-    list.appendChild(div);
-  });
-}
-
-fetch(universityURL)
-  .then(r => r.json())
-  .then(data => {
-    universities = data;
-    const cities = [...new Set(data.map(u => u["Город"]))];
-    const professions = [...new Set(data.map(u => u["Профессия"]))];
-    cities.forEach(c => $('#cityFilter').append(new Option(c, c)));
-    professions.forEach(p => $('#professionFilter').append(new Option(p, p)));
-    displayUniversities(universities);
-
-    $('#cityFilter, #professionFilter').on('change', () => {
-      const city = $('#cityFilter').val();
-      const prof = $('#professionFilter').val();
-      const filtered = universities.filter(u => (!city || u["Город"] === city) && (!prof || u["Профессия"] === prof));
-      displayUniversities(filtered);
-    });
-
-    $('#cityFilter, #professionFilter').select2();
-  });
-
-$('#tab-universities').on('click', function () {
-  $('#university-section').show();
-  $('#college-section').hide();
-  $(this).addClass('active');
-  $('#tab-colleges').removeClass('active');
-});
-
-$('#tab-colleges').on('click', function () {
-  $('#university-section').hide();
-  $('#college-section').show();
-  $(this).addClass('active');
-  $('#tab-universities').removeClass('active');
-  if (!collegesLoaded) {
-    fetch(collegeURL)
-      .then(r => r.json())
-      .then(data => {
-        const colleges = data.colleges_with_links;
-        collegesLoaded = true;
-        const cities = [...new Set(colleges.map(c => c["Город"]))];
-        cities.forEach(c => $('#collegeCityFilter').append(new Option(c, c)));
-        displayColleges(colleges);
-        $('#collegeCityFilter').on('change', () => {
-          const city = $('#collegeCityFilter').val();
-          const filtered = colleges.filter(c => !city || c["Город"] === city);
-          displayColleges(filtered);
-        });
-        $('#collegeCityFilter').select2();
+    // Function to highlight the current page link
+    function highlightActiveLink() {
+      navLinks.forEach(link => {
+        if (window.location.href.includes(link.href)) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
       });
-  }
-});
-</script>
+    }
+
+    // Call the function to highlight active link when the page loads
+    highlightActiveLink();
+  </script>
 
 </body>
 </html>
