@@ -1,0 +1,72 @@
+import { useState, useEffect } from 'react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+export default function AccountPage() {
+  const [user, setUser] = useState(null);
+  const [roadmap, setRoadmap] = useState([
+    { step: "Take the test", done: true },
+    { step: "Get results", done: true },
+    { step: "Explore analytics", done: true },
+    { step: "Select university or college", done: false },
+    { step: "Enroll in courses", done: false },
+    { step: "Start career", done: false },
+  ]);
+
+  useEffect(() => {
+    // Fetch user and progress info (mocked for now)
+    setUser({ name: "Aruzhan", riasec: "ISE", occupations: ["Data Analyst", "Web Developer"], fields: ["Computer Science", "Data Science"] });
+  }, []);
+
+  return (
+    <div className="min-h-screen p-6 bg-white">
+      <header className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Welcome, {user?.name || "User"}!</h1>
+        <Button variant="ghost">Log out</Button>
+      </header>
+
+      <Card className="mb-6">
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Your Career Roadmap</h2>
+          <ul className="space-y-3">
+            {roadmap.map((item, idx) => (
+              <li key={idx} className="flex items-center">
+                <div className={`h-4 w-4 rounded-full border-2 ${item.done ? 'bg-orange-600 border-orange-600' : 'border-orange-600'}`} />
+                <span className="ml-4 text-sm">{item.step}</span>
+              </li>
+            ))}
+          </ul>
+        </CardContent>
+      </Card>
+
+      <Card className="mb-6">
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Test Results</h2>
+          <p><strong>RIASEC</strong> type: {user?.riasec}</p>
+          <p><strong>Suitable occupations:</strong> {user?.occupations?.join(", ")}</p>
+          <p><strong>Recommended Fields:</strong> {user?.fields?.join(", ")}</p>
+        </CardContent>
+      </Card>
+
+      <Card className="mb-6">
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Recommended Universities</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {user?.fields?.map((field, idx) => (
+              <div key={idx} className="text-center">
+                <div className="text-5xl">🏛️</div>
+                <p className="mt-2 font-medium">{field}</p>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      <div className="text-center">
+        <Button className="text-white bg-orange-600 hover:bg-orange-700 px-6 py-2 rounded-2xl text-lg shadow-md">
+          Book a consultation
+        </Button>
+      </div>
+    </div>
+  );
+}
