@@ -150,7 +150,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       white-space: nowrap;
       z-index: 1000;
-      animation: fadein 0.3s ease-in-out;
+      display: none;
     }
 
     @keyframes fadein {
@@ -170,7 +170,7 @@
     </div>
     <div class="notifications" style="position: relative;">
       <img src="bell.png" style="width: 24px;">
-      <div id="notificationBox" class="notification-box" style="display: none;">✔ Profile saved</div>
+      <div id="notificationBox" class="notification-box">✔ Profile saved</div>
     </div>
     <div class="user-icon">
       <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
@@ -218,7 +218,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
@@ -232,11 +232,9 @@
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
-  const storage = firebase.storage();
   let currentUser;
 
   auth.onAuthStateChanged(user => {
-    console.log("User status:", user);
     if (!user) {
       window.location.href = 'login.html';
     } else {
@@ -246,11 +244,7 @@
   });
 
   async function saveProfile() {
-    console.log("Save button clicked");
-    if (!currentUser) {
-      console.error("No authenticated user");
-      return;
-    }
+    if (!currentUser) return;
 
     const profileData = {
       name: document.getElementById('name').value,
@@ -264,17 +258,6 @@
 
     try {
       await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
-      console.log("Data saved to Firestore");
-
-      const file = document.getElementById('uploadImage').files[0];
-      if (file) {
-        const ref = storage.ref('profile_pics/' + currentUser.uid);
-        await ref.put(file);
-        const url = await ref.getDownloadURL();
-        document.getElementById('profileImage').src = url;
-        document.getElementById('headerProfileImage').src = url;
-      }
-
       showNotification("✔ Profile saved successfully!");
     } catch (e) {
       console.error("Save error:", e);
@@ -283,7 +266,6 @@
   }
 
   async function loadProfile() {
-    if (!currentUser) return;
     const doc = await db.collection('users').doc(currentUser.uid).get();
     if (doc.exists) {
       const d = doc.data();
@@ -294,14 +276,6 @@
       document.getElementById('interests').value = d.interests?.join(', ') || '';
       document.getElementById('goal').value = d.goal || '';
       document.getElementById('skills').value = d.skills || '';
-    }
-
-    try {
-      const url = await storage.ref('profile_pics/' + currentUser.uid).getDownloadURL();
-      document.getElementById('profileImage').src = url;
-      document.getElementById('headerProfileImage').src = url;
-    } catch (err) {
-      console.warn("No profile photo");
     }
   }
 
@@ -342,7 +316,6 @@
     setTimeout(() => {
       box.style.display = 'none';
     }, 4000);
-    console.log("Notification:", message);
   }
 </script>
 </body>
