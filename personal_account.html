@@ -91,6 +91,45 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
 
+    .profile-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 40px;
+    }
+
+    .profile-image-wrapper {
+      flex-shrink: 0;
+      text-align: center;
+    }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .upload-label {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 12px;
+      background-color: #eeeeee;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .upload-label:hover {
+      background-color: #dddddd;
+    }
+
+    .form-fields {
+      flex-grow: 1;
+    }
+
     .form-field {
       margin-bottom: 16px;
     }
@@ -132,6 +171,7 @@
   </style>
 </head>
 <body>
+<!-- Content remains unchanged below this section -->
 <header>
   <div class="logo">
     <a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a>
