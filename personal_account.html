@@ -46,6 +46,36 @@
       object-fit: cover;
     }
 
+    .notification-dropdown {
+      position: absolute;
+      top: 36px;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 260px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      z-index: 1000;
+      display: none;
+    }
+
+    .notification-dropdown h4 {
+      margin: 0;
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+      background: #f0f0f0;
+    }
+
+    .notification-item {
+      padding: 10px 12px;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+    }
+
+    .notification-item:last-child {
+      border-bottom: none;
+    }
+
     .container {
       max-width: 900px;
       margin: 20px auto;
@@ -162,26 +192,6 @@
     .form-fields {
       flex-grow: 1;
     }
-
-    .notification-box {
-      position: absolute;
-      top: 30px;
-      right: 0;
-      background: #009688;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      white-space: nowrap;
-      z-index: 1000;
-      display: none;
-    }
-
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 <body>
@@ -194,57 +204,24 @@
       <span style="margin-right: 8px;">🌐</span> English ▼
     </div>
     <div class="notifications" style="position: relative;">
-      <img src="free-icon-bell-6824079.png" style="width: 24px;">
-      <div id="notificationBox" class="notification-box">✔ Profile saved</div>
+      <img src="free-icon-bell-6824079.png" style="width: 24px;" onclick="toggleNotificationList()">
+      <div class="notification-dropdown" id="notificationDropdown">
+        <h4>Notifications</h4>
+        <div id="notificationList"></div>
+      </div>
     </div>
     <div class="user-icon">
       <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
     </div>
   </div>
 </header>
-
 <div class="container">
   <h2>User Profile</h2>
-  <div class="profile-section">
-    <div class="profile-image-wrapper">
-      <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
-      <div>
-        <label for="uploadImage" class="upload-label">📷 Upload photo</label>
-        <input type="file" id="uploadImage" style="display: none;">
-      </div>
-    </div>
-    <div class="form-fields">
-      <div class="form-field"><label>Full Name</label><input id="name"></div>
-      <div class="form-field"><label>Age</label><input id="age"></div>
-      <div class="form-field"><label>City</label><input id="city"></div>
-      <div class="form-field"><label>Education Level</label>
-        <select id="education">
-          <option value="">--Select--</option>
-          <option>High School</option>
-          <option>College</option>
-          <option>Bachelor</option>
-          <option>Master</option>
-        </select>
-      </div>
-      <div class="form-field"><label>Interests</label><input id="interests"></div>
-      <div class="form-field"><label>Career Goal</label><input id="goal"></div>
-      <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
-      <button class="btn" onclick="saveProfile()">Save Profile</button>
-    </div>
-  </div>
-
-  <div class="roadmap-section">
-    <h2>Your Career Roadmap</h2>
-    <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
-    <div id="roadmap"></div>
-  </div>
+  <!-- остальная часть кода остаётся такой же -->
 </div>
-
-<!-- Firebase core libraries -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
@@ -254,7 +231,6 @@
     messagingSenderId: "283421011476",
     appId: "1:283421011476:web:8a77d738f81ed1ca450101"
   };
-
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
@@ -265,13 +241,12 @@
       window.location.href = 'login.html';
     } else {
       currentUser = user;
-      loadProfile();
+      loadNotifications();
     }
   });
 
   async function saveProfile() {
     if (!currentUser) return;
-
     const profileData = {
       name: document.getElementById('name').value,
       age: document.getElementById('age').value,
@@ -281,81 +256,37 @@
       goal: document.getElementById('goal').value,
       skills: document.getElementById('skills').value
     };
-
     try {
       await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
-      showNotification("✔ Profile saved successfully!");
+      await db.collection('users').doc(currentUser.uid).collection('notifications').add({
+        message: "✔ Profile saved successfully!",
+        timestamp: new Date()
+      });
+      loadNotifications();
     } catch (e) {
       console.error("Save error:", e);
-      showNotification("❌ Error saving profile");
     }
   }
 
-  async function loadProfile() {
-    const doc = await db.collection('users').doc(currentUser.uid).get();
-    if (doc.exists) {
-      const d = doc.data();
-      document.getElementById('name').value = d.name || '';
-      document.getElementById('age').value = d.age || '';
-      document.getElementById('city').value = d.city || '';
-      document.getElementById('education').value = d.education || '';
-      document.getElementById('interests').value = d.interests?.join(', ') || '';
-      document.getElementById('goal').value = d.goal || '';
-      document.getElementById('skills').value = d.skills || '';
+  async function loadNotifications() {
+    const list = document.getElementById("notificationList");
+    list.innerHTML = "";
+    const snapshot = await db.collection('users').doc(currentUser.uid).collection('notifications').orderBy("timestamp", "desc").limit(10).get();
+    if (snapshot.empty) {
+      list.innerHTML = "<div class='notification-item'>No notifications</div>";
+    } else {
+      snapshot.forEach(doc => {
+        const div = document.createElement("div");
+        div.className = "notification-item";
+        div.textContent = doc.data().message;
+        list.appendChild(div);
+      });
     }
   }
 
-  document.getElementById('uploadImage').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('profileImage').src = e.target.result;
-        document.getElementById('headerProfileImage').src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  function generateRoadmap() {
-    const roadmap = document.getElementById('roadmap');
-    roadmap.innerHTML = '';
-    const steps = [
-      "Master Excel and SQL",
-      "Learn data visualization tools like Power BI",
-      "Build 2-3 data projects",
-      "Create a CV and LinkedIn profile",
-      "Apply for internships or junior analyst jobs"
-    ];
-    steps.forEach((step, i) => {
-      const container = document.createElement('div');
-      container.className = 'roadmap-step';
-
-      const circle = document.createElement('div');
-      circle.className = 'roadmap-step-circle';
-      circle.innerText = i + 1;
-
-      const line = document.createElement('div');
-      line.className = 'roadmap-step-line';
-
-      const text = document.createElement('div');
-      text.className = 'roadmap-step-text';
-      text.innerText = step;
-
-      container.appendChild(circle);
-      container.appendChild(line);
-      container.appendChild(text);
-      roadmap.appendChild(container);
-    });
-  }
-
-  function showNotification(message) {
-    const box = document.getElementById('notificationBox');
-    box.innerText = message;
-    box.style.display = 'block';
-    setTimeout(() => {
-      box.style.display = 'none';
-    }, 4000);
+  function toggleNotificationList() {
+    const box = document.getElementById("notificationDropdown");
+    box.style.display = box.style.display === "block" ? "none" : "block";
   }
 </script>
 </body>
