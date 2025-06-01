@@ -46,42 +46,6 @@
       object-fit: cover;
     }
 
-    .notification-panel {
-      position: absolute;
-      top: 34px;
-      right: 0;
-      background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      width: 260px;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-      display: none;
-      padding: 12px;
-      z-index: 1000;
-    }
-
-    .notification-list {
-      list-style: none;
-      margin: 8px 0 0;
-      padding: 0;
-      font-size: 13px;
-      color: #333;
-    }
-
-    .notification-list li {
-      padding: 6px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .notification-list li:last-child {
-      border-bottom: none;
-    }
-
-    .notification-list .empty-msg {
-      color: #777;
-      font-style: italic;
-    }
-
     .container {
       max-width: 900px;
       margin: 20px auto;
@@ -91,10 +55,79 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
 
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+
+    .form-field label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .form-field input, .form-field select, .form-field textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .roadmap-section {
+      margin-top: 40px;
+    }
+
+    .roadmap-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .roadmap-step-circle {
+      width: 28px;
+      height: 28px;
+      background: #009688;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: bold;
+    }
+
+    .roadmap-step-line {
+      height: 2px;
+      background: #ccc;
+      flex: 1;
+    }
+
+    .roadmap-step-text {
+      background: #e6f6f3;
+      padding: 12px 16px;
+      border-radius: 8px;
+      flex: 6;
+    }
+
+    .btn {
+      background: #009688;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
     .profile-section {
       display: flex;
       align-items: flex-start;
-      gap: 40px;
+      gap: 24px;
+      margin-bottom: 32px;
     }
 
     .profile-image-wrapper {
@@ -103,8 +136,8 @@
     }
 
     .profile-pic {
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       object-fit: cover;
       border-radius: 50%;
       margin-bottom: 10px;
@@ -130,48 +163,28 @@
       flex-grow: 1;
     }
 
-    .form-field {
-      margin-bottom: 16px;
-    }
-
-    .form-field label {
-      display: block;
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    .form-field input, .form-field select, .form-field textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-
-    .roadmap-section {
-      margin-top: 40px;
-    }
-
-    .step {
-      background: #e6f6f3;
-      padding: 16px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-    }
-
-    .btn {
+    .notification-box {
+      position: absolute;
+      top: 30px;
+      right: 0;
       background: #009688;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 20px;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      white-space: nowrap;
+      z-index: 1000;
+      display: none;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-<!-- Content remains unchanged below this section -->
 <header>
   <div class="logo">
     <a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a>
@@ -181,16 +194,8 @@
       <span style="margin-right: 8px;">🌐</span> English ▼
     </div>
     <div class="notifications" style="position: relative;">
-      <img src="free-icon-bell-6824079.png" style="width: 24px;" onclick="toggleNotificationPanel()">
-      <div id="notificationPanel" class="notification-panel">
-        <strong style="display: flex; justify-content: space-between; align-items: center;">
-          <span>Notifications</span>
-          <button onclick="clearNotifications()" style="background: none; border: none; color: #009688; cursor: pointer; font-size: 12px;">🗑 Clear</button>
-        </strong>
-        <ul id="notificationList" class="notification-list">
-          <li class="empty-msg">No notifications</li>
-        </ul>
-      </div>
+      <img src="free-icon-bell-6824079.png" style="width: 24px;">
+      <div id="notificationBox" class="notification-box">✔ Profile saved</div>
     </div>
     <div class="user-icon">
       <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
@@ -235,9 +240,11 @@
   </div>
 </div>
 
+<!-- Firebase core libraries -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
@@ -259,12 +266,12 @@
     } else {
       currentUser = user;
       loadProfile();
-      loadNotifications();
     }
   });
 
   async function saveProfile() {
     if (!currentUser) return;
+
     const profileData = {
       name: document.getElementById('name').value,
       age: document.getElementById('age').value,
@@ -274,100 +281,28 @@
       goal: document.getElementById('goal').value,
       skills: document.getElementById('skills').value
     };
-    await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
-    await saveNotification("✔ Profile saved successfully!");
-    loadNotifications();
-  }
 
-  async function saveNotification(text) {
-    const ref = db.collection('users').doc(currentUser.uid).collection('notifications');
-    await ref.add({ message: text, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
-  }
-
-  async function loadNotifications() {
-    const ref = db.collection('users').doc(currentUser.uid).collection('notifications').orderBy('timestamp', 'desc').limit(10);
-    const snap = await ref.get();
-    const list = document.getElementById('notificationList');
-    list.innerHTML = '';
-    if (snap.empty) {
-      const li = document.createElement('li');
-      li.className = 'empty-msg';
-      li.innerText = 'No notifications';
-      list.appendChild(li);
-    } else {
-      snap.forEach(doc => {
-        const data = doc.data();
-        const time = data.timestamp?.toDate().toLocaleString() || '';
-        const li = document.createElement('li');
-        li.innerHTML = `<div>${data.message}</div><small style='color:gray'>${time}</small>`;
-        list.appendChild(li);
-      });
+    try {
+      await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
+      showNotification("✔ Profile saved successfully!");
+    } catch (e) {
+      console.error("Save error:", e);
+      showNotification("❌ Error saving profile");
     }
   }
 
-  async function clearNotifications() {
-    const ref = db.collection('users').doc(currentUser.uid).collection('notifications');
-    const snap = await ref.get();
-    const batch = db.batch();
-    snap.forEach(doc => batch.delete(doc.ref));
-    await batch.commit();
-    loadNotifications();
-  }
-
-  function toggleNotificationPanel() {
-    const panel = document.getElementById('notificationPanel');
-    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
-  }
-
-  function generateRoadmap() {
-  const roadmap = document.getElementById('roadmap');
-  roadmap.innerHTML = '';
-  const steps = [
-    "Master Excel and SQL",
-    "Learn data visualization tools like Power BI",
-    "Build 2-3 data projects",
-    "Create a CV and LinkedIn profile",
-    "Apply for internships or junior analyst jobs"
-  ];
-  steps.forEach((step, i) => {
-    const container = document.createElement('div');
-    container.style.display = 'flex';
-    container.style.alignItems = 'center';
-    container.style.marginBottom = '16px';
-
-    const circle = document.createElement('div');
-    circle.style.width = '32px';
-    circle.style.height = '32px';
-    circle.style.borderRadius = '50%';
-    circle.style.backgroundColor = '#009688';
-    circle.style.color = '#fff';
-    circle.style.display = 'flex';
-    circle.style.alignItems = 'center';
-    circle.style.justifyContent = 'center';
-    circle.style.fontWeight = 'bold';
-    circle.innerText = i + 1;
-
-    const line = document.createElement('div');
-    line.style.height = '2px';
-    line.style.flexGrow = '1';
-    line.style.backgroundColor = '#ccc';
-    line.style.margin = '0 12px';
-
-    const label = document.createElement('div');
-    label.style.flexGrow = '1';
-    label.style.padding = '12px';
-    label.style.backgroundColor = '#e6f6f3';
-    label.style.borderRadius = '8px';
-    label.innerText = step;
-
-    container.appendChild(circle);
-    if (i > 0) container.appendChild(line);
-    container.appendChild(label);
-    roadmap.appendChild(container);
-  });
-}. ${step}`;
-      roadmap.appendChild(div);
-    });
+  async function loadProfile() {
+    const doc = await db.collection('users').doc(currentUser.uid).get();
+    if (doc.exists) {
+      const d = doc.data();
+      document.getElementById('name').value = d.name || '';
+      document.getElementById('age').value = d.age || '';
+      document.getElementById('city').value = d.city || '';
+      document.getElementById('education').value = d.education || '';
+      document.getElementById('interests').value = d.interests?.join(', ') || '';
+      document.getElementById('goal').value = d.goal || '';
+      document.getElementById('skills').value = d.skills || '';
+    }
   }
 
   document.getElementById('uploadImage').addEventListener('change', function(event) {
@@ -381,4 +316,47 @@
       reader.readAsDataURL(file);
     }
   });
+
+  function generateRoadmap() {
+    const roadmap = document.getElementById('roadmap');
+    roadmap.innerHTML = '';
+    const steps = [
+      "Master Excel and SQL",
+      "Learn data visualization tools like Power BI",
+      "Build 2-3 data projects",
+      "Create a CV and LinkedIn profile",
+      "Apply for internships or junior analyst jobs"
+    ];
+    steps.forEach((step, i) => {
+      const container = document.createElement('div');
+      container.className = 'roadmap-step';
+
+      const circle = document.createElement('div');
+      circle.className = 'roadmap-step-circle';
+      circle.innerText = i + 1;
+
+      const line = document.createElement('div');
+      line.className = 'roadmap-step-line';
+
+      const text = document.createElement('div');
+      text.className = 'roadmap-step-text';
+      text.innerText = step;
+
+      container.appendChild(circle);
+      container.appendChild(line);
+      container.appendChild(text);
+      roadmap.appendChild(container);
+    });
+  }
+
+  function showNotification(message) {
+    const box = document.getElementById('notificationBox');
+    box.innerText = message;
+    box.style.display = 'block';
+    setTimeout(() => {
+      box.style.display = 'none';
+    }, 4000);
+  }
 </script>
+</body>
+</html>
