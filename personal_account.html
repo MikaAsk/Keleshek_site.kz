@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - Keleshek</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
@@ -76,10 +76,6 @@
       border-radius: 8px;
     }
 
-    .form-field input[type="file"] {
-      padding: 6px;
-    }
-
     .roadmap-section {
       margin-top: 40px;
     }
@@ -122,10 +118,20 @@
       margin-bottom: 10px;
     }
 
-    .upload-text {
+    .upload-label {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 12px;
+      background-color: #eeeeee;
+      border-radius: 6px;
       font-size: 13px;
-      color: #555;
-      margin-top: 4px;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .upload-label:hover {
+      background-color: #dddddd;
     }
 
     .form-fields {
@@ -156,8 +162,10 @@
   <div class="profile-section">
     <div class="profile-image-wrapper">
       <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
-      <input type="file" id="uploadImage">
-      <div class="upload-text">Upload your profile photo</div>
+      <div>
+        <label for="uploadImage" class="upload-label">📷 Upload photo</label>
+        <input type="file" id="uploadImage" style="display: none;">
+      </div>
     </div>
     <div class="form-fields">
       <div class="form-field"><label>Full Name</label><input id="name"></div>
@@ -260,7 +268,7 @@
     }
   }
 
-  // 👉 Отображение фото сразу после выбора
+  // При выборе файла — показать превью
   document.getElementById('uploadImage').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
