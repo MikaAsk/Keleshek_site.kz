@@ -92,6 +92,32 @@
       cursor: pointer;
       margin-top: 20px;
     }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+
+    .form-field label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .form-field input, .form-field select, .form-field textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -121,10 +147,24 @@
   </div>
 </header>
 
-<div style="padding: 40px; max-width: 600px; margin: auto;">
-  <h2>Send Test Notification</h2>
-  <input id="notifInput" placeholder="Type a message..." style="padding: 10px; width: 100%; border-radius: 8px; border: 1px solid #ccc;">
-  <button class="btn" onclick="addNotification(document.getElementById('notifInput').value)">Send Notification</button>
+<div class="container">
+  <h2>User Profile</h2>
+  <div class="form-field"><label>Full Name</label><input id="name"></div>
+  <div class="form-field"><label>Age</label><input id="age"></div>
+  <div class="form-field"><label>City</label><input id="city"></div>
+  <div class="form-field"><label>Education Level</label>
+    <select id="education">
+      <option value="">--Select--</option>
+      <option>High School</option>
+      <option>College</option>
+      <option>Bachelor</option>
+      <option>Master</option>
+    </select>
+  </div>
+  <div class="form-field"><label>Interests</label><input id="interests"></div>
+  <div class="form-field"><label>Career Goal</label><input id="goal"></div>
+  <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
+  <button class="btn" onclick="saveProfile()">Save Profile</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -152,6 +192,7 @@
     } else {
       currentUser = user;
       loadNotifications();
+      loadProfile();
     }
   });
 
@@ -186,8 +227,7 @@
 
   async function loadNotifications() {
     if (!currentUser) return;
-    const ref = db.collection('users').doc(currentUser.uid).collection('notifications')
-      .orderBy('timestamp', 'desc').limit(10);
+    const ref = db.collection('users').doc(currentUser.uid).collection('notifications').orderBy('timestamp', 'desc').limit(10);
     const snap = await ref.get();
 
     const list = document.getElementById('notificationList');
@@ -217,6 +257,36 @@
     snap.forEach(doc => batch.delete(doc.ref));
     await batch.commit();
     loadNotifications();
+  }
+
+  async function saveProfile() {
+    if (!currentUser) return;
+    const profileData = {
+      name: document.getElementById('name').value,
+      age: document.getElementById('age').value,
+      city: document.getElementById('city').value,
+      education: document.getElementById('education').value,
+      interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
+      goal: document.getElementById('goal').value,
+      skills: document.getElementById('skills').value
+    };
+    await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
+    addNotification("Profile saved successfully");
+  }
+
+  async function loadProfile() {
+    if (!currentUser) return;
+    const doc = await db.collection('users').doc(currentUser.uid).get();
+    if (doc.exists) {
+      const d = doc.data();
+      document.getElementById('name').value = d.name || '';
+      document.getElementById('age').value = d.age || '';
+      document.getElementById('city').value = d.city || '';
+      document.getElementById('education').value = d.education || '';
+      document.getElementById('interests').value = d.interests?.join(', ') || '';
+      document.getElementById('goal').value = d.goal || '';
+      document.getElementById('skills').value = d.skills || '';
+    }
   }
 </script>
 </body>
