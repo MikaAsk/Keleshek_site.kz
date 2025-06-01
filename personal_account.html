@@ -39,18 +39,11 @@
       cursor: pointer;
     }
 
-    .language-selector img,
-    .notifications img,
-    .user-icon {
+    .user-icon img {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      background-color: #0b2d5c;
-      color: white;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      object-fit: cover;
     }
 
     .container {
@@ -129,6 +122,12 @@
       margin-bottom: 10px;
     }
 
+    .upload-text {
+      font-size: 13px;
+      color: #555;
+      margin-top: 4px;
+    }
+
     .form-fields {
       flex-grow: 1;
     }
@@ -147,18 +146,18 @@
       <span style="font-size: 20px;">🔔</span>
     </div>
     <div class="user-icon">
-      <img src="profilesite.png" alt="User profile" style="height: 32px; width: 32px; border-radius: 50%;">
+      <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
     </div>
   </div>
 </header>
-
 
 <div class="container">
   <h2>User Profile</h2>
   <div class="profile-section">
     <div class="profile-image-wrapper">
-      <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
+      <img src="" id="profileImage" class="profile-pic" alt="Profile picture">
       <input type="file" id="uploadImage">
+      <div class="upload-text">Upload your profile photo</div>
     </div>
     <div class="form-fields">
       <div class="form-field"><label>Full Name</label><input id="name"></div>
@@ -238,6 +237,7 @@
       await ref.put(file);
       const url = await ref.getDownloadURL();
       document.getElementById('profileImage').src = url;
+      document.getElementById('headerProfileImage').src = url;
     }
     alert("Profile saved");
   }
@@ -257,8 +257,10 @@
     try {
       const url = await storage.ref('profile_pics/' + currentUser.uid).getDownloadURL();
       document.getElementById('profileImage').src = url;
+      document.getElementById('headerProfileImage').src = url;
     } catch (err) {
       document.getElementById('profileImage').src = 'default-avatar.png';
+      document.getElementById('headerProfileImage').src = 'default-avatar.png';
     }
   }
 
