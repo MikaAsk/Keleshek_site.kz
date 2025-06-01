@@ -14,51 +14,42 @@
     }
 
     header {
-      background: #fff;
-      padding: 20px 40px;
+      background: #ffffff;
+      padding: 20px 80px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid #eaeaea;
     }
 
-    .container {
+    nav {
       display: flex;
-      max-width: 1200px;
+      gap: 30px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+      padding-bottom: 4px;
+    }
+
+    nav a.active {
+      color: #009688;
+      border-bottom: 2px solid #009688;
+    }
+
+    .container {
+      max-width: 900px;
       margin: 40px auto;
-      gap: 40px;
-    }
-
-    .sidebar {
-      width: 250px;
       background: #fff;
-      padding: 24px;
+      padding: 40px;
       border-radius: 12px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
 
-    .sidebar button {
-      width: 100%;
-      margin-bottom: 12px;
-      padding: 12px;
-      background: #009688;
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .main {
-      flex: 1;
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-    }
-
-    .main h2 {
-      margin-bottom: 24px;
+    h2 {
+      margin-bottom: 20px;
     }
 
     .form-field {
@@ -76,6 +67,10 @@
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
+    }
+
+    .form-field input[type="file"] {
+      padding: 6px;
     }
 
     .roadmap-section {
@@ -99,52 +94,64 @@
       cursor: pointer;
       margin-top: 20px;
     }
+
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
 <header>
-  <div><strong>Keleshek Dashboard</strong></div>
-  <button onclick="logout()">Logout</button>
+  <div class="logo">
+    <a href="index.html"><img src="logo.jpg" alt="Keleshek logo" height="50"></a>
+  </div>
+  <nav>
+    <a href="index.html" class="active">Study</a>
+    <a href="test.html">Test</a>
+    <a href="analytics.html">Analytics</a>
+    <a href="universities.html">Universities</a>
+    <a href="about.html">About us</a>
+  </nav>
+  <button onclick="logout()" class="btn">Logout</button>
 </header>
 
 <div class="container">
-  <div class="sidebar">
-    <button onclick="showSection('profile')">Profile</button>
-    <button onclick="showSection('roadmap')">My Roadmap</button>
+  <h2>User Profile</h2>
+  <img src="" id="profileImage" class="profile-pic" alt="Profile picture">
+  <input type="file" id="uploadImage">
+
+  <div class="form-field"><label>Full Name</label><input id="name"></div>
+  <div class="form-field"><label>Age</label><input id="age"></div>
+  <div class="form-field"><label>City</label><input id="city"></div>
+  <div class="form-field"><label>Education Level</label>
+    <select id="education">
+      <option value="">--Select--</option>
+      <option>High School</option>
+      <option>College</option>
+      <option>Bachelor</option>
+      <option>Master</option>
+    </select>
   </div>
+  <div class="form-field"><label>Interests</label><input id="interests"></div>
+  <div class="form-field"><label>Career Goal</label><input id="goal"></div>
+  <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
+  <button class="btn" onclick="saveProfile()">Save Profile</button>
 
-  <div class="main">
-    <div id="profile-section">
-      <h2>User Profile</h2>
-      <div class="form-field"><label>Full Name</label><input id="name"></div>
-      <div class="form-field"><label>Age</label><input id="age"></div>
-      <div class="form-field"><label>City</label><input id="city"></div>
-      <div class="form-field"><label>Education Level</label>
-        <select id="education">
-          <option value="">--Select--</option>
-          <option>High School</option>
-          <option>College</option>
-          <option>Bachelor</option>
-          <option>Master</option>
-        </select>
-      </div>
-      <div class="form-field"><label>Interests</label><input id="interests"></div>
-      <div class="form-field"><label>Career Goal</label><input id="goal"></div>
-      <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
-      <button class="btn" onclick="saveProfile()">Save Profile</button>
-    </div>
-
-    <div id="roadmap-section" style="display:none">
-      <h2>Your Career Roadmap</h2>
-      <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
-      <div class="roadmap-section" id="roadmap"></div>
-    </div>
+  <div class="roadmap-section">
+    <h2>Your Career Roadmap</h2>
+    <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
+    <div id="roadmap"></div>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
@@ -157,6 +164,7 @@
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
+  const storage = firebase.storage();
   let currentUser;
 
   auth.onAuthStateChanged(user => {
@@ -172,13 +180,8 @@
     auth.signOut().then(() => location.href = 'login.html');
   }
 
-  function showSection(section) {
-    document.getElementById('profile-section').style.display = section === 'profile' ? 'block' : 'none';
-    document.getElementById('roadmap-section').style.display = section === 'roadmap' ? 'block' : 'none';
-  }
-
   async function saveProfile() {
-    const data = {
+    const profileData = {
       name: document.getElementById('name').value,
       age: document.getElementById('age').value,
       city: document.getElementById('city').value,
@@ -187,7 +190,16 @@
       goal: document.getElementById('goal').value,
       skills: document.getElementById('skills').value
     };
-    await db.collection('users').doc(currentUser.uid).set(data);
+
+    await db.collection('users').doc(currentUser.uid).set(profileData);
+
+    const file = document.getElementById('uploadImage').files[0];
+    if (file) {
+      const ref = storage.ref('profile_pics/' + currentUser.uid);
+      await ref.put(file);
+      const url = await ref.getDownloadURL();
+      document.getElementById('profileImage').src = url;
+    }
     alert("Profile saved");
   }
 
@@ -202,6 +214,12 @@
       document.getElementById('interests').value = d.interests?.join(', ') || '';
       document.getElementById('goal').value = d.goal || '';
       document.getElementById('skills').value = d.skills || '';
+    }
+    try {
+      const url = await storage.ref('profile_pics/' + currentUser.uid).getDownloadURL();
+      document.getElementById('profileImage').src = url;
+    } catch (err) {
+      document.getElementById('profileImage').src = 'default-avatar.png';
     }
   }
 
