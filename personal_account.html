@@ -320,19 +320,52 @@
   }
 
   function generateRoadmap() {
-    const roadmap = document.getElementById('roadmap');
-    roadmap.innerHTML = '';
-    const steps = [
-      "Master Excel and SQL",
-      "Learn data visualization tools like Power BI",
-      "Build 2-3 data projects",
-      "Create a CV and LinkedIn profile",
-      "Apply for internships or junior analyst jobs"
-    ];
-    steps.forEach((step, i) => {
-      const div = document.createElement('div');
-      div.className = 'step';
-      div.innerText = `${i + 1}. ${step}`;
+  const roadmap = document.getElementById('roadmap');
+  roadmap.innerHTML = '';
+  const steps = [
+    "Master Excel and SQL",
+    "Learn data visualization tools like Power BI",
+    "Build 2-3 data projects",
+    "Create a CV and LinkedIn profile",
+    "Apply for internships or junior analyst jobs"
+  ];
+  steps.forEach((step, i) => {
+    const container = document.createElement('div');
+    container.style.display = 'flex';
+    container.style.alignItems = 'center';
+    container.style.marginBottom = '16px';
+
+    const circle = document.createElement('div');
+    circle.style.width = '32px';
+    circle.style.height = '32px';
+    circle.style.borderRadius = '50%';
+    circle.style.backgroundColor = '#009688';
+    circle.style.color = '#fff';
+    circle.style.display = 'flex';
+    circle.style.alignItems = 'center';
+    circle.style.justifyContent = 'center';
+    circle.style.fontWeight = 'bold';
+    circle.innerText = i + 1;
+
+    const line = document.createElement('div');
+    line.style.height = '2px';
+    line.style.flexGrow = '1';
+    line.style.backgroundColor = '#ccc';
+    line.style.margin = '0 12px';
+
+    const label = document.createElement('div');
+    label.style.flexGrow = '1';
+    label.style.padding = '12px';
+    label.style.backgroundColor = '#e6f6f3';
+    label.style.borderRadius = '8px';
+    label.innerText = step;
+
+    container.appendChild(circle);
+    if (i > 0) container.appendChild(line);
+    container.appendChild(label);
+    roadmap.appendChild(container);
+  });
+}. ${step}`;
       roadmap.appendChild(div);
     });
   }
@@ -349,5 +382,3 @@
     }
   });
 </script>
-</body>
-</html>
