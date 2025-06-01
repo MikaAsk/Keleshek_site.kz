@@ -3,195 +3,225 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Personal Account - Keleshek</title>
+  <title>Dashboard - Keleshek</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f5f9fa;
       margin: 0;
       padding: 0;
+      background-color: #f5f9fa;
     }
 
     header {
+      background: #fff;
+      padding: 20px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 80px;
       border-bottom: 1px solid #eaeaea;
-      background-color: #ffffff;
-    }
-
-    .logo img {
-      height: 60px;
-    }
-
-    h2 {
-      text-align: center;
-      margin: 40px 0 20px;
-      font-size: 24px;
     }
 
     .container {
-      max-width: 800px;
-      margin: auto;
-      background-color: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      display: flex;
+      max-width: 1200px;
+      margin: 40px auto;
+      gap: 40px;
     }
 
-    form label {
-      display: block;
-      margin: 16px 0 6px;
+    .sidebar {
+      width: 250px;
+      background: #fff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .sidebar button {
+      width: 100%;
+      margin-bottom: 12px;
+      padding: 12px;
+      background: #009688;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
       font-weight: 600;
     }
 
-    form input, form select, form textarea {
+    .main {
+      flex: 1;
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+
+    .main h2 {
+      margin-bottom: 24px;
+    }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+
+    .form-field label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .form-field input, .form-field select, .form-field textarea {
       width: 100%;
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
-      font-size: 14px;
     }
 
-    form button {
-      margin-top: 24px;
-      padding: 12px 20px;
-      background-color: #009688;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .roadmap {
+    .roadmap-section {
       margin-top: 40px;
     }
 
-    .roadmap h3 {
-      font-size: 20px;
-      margin-bottom: 16px;
-      color: #009688;
+    .step {
+      background: #e6f6f3;
+      padding: 16px;
+      margin-bottom: 12px;
+      border-radius: 8px;
     }
 
-    .step {
-      padding: 16px;
-      background: #e6f6f3;
-      border-radius: 10px;
-      margin-bottom: 12px;
+    .btn {
+      background: #009688;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">
-      <a href="index.html">
-        <img src="logo.jpg" alt="Keleshek logo">
-      </a>
-    </div>
-  </header>
+<header>
+  <div><strong>Keleshek Dashboard</strong></div>
+  <button onclick="logout()">Logout</button>
+</header>
 
-  <div class="container">
-    <h2>Personal Account</h2>
-    <form id="profile-form">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" required>
-
-      <label for="age">Age</label>
-      <input type="number" id="age" required>
-
-      <label for="city">City</label>
-      <input type="text" id="city">
-
-      <label for="education">Education Level</label>
-      <select id="education">
-        <option value="">--Select--</option>
-        <option value="High School">High School</option>
-        <option value="College">College</option>
-        <option value="Bachelor">Bachelor</option>
-        <option value="Master">Master</option>
-      </select>
-
-      <label for="interests">Interests (comma separated)</label>
-      <input type="text" id="interests">
-
-      <label for="goal">Career Goal</label>
-      <input type="text" id="goal" required>
-
-      <label for="skills">Describe Your Skills</label>
-      <textarea id="skills" rows="4"></textarea>
-
-      <button type="submit">Generate Roadmap</button>
-    </form>
-
-    <div class="roadmap" id="roadmap"></div>
+<div class="container">
+  <div class="sidebar">
+    <button onclick="showSection('profile')">Profile</button>
+    <button onclick="showSection('roadmap')">My Roadmap</button>
   </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
-      authDomain: "kelesheksite.firebaseapp.com",
-      projectId: "kelesheksite",
-      storageBucket: "kelesheksite.appspot.com",
-      messagingSenderId: "283421011476",
-      appId: "1:283421011476:web:8a77d738f81ed1ca450101"
-    };
+  <div class="main">
+    <div id="profile-section">
+      <h2>User Profile</h2>
+      <div class="form-field"><label>Full Name</label><input id="name"></div>
+      <div class="form-field"><label>Age</label><input id="age"></div>
+      <div class="form-field"><label>City</label><input id="city"></div>
+      <div class="form-field"><label>Education Level</label>
+        <select id="education">
+          <option value="">--Select--</option>
+          <option>High School</option>
+          <option>College</option>
+          <option>Bachelor</option>
+          <option>Master</option>
+        </select>
+      </div>
+      <div class="form-field"><label>Interests</label><input id="interests"></div>
+      <div class="form-field"><label>Career Goal</label><input id="goal"></div>
+      <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
+      <button class="btn" onclick="saveProfile()">Save Profile</button>
+    </div>
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    <div id="roadmap-section" style="display:none">
+      <h2>Your Career Roadmap</h2>
+      <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
+      <div class="roadmap-section" id="roadmap"></div>
+    </div>
+  </div>
+</div>
 
-    const form = document.getElementById("profile-form");
-    const roadmapContainer = document.getElementById("roadmap");
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
+    authDomain: "kelesheksite.firebaseapp.com",
+    projectId: "kelesheksite",
+    storageBucket: "kelesheksite.appspot.com",
+    messagingSenderId: "283421011476",
+    appId: "1:283421011476:web:8a77d738f81ed1ca450101"
+  };
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  let currentUser;
 
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const user = auth.currentUser;
-      if (!user) {
-        alert("You must be logged in.");
-        return;
-      }
-
-      const data = {
-        name: form.name.value,
-        age: form.age.value,
-        city: form.city.value,
-        education: form.education.value,
-        interests: form.interests.value.split(",").map(x => x.trim()),
-        goal: form.goal.value,
-        skills: form.skills.value,
-        createdAt: new Date()
-      };
-
-      await db.collection("users").doc(user.uid).set(data);
-
-      renderRoadmap(data.goal);
-    });
-
-    function renderRoadmap(goal) {
-      roadmapContainer.innerHTML = "<h3>Your Roadmap to: " + goal + "</h3>";
-      const steps = [
-        "Learn the fundamentals of your chosen field",
-        "Take online courses or training",
-        "Work on personal or group projects",
-        "Build a portfolio or CV",
-        "Apply to internships or entry-level jobs"
-      ];
-      steps.forEach((step, index) => {
-        const div = document.createElement("div");
-        div.className = "step";
-        div.innerText = (index + 1) + ". " + step;
-        roadmapContainer.appendChild(div);
-      });
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = 'login.html';
+    } else {
+      currentUser = user;
+      loadProfile();
     }
-  </script>
+  });
+
+  function logout() {
+    auth.signOut().then(() => location.href = 'login.html');
+  }
+
+  function showSection(section) {
+    document.getElementById('profile-section').style.display = section === 'profile' ? 'block' : 'none';
+    document.getElementById('roadmap-section').style.display = section === 'roadmap' ? 'block' : 'none';
+  }
+
+  async function saveProfile() {
+    const data = {
+      name: document.getElementById('name').value,
+      age: document.getElementById('age').value,
+      city: document.getElementById('city').value,
+      education: document.getElementById('education').value,
+      interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
+      goal: document.getElementById('goal').value,
+      skills: document.getElementById('skills').value
+    };
+    await db.collection('users').doc(currentUser.uid).set(data);
+    alert("Profile saved");
+  }
+
+  async function loadProfile() {
+    const doc = await db.collection('users').doc(currentUser.uid).get();
+    if (doc.exists) {
+      const d = doc.data();
+      document.getElementById('name').value = d.name || '';
+      document.getElementById('age').value = d.age || '';
+      document.getElementById('city').value = d.city || '';
+      document.getElementById('education').value = d.education || '';
+      document.getElementById('interests').value = d.interests?.join(', ') || '';
+      document.getElementById('goal').value = d.goal || '';
+      document.getElementById('skills').value = d.skills || '';
+    }
+  }
+
+  function generateRoadmap() {
+    const roadmap = document.getElementById('roadmap');
+    roadmap.innerHTML = '';
+    const steps = [
+      "Master Excel and SQL",
+      "Learn data visualization tools like Power BI",
+      "Build 2-3 data projects",
+      "Create a CV and LinkedIn profile",
+      "Apply for internships or junior analyst jobs"
+    ];
+    steps.forEach((step, i) => {
+      const div = document.createElement('div');
+      div.className = 'step';
+      div.innerText = `${i + 1}. ${step}`;
+      roadmap.appendChild(div);
+    });
+  }
+</script>
 </body>
 </html>
