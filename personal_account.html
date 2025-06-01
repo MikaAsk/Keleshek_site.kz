@@ -144,6 +144,27 @@
       cursor: pointer;
       margin-top: 20px;
     }
+
+    .profile-image-wrapper {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .profile-image-wrapper img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 8px;
+    }
+
+    .upload-label {
+      display: inline-block;
+      background: #eeeeee;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -174,6 +195,11 @@
 </header>
 
 <div class="container">
+  <div class="profile-image-wrapper">
+    <img id="profileImage" src="profilesite.png" alt="Profile Picture">
+    <label for="uploadImage" class="upload-label">📷 Upload Photo</label>
+    <input type="file" id="uploadImage" style="display: none;">
+  </div>
   <h2>User Profile</h2>
   <div class="form-field"><label>Full Name</label><input id="name"></div>
   <div class="form-field"><label>Age</label><input id="age"></div>
@@ -196,7 +222,7 @@
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
@@ -210,6 +236,7 @@
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
+  const storage = firebase.storage();
   let currentUser;
 
   auth.onAuthStateChanged(user => {
@@ -218,6 +245,7 @@
     } else {
       currentUser = user;
       loadNotifications();
+      loadProfileImage();
     }
   });
 
@@ -233,8 +261,28 @@
       skills: document.getElementById('skills').value
     };
     await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
+
+    const file = document.getElementById('uploadImage').files[0];
+    if (file) {
+      const ref = storage.ref('profile_pics/' + currentUser.uid);
+      await ref.put(file);
+      const url = await ref.getDownloadURL();
+      document.getElementById('profileImage').src = url;
+      document.getElementById('headerProfileImage').src = url;
+    }
+
     await saveNotification("✔ Profile saved successfully!");
     loadNotifications();
+  }
+
+  async function loadProfileImage() {
+    try {
+      const url = await storage.ref('profile_pics/' + currentUser.uid).getDownloadURL();
+      document.getElementById('profileImage').src = url;
+      document.getElementById('headerProfileImage').src = url;
+    } catch (err) {
+      console.warn("No profile image found.");
+    }
   }
 
   async function saveNotification(text) {
@@ -279,6 +327,18 @@
     const panel = document.getElementById('notificationPanel');
     panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
   }
+
+  document.getElementById('uploadImage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profileImage').src = e.target.result;
+        document.getElementById('headerProfileImage').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 </script>
 </body>
 </html>
