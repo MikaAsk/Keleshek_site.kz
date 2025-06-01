@@ -152,11 +152,6 @@
       z-index: 1000;
       display: none;
     }
-
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 <body>
@@ -169,7 +164,7 @@
       <span style="margin-right: 8px;">🌐</span> English ▼
     </div>
     <div class="notifications" style="position: relative;">
-      <img src="bell.png" style="width: 24px;">
+      <img src="bell.png" style="width: 24px;" onclick="showNotification('🔔 You clicked the bell icon!')">
       <div id="notificationBox" class="notification-box">✔ Profile saved</div>
     </div>
     <div class="user-icon">
@@ -215,7 +210,6 @@
   </div>
 </div>
 
-<!-- Firebase core libraries -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -246,7 +240,6 @@
 
   async function saveProfile() {
     if (!currentUser) return;
-
     const profileData = {
       name: document.getElementById('name').value,
       age: document.getElementById('age').value,
@@ -256,7 +249,6 @@
       goal: document.getElementById('goal').value,
       skills: document.getElementById('skills').value
     };
-
     try {
       await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
       showNotification("✔ Profile saved successfully!");
