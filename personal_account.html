@@ -12,7 +12,6 @@
       padding: 0;
       background-color: #f5f9fa;
     }
-
     header {
       background: #ffffff;
       padding: 20px 80px;
@@ -21,82 +20,26 @@
       justify-content: space-between;
       border-bottom: 1px solid #eaeaea;
     }
-
     .logo img {
       height: 50px;
     }
-
     .header-actions {
       display: flex;
       align-items: center;
       gap: 24px;
-      position: relative;
     }
-
     .language-selector, .notifications, .user-icon {
       display: flex;
       align-items: center;
       font-size: 14px;
       cursor: pointer;
     }
-
     .user-icon img {
       width: 32px;
       height: 32px;
       border-radius: 50%;
       object-fit: cover;
     }
-
-    .notifications-dropdown {
-      display: none;
-      position: absolute;
-      top: 40px;
-      right: 60px;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      padding: 12px;
-      min-width: 220px;
-      z-index: 2000;
-    }
-
-    .notifications-dropdown h4 {
-      margin: 0 0 10px;
-      font-size: 14px;
-    }
-
-    .notifications-dropdown ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .notifications-dropdown li {
-      padding: 6px 0;
-      border-bottom: 1px solid #eee;
-      font-size: 13px;
-    }
-
-    .notifications-dropdown li:last-child {
-      border-bottom: none;
-    }
-
-    .notification-box {
-      position: absolute;
-      top: 30px;
-      right: 0;
-      background: #009688;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      white-space: nowrap;
-      z-index: 1000;
-      display: none;
-    }
-
     .container {
       max-width: 900px;
       margin: 20px auto;
@@ -105,39 +48,32 @@
       border-radius: 12px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
-
     h2 {
       margin-bottom: 20px;
     }
-
     .form-field {
       margin-bottom: 16px;
     }
-
     .form-field label {
       display: block;
       margin-bottom: 6px;
       font-weight: 600;
     }
-
     .form-field input, .form-field select, .form-field textarea {
       width: 100%;
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 8px;
     }
-
     .roadmap-section {
       margin-top: 40px;
     }
-
     .step {
       background: #e6f6f3;
       padding: 16px;
       margin-bottom: 12px;
       border-radius: 8px;
     }
-
     .btn {
       background: #009688;
       color: white;
@@ -148,19 +84,16 @@
       cursor: pointer;
       margin-top: 20px;
     }
-
     .profile-section {
       display: flex;
       align-items: flex-start;
       gap: 24px;
       margin-bottom: 32px;
     }
-
     .profile-image-wrapper {
       flex-shrink: 0;
       text-align: center;
     }
-
     .profile-pic {
       width: 100px;
       height: 100px;
@@ -168,7 +101,6 @@
       border-radius: 50%;
       margin-bottom: 10px;
     }
-
     .upload-label {
       display: inline-block;
       margin-top: 8px;
@@ -180,13 +112,37 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-
     .upload-label:hover {
       background-color: #dddddd;
     }
-
     .form-fields {
       flex-grow: 1;
+    }
+    #notificationListWrapper {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 260px;
+      z-index: 1000;
+    }
+    #notificationListWrapper h4 {
+      margin: 0;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    #notificationList {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .notification-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -199,11 +155,11 @@
     <div class="language-selector">
       <span style="margin-right: 8px;">🌐</span> English ▼
     </div>
-    <div class="notifications" onclick="toggleNotificationList()">
-      <img src="free-icon-bell-6824079.png" style="width: 24px;">
-      <div class="notifications-dropdown" id="notificationsList">
+    <div class="notifications" style="position: relative;">
+      <img src="free-icon-bell-6824079.png" style="width: 24px;" onclick="toggleNotificationPanel()">
+      <div id="notificationListWrapper">
         <h4>Notifications</h4>
-        <ul id="notificationItems"></ul>
+        <div id="notificationList"></div>
       </div>
     </div>
     <div class="user-icon">
@@ -267,7 +223,6 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
   let currentUser;
-  let notifications = [];
 
   auth.onAuthStateChanged(user => {
     if (!user) {
@@ -298,42 +253,6 @@
       console.error("Save error:", e);
       addNotification("❌ Error saving profile");
     }
-  }
-
-  function addNotification(message) {
-    notifications.push(message);
-    showNotification(message);
-    renderNotificationList();
-  }
-
-  function showNotification(message) {
-    const box = document.getElementById('notificationBox');
-    box.innerText = message;
-    box.style.display = 'block';
-    setTimeout(() => {
-      box.style.display = 'none';
-    }, 3000);
-  }
-
-  function renderNotificationList() {
-    const list = document.getElementById('notificationItems');
-    list.innerHTML = '';
-    if (notifications.length === 0) {
-      const li = document.createElement('li');
-      li.innerText = 'No notifications';
-      list.appendChild(li);
-    } else {
-      notifications.slice().reverse().forEach(n => {
-        const li = document.createElement('li');
-        li.innerText = n;
-        list.appendChild(li);
-      });
-    }
-  }
-
-  function toggleNotificationList() {
-    const panel = document.getElementById('notificationsList');
-    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
   }
 
   async function loadProfile() {
@@ -378,6 +297,20 @@
       div.innerText = `${i + 1}. ${step}`;
       roadmap.appendChild(div);
     });
+  }
+
+  function toggleNotificationPanel() {
+    const wrapper = document.getElementById('notificationListWrapper');
+    wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function addNotification(message) {
+    const list = document.getElementById('notificationList');
+    if (!list) return;
+    const item = document.createElement('div');
+    item.className = 'notification-item';
+    item.textContent = message;
+    list.prepend(item);
   }
 </script>
 </body>
