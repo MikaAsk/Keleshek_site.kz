@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personal Account - Keleshek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f5f9fa;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 80px;
+      border-bottom: 1px solid #eaeaea;
+      background-color: #ffffff;
+    }
+
+    .logo img {
+      height: 60px;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 40px 0 20px;
+      font-size: 24px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+
+    form label {
+      display: block;
+      margin: 16px 0 6px;
+      font-weight: 600;
+    }
+
+    form input, form select, form textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    form button {
+      margin-top: 24px;
+      padding: 12px 20px;
+      background-color: #009688;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .roadmap {
+      margin-top: 40px;
+    }
+
+    .roadmap h3 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      color: #009688;
+    }
+
+    .step {
+      padding: 16px;
+      background: #e6f6f3;
+      border-radius: 10px;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="index.html">
+        <img src="logo.jpg" alt="Keleshek logo">
+      </a>
+    </div>
+  </header>
+
+  <div class="container">
+    <h2>Personal Account</h2>
+    <form id="profile-form">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" required>
+
+      <label for="age">Age</label>
+      <input type="number" id="age" required>
+
+      <label for="city">City</label>
+      <input type="text" id="city">
+
+      <label for="education">Education Level</label>
+      <select id="education">
+        <option value="">--Select--</option>
+        <option value="High School">High School</option>
+        <option value="College">College</option>
+        <option value="Bachelor">Bachelor</option>
+        <option value="Master">Master</option>
+      </select>
+
+      <label for="interests">Interests (comma separated)</label>
+      <input type="text" id="interests">
+
+      <label for="goal">Career Goal</label>
+      <input type="text" id="goal" required>
+
+      <label for="skills">Describe Your Skills</label>
+      <textarea id="skills" rows="4"></textarea>
+
+      <button type="submit">Generate Roadmap</button>
+    </form>
+
+    <div class="roadmap" id="roadmap"></div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
+      authDomain: "kelesheksite.firebaseapp.com",
+      projectId: "kelesheksite",
+      storageBucket: "kelesheksite.appspot.com",
+      messagingSenderId: "283421011476",
+      appId: "1:283421011476:web:8a77d738f81ed1ca450101"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const form = document.getElementById("profile-form");
+    const roadmapContainer = document.getElementById("roadmap");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const user = auth.currentUser;
+      if (!user) {
+        alert("You must be logged in.");
+        return;
+      }
+
+      const data = {
+        name: form.name.value,
+        age: form.age.value,
+        city: form.city.value,
+        education: form.education.value,
+        interests: form.interests.value.split(",").map(x => x.trim()),
+        goal: form.goal.value,
+        skills: form.skills.value,
+        createdAt: new Date()
+      };
+
+      await db.collection("users").doc(user.uid).set(data);
+
+      renderRoadmap(data.goal);
+    });
+
+    function renderRoadmap(goal) {
+      roadmapContainer.innerHTML = "<h3>Your Roadmap to: " + goal + "</h3>";
+      const steps = [
+        "Learn the fundamentals of your chosen field",
+        "Take online courses or training",
+        "Work on personal or group projects",
+        "Build a portfolio or CV",
+        "Apply to internships or entry-level jobs"
+      ];
+      steps.forEach((step, index) => {
+        const div = document.createElement("div");
+        div.className = "step";
+        div.innerText = (index + 1) + ". " + step;
+        roadmapContainer.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
