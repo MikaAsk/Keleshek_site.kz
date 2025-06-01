@@ -46,6 +46,57 @@
       object-fit: cover;
     }
 
+    .notification-box {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #009688;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      white-space: nowrap;
+      z-index: 1000;
+      display: none;
+    }
+
+    .notification-panel {
+      position: absolute;
+      top: 34px;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      width: 260px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+      display: none;
+      padding: 12px;
+      z-index: 1000;
+    }
+
+    .notification-list {
+      list-style: none;
+      margin: 8px 0 0;
+      padding: 0;
+      font-size: 13px;
+      color: #333;
+    }
+
+    .notification-list li {
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .notification-list li:last-child {
+      border-bottom: none;
+    }
+
+    .notification-list .empty-msg {
+      color: #777;
+      font-style: italic;
+    }
+
     .container {
       max-width: 900px;
       margin: 20px auto;
@@ -53,10 +104,6 @@
       padding: 40px;
       border-radius: 12px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
-    }
-
-    h2 {
-      margin-bottom: 20px;
     }
 
     .form-field {
@@ -97,61 +144,6 @@
       cursor: pointer;
       margin-top: 20px;
     }
-
-    .profile-section {
-      display: flex;
-      align-items: flex-start;
-      gap: 24px;
-      margin-bottom: 32px;
-    }
-
-    .profile-image-wrapper {
-      flex-shrink: 0;
-      text-align: center;
-    }
-
-    .profile-pic {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-bottom: 10px;
-    }
-
-    .upload-label {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 12px;
-      background-color: #eeeeee;
-      border-radius: 6px;
-      font-size: 13px;
-      color: #333;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .upload-label:hover {
-      background-color: #dddddd;
-    }
-
-    .form-fields {
-      flex-grow: 1;
-    }
-
-    .notification-box {
-      position: absolute;
-      top: 30px;
-      right: 0;
-      background: #009688;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      white-space: nowrap;
-      z-index: 1000;
-      display: none;
-    }
   </style>
 </head>
 <body>
@@ -164,8 +156,16 @@
       <span style="margin-right: 8px;">🌐</span> English ▼
     </div>
     <div class="notifications" style="position: relative;">
-      <img src="bell.png" style="width: 24px;" onclick="showNotification('🔔 You clicked the bell icon!')">
-      <div id="notificationBox" class="notification-box">✔ Profile saved</div>
+      <img src="bell.png" style="width: 24px;" onclick="toggleNotificationPanel()">
+      <div id="notificationPanel" class="notification-panel">
+        <strong style="display: flex; justify-content: space-between; align-items: center;">
+          <span>Notifications</span>
+          <button onclick="clearNotifications()" style="background: none; border: none; color: #009688; cursor: pointer; font-size: 12px;">🗑 Clear</button>
+        </strong>
+        <ul id="notificationList" class="notification-list">
+          <li class="empty-msg">No notifications</li>
+        </ul>
+      </div>
     </div>
     <div class="user-icon">
       <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
@@ -175,39 +175,22 @@
 
 <div class="container">
   <h2>User Profile</h2>
-  <div class="profile-section">
-    <div class="profile-image-wrapper">
-      <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
-      <div>
-        <label for="uploadImage" class="upload-label">📷 Upload photo</label>
-        <input type="file" id="uploadImage" style="display: none;">
-      </div>
-    </div>
-    <div class="form-fields">
-      <div class="form-field"><label>Full Name</label><input id="name"></div>
-      <div class="form-field"><label>Age</label><input id="age"></div>
-      <div class="form-field"><label>City</label><input id="city"></div>
-      <div class="form-field"><label>Education Level</label>
-        <select id="education">
-          <option value="">--Select--</option>
-          <option>High School</option>
-          <option>College</option>
-          <option>Bachelor</option>
-          <option>Master</option>
-        </select>
-      </div>
-      <div class="form-field"><label>Interests</label><input id="interests"></div>
-      <div class="form-field"><label>Career Goal</label><input id="goal"></div>
-      <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
-      <button class="btn" onclick="saveProfile()">Save Profile</button>
-    </div>
+  <div class="form-field"><label>Full Name</label><input id="name"></div>
+  <div class="form-field"><label>Age</label><input id="age"></div>
+  <div class="form-field"><label>City</label><input id="city"></div>
+  <div class="form-field"><label>Education Level</label>
+    <select id="education">
+      <option value="">--Select--</option>
+      <option>High School</option>
+      <option>College</option>
+      <option>Bachelor</option>
+      <option>Master</option>
+    </select>
   </div>
-
-  <div class="roadmap-section">
-    <h2>Your Career Roadmap</h2>
-    <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
-    <div id="roadmap"></div>
-  </div>
+  <div class="form-field"><label>Interests</label><input id="interests"></div>
+  <div class="form-field"><label>Career Goal</label><input id="goal"></div>
+  <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
+  <button class="btn" onclick="saveProfile()">Save Profile</button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -234,7 +217,7 @@
       window.location.href = 'login.html';
     } else {
       currentUser = user;
-      loadProfile();
+      loadNotifications();
     }
   });
 
@@ -249,66 +232,52 @@
       goal: document.getElementById('goal').value,
       skills: document.getElementById('skills').value
     };
-    try {
-      await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
-      showNotification("✔ Profile saved successfully!");
-    } catch (e) {
-      console.error("Save error:", e);
-      showNotification("❌ Error saving profile");
+    await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
+    await saveNotification("✔ Profile saved successfully!");
+    loadNotifications();
+  }
+
+  async function saveNotification(text) {
+    if (!currentUser) return;
+    const ref = db.collection('users').doc(currentUser.uid).collection('notifications');
+    await ref.add({ message: text, timestamp: firebase.firestore.FieldValue.serverTimestamp() });
+  }
+
+  async function loadNotifications() {
+    if (!currentUser) return;
+    const ref = db.collection('users').doc(currentUser.uid).collection('notifications').orderBy('timestamp', 'desc').limit(10);
+    const snap = await ref.get();
+    const list = document.getElementById('notificationList');
+    list.innerHTML = '';
+    if (snap.empty) {
+      const li = document.createElement('li');
+      li.className = 'empty-msg';
+      li.innerText = 'No notifications';
+      list.appendChild(li);
+    } else {
+      snap.forEach(doc => {
+        const data = doc.data();
+        const time = data.timestamp?.toDate().toLocaleString() || '';
+        const li = document.createElement('li');
+        li.innerHTML = `<div>${data.message}</div><small style='color:gray'>${time}</small>`;
+        list.appendChild(li);
+      });
     }
   }
 
-  async function loadProfile() {
-    const doc = await db.collection('users').doc(currentUser.uid).get();
-    if (doc.exists) {
-      const d = doc.data();
-      document.getElementById('name').value = d.name || '';
-      document.getElementById('age').value = d.age || '';
-      document.getElementById('city').value = d.city || '';
-      document.getElementById('education').value = d.education || '';
-      document.getElementById('interests').value = d.interests?.join(', ') || '';
-      document.getElementById('goal').value = d.goal || '';
-      document.getElementById('skills').value = d.skills || '';
-    }
+  async function clearNotifications() {
+    if (!currentUser) return;
+    const ref = db.collection('users').doc(currentUser.uid).collection('notifications');
+    const snap = await ref.get();
+    const batch = db.batch();
+    snap.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+    loadNotifications();
   }
 
-  document.getElementById('uploadImage').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('profileImage').src = e.target.result;
-        document.getElementById('headerProfileImage').src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  function generateRoadmap() {
-    const roadmap = document.getElementById('roadmap');
-    roadmap.innerHTML = '';
-    const steps = [
-      "Master Excel and SQL",
-      "Learn data visualization tools like Power BI",
-      "Build 2-3 data projects",
-      "Create a CV and LinkedIn profile",
-      "Apply for internships or junior analyst jobs"
-    ];
-    steps.forEach((step, i) => {
-      const div = document.createElement('div');
-      div.className = 'step';
-      div.innerText = `${i + 1}. ${step}`;
-      roadmap.appendChild(div);
-    });
-  }
-
-  function showNotification(message) {
-    const box = document.getElementById('notificationBox');
-    box.innerText = message;
-    box.style.display = 'block';
-    setTimeout(() => {
-      box.style.display = 'none';
-    }, 4000);
+  function toggleNotificationPanel() {
+    const panel = document.getElementById('notificationPanel');
+    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
   }
 </script>
 </body>
