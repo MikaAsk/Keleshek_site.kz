@@ -30,6 +30,7 @@
       display: flex;
       align-items: center;
       gap: 24px;
+      position: relative;
     }
 
     .language-selector, .notifications, .user-icon {
@@ -44,6 +45,56 @@
       height: 32px;
       border-radius: 50%;
       object-fit: cover;
+    }
+
+    .notifications-dropdown {
+      display: none;
+      position: absolute;
+      top: 40px;
+      right: 60px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 12px;
+      min-width: 220px;
+      z-index: 2000;
+    }
+
+    .notifications-dropdown h4 {
+      margin: 0 0 10px;
+      font-size: 14px;
+    }
+
+    .notifications-dropdown ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .notifications-dropdown li {
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+    }
+
+    .notifications-dropdown li:last-child {
+      border-bottom: none;
+    }
+
+    .notification-box {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #009688;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      white-space: nowrap;
+      z-index: 1000;
+      display: none;
     }
 
     .container {
@@ -137,26 +188,6 @@
     .form-fields {
       flex-grow: 1;
     }
-
-    .notification-box {
-      position: absolute;
-      top: 30px;
-      right: 0;
-      background: #009688;
-      color: #fff;
-      padding: 8px 16px;
-      border-radius: 6px;
-      font-size: 13px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      white-space: nowrap;
-      z-index: 1000;
-      display: none;
-    }
-
-    @keyframes fadein {
-      from { opacity: 0; transform: translateY(-5px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
   </style>
 </head>
 <body>
@@ -168,9 +199,12 @@
     <div class="language-selector">
       <span style="margin-right: 8px;">🌐</span> English ▼
     </div>
-    <div class="notifications" style="position: relative;">
+    <div class="notifications" onclick="toggleNotificationList()">
       <img src="free-icon-bell-6824079.png" style="width: 24px;">
-      <div id="notificationBox" class="notification-box">✔ Profile saved</div>
+      <div class="notifications-dropdown" id="notificationsList">
+        <h4>Notifications</h4>
+        <ul id="notificationItems"></ul>
+      </div>
     </div>
     <div class="user-icon">
       <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
@@ -215,7 +249,6 @@
   </div>
 </div>
 
-<!-- Firebase core libraries -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -234,6 +267,7 @@
   const auth = firebase.auth();
   const db = firebase.firestore();
   let currentUser;
+  let notifications = [];
 
   auth.onAuthStateChanged(user => {
     if (!user) {
@@ -259,11 +293,47 @@
 
     try {
       await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
-      showNotification("✔ Profile saved successfully!");
+      addNotification("✔ Profile saved successfully!");
     } catch (e) {
       console.error("Save error:", e);
-      showNotification("❌ Error saving profile");
+      addNotification("❌ Error saving profile");
     }
+  }
+
+  function addNotification(message) {
+    notifications.push(message);
+    showNotification(message);
+    renderNotificationList();
+  }
+
+  function showNotification(message) {
+    const box = document.getElementById('notificationBox');
+    box.innerText = message;
+    box.style.display = 'block';
+    setTimeout(() => {
+      box.style.display = 'none';
+    }, 3000);
+  }
+
+  function renderNotificationList() {
+    const list = document.getElementById('notificationItems');
+    list.innerHTML = '';
+    if (notifications.length === 0) {
+      const li = document.createElement('li');
+      li.innerText = 'No notifications';
+      list.appendChild(li);
+    } else {
+      notifications.slice().reverse().forEach(n => {
+        const li = document.createElement('li');
+        li.innerText = n;
+        list.appendChild(li);
+      });
+    }
+  }
+
+  function toggleNotificationList() {
+    const panel = document.getElementById('notificationsList');
+    panel.style.display = panel.style.display === 'block' ? 'none' : 'block';
   }
 
   async function loadProfile() {
@@ -308,15 +378,6 @@
       div.innerText = `${i + 1}. ${step}`;
       roadmap.appendChild(div);
     });
-  }
-
-  function showNotification(message) {
-    const box = document.getElementById('notificationBox');
-    box.innerText = message;
-    box.style.display = 'block';
-    setTimeout(() => {
-      box.style.display = 'none';
-    }, 4000);
   }
 </script>
 </body>
