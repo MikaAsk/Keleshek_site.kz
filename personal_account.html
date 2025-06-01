@@ -137,6 +137,27 @@
     .form-fields {
       flex-grow: 1;
     }
+
+    /* 🔔 notification */
+    .notification-box {
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #009688;
+      color: #fff;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      white-space: nowrap;
+      z-index: 1000;
+      animation: fadein 0.3s ease-in-out;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; transform: translateY(-5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
 <body>
@@ -148,8 +169,10 @@
     <div class="language-selector">
       <span style="margin-right: 8px;">🌐</span> English ▼
     </div>
-    <div class="notifications">
+    <!-- 🔔 notification -->
+    <div class="notifications" style="position: relative;">
       <span style="font-size: 20px;">🔔</span>
+      <div id="notificationBox" class="notification-box" style="display: none;">✔ Profile saved</div>
     </div>
     <div class="user-icon">
       <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
@@ -233,7 +256,7 @@
       skills: document.getElementById('skills').value
     };
 
-    await db.collection('users').doc(currentUser.uid).set(profileData);
+    await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
 
     const file = document.getElementById('uploadImage').files[0];
     if (file) {
@@ -243,7 +266,8 @@
       document.getElementById('profileImage').src = url;
       document.getElementById('headerProfileImage').src = url;
     }
-    alert("Profile saved");
+
+    showNotification("✔ Profile saved successfully!");
   }
 
   async function loadProfile() {
@@ -268,7 +292,6 @@
     }
   }
 
-  // При выборе файла — показать превью
   document.getElementById('uploadImage').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
@@ -297,6 +320,15 @@
       div.innerText = `${i + 1}. ${step}`;
       roadmap.appendChild(div);
     });
+  }
+
+  function showNotification(message) {
+    const box = document.getElementById('notificationBox');
+    box.innerText = message;
+    box.style.display = 'block';
+    setTimeout(() => {
+      box.style.display = 'none';
+    }, 4000);
   }
 </script>
 </body>
