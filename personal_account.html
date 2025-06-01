@@ -18,11 +18,39 @@
       padding: 20px 80px;
       display: flex;
       align-items: center;
+      justify-content: space-between;
       border-bottom: 1px solid #eaeaea;
     }
 
     .logo img {
       height: 50px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .language-selector, .notifications, .user-icon {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .language-selector img,
+    .notifications img,
+    .user-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background-color: #0b2d5c;
+      color: white;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .container {
@@ -111,13 +139,22 @@
   <div class="logo">
     <a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a>
   </div>
+  <div class="header-actions">
+    <div class="language-selector">
+      <span style="margin-right: 8px;">🌐</span> English ▼
+    </div>
+    <div class="notifications">
+      <span style="font-size: 20px;">🔔</span>
+    </div>
+    <div class="user-icon">A</div>
+  </div>
 </header>
 
 <div class="container">
   <h2>User Profile</h2>
   <div class="profile-section">
     <div class="profile-image-wrapper">
-      <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
+      <img src="" id="profileImage" class="profile-pic" alt="Profile picture">
       <input type="file" id="uploadImage">
     </div>
     <div class="form-fields">
