@@ -214,10 +214,6 @@
     }
   });
 
-  function logout() {
-    auth.signOut().then(() => location.href = 'login.html');
-  }
-
   async function saveProfile() {
     const profileData = {
       name: document.getElementById('name').value,
@@ -263,6 +259,19 @@
       document.getElementById('headerProfileImage').src = 'default-avatar.png';
     }
   }
+
+  // 👉 Отображение фото сразу после выбора
+  document.getElementById('uploadImage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profileImage').src = e.target.result;
+        document.getElementById('headerProfileImage').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 
   function generateRoadmap() {
     const roadmap = document.getElementById('roadmap');
