@@ -8,9 +8,9 @@
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background-color: #f5f9fa;
       margin: 0;
       padding: 0;
+      background-color: #f5f9fa;
     }
     header {
       background: #ffffff;
@@ -28,6 +28,12 @@
       align-items: center;
       gap: 24px;
     }
+    .language-selector, .notifications, .user-icon {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
     .user-icon img {
       width: 32px;
       height: 32px;
@@ -42,19 +48,22 @@
       border-radius: 12px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
+    h2 {
+      margin-bottom: 20px;
+    }
     .form-field {
       margin-bottom: 16px;
     }
     .form-field label {
-      font-weight: 600;
       display: block;
       margin-bottom: 6px;
+      font-weight: 600;
     }
-    input, select, textarea {
+    .form-field input, .form-field select, .form-field textarea {
       width: 100%;
       padding: 12px;
-      border-radius: 8px;
       border: 1px solid #ccc;
+      border-radius: 8px;
     }
     .btn {
       background: #009688;
@@ -64,54 +73,111 @@
       border-radius: 8px;
       font-weight: 600;
       cursor: pointer;
+      margin-top: 20px;
     }
-    .roadmap-section {
-      margin-top: 40px;
-      background: url('4f6729fe-0f73-4432-b1e5-b7ae1715d484.png') no-repeat center center;
-      background-size: cover;
-      height: 400px;
-      position: relative;
-      border-radius: 12px;
+    .profile-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 32px;
     }
-    .step-marker {
-      position: absolute;
-      background: white;
-      border: 2px solid #009688;
-      padding: 10px;
-      border-radius: 50%;
-      font-weight: bold;
+    .profile-image-wrapper {
+      flex-shrink: 0;
       text-align: center;
-      width: 60px;
-      height: 60px;
-      line-height: 20px;
-      font-size: 12px;
-      cursor: pointer;
     }
-    .step-marker.completed {
-      background: #009688;
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    .upload-label {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 12px;
+      background-color: #eeeeee;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .upload-label:hover {
+      background-color: #dddddd;
+    }
+    .form-fields {
+      flex-grow: 1;
+    }
+    #notificationListWrapper {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 260px;
+      z-index: 1000;
+    }
+    #notificationListWrapper h4 {
+      margin: 0;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    #notificationList {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .notification-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    .roadmap-svg-container {
+      background: #004d40;
+      padding: 40px;
+      border-radius: 24px;
       color: white;
-      border-color: #00796b;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
 <header>
-  <div class="logo"><img src="logo.jpg" alt="Keleshek logo" /></div>
+  <div class="logo">
+    <a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a>
+  </div>
   <div class="header-actions">
-    <div class="user-icon"><img id="headerProfileImage" src="profilesite.png" alt="Profile Icon"></div>
+    <div class="language-selector">
+      <span style="margin-right: 8px;">🌐</span> English ▼
+    </div>
+    <div class="notifications" style="position: relative;">
+      <img src="free-icon-bell-6824079.png" style="width: 24px;" onclick="toggleNotificationPanel()">
+      <div id="notificationListWrapper">
+        <h4>Notifications</h4>
+        <div id="notificationList"></div>
+      </div>
+    </div>
+    <div class="user-icon">
+      <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
+    </div>
   </div>
 </header>
 
 <div class="container">
   <h2>User Profile</h2>
-  <div style="display: flex; gap: 24px;">
-    <div style="text-align: center;">
-      <img id="profileImage" src="profilesite.png" class="profile-pic" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
-      <br>
-      <label class="btn" for="uploadImage" style="margin-top: 10px;">📷 Upload</label>
-      <input type="file" id="uploadImage" style="display: none;">
+  <div class="profile-section">
+    <div class="profile-image-wrapper">
+      <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
+      <div>
+        <label for="uploadImage" class="upload-label">📷 Upload photo</label>
+        <input type="file" id="uploadImage" style="display: none;">
+      </div>
     </div>
-    <div style="flex-grow: 1;">
+    <div class="form-fields">
       <div class="form-field"><label>Full Name</label><input id="name"></div>
       <div class="form-field"><label>Age</label><input id="age"></div>
       <div class="form-field"><label>City</label><input id="city"></div>
@@ -131,17 +197,30 @@
     </div>
   </div>
 
-  <h2 style="margin-top: 60px;">Career Roadmap</h2>
-  <div class="roadmap-section" id="roadmapSection"></div>
-  <div style="text-align:center; margin-top: 20px;">
-    <button class="btn" onclick="addStep()">➕ Add Step</button>
+  <h2>Your Career Roadmap</h2>
+  <div class="roadmap-svg-container">
+    <svg viewBox="0 0 1000 250" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
+      <!-- Curved Path -->
+      <path d="M 50 200 C 200 50, 400 50, 550 200 S 900 350, 950 200" fill="none" stroke="#00bfa5" stroke-width="10"/>
+      <!-- Milestones -->
+      <circle cx="50" cy="200" r="18" fill="#fff" stroke="#009688" stroke-width="5"/>
+      <circle cx="300" cy="125" r="18" fill="#fff" stroke="#009688" stroke-width="5"/>
+      <circle cx="550" cy="200" r="18" fill="#fff" stroke="#009688" stroke-width="5"/>
+      <circle cx="750" cy="275" r="18" fill="#fff" stroke="#009688" stroke-width="5"/>
+      <circle cx="950" cy="200" r="18" fill="#fff" stroke="#009688" stroke-width="5"/>
+      <!-- Labels -->
+      <text x="50" y="185" text-anchor="middle" font-size="14" font-weight="bold">Excel & SQL</text>
+      <text x="300" y="110" text-anchor="middle" font-size="14" font-weight="bold">Power BI</text>
+      <text x="550" y="185" text-anchor="middle" font-size="14" font-weight="bold">Projects</text>
+      <text x="750" y="260" text-anchor="middle" font-size="14" font-weight="bold">CV & LinkedIn</text>
+      <text x="950" y="185" text-anchor="middle" font-size="14" font-weight="bold">Apply to jobs</text>
+    </svg>
   </div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
@@ -155,19 +234,7 @@
   firebase.initializeApp(firebaseConfig);
   const auth = firebase.auth();
   const db = firebase.firestore();
-
   let currentUser;
-  let completedSteps = [];
-  let stepCount = 5;
-  const roadmapSection = document.getElementById("roadmapSection");
-
-  let steps = [
-    { top: "60px", left: "50px", icon: "📊", label: "Excel & SQL" },
-    { top: "120px", left: "180px", icon: "📈", label: "Power BI" },
-    { top: "90px", left: "320px", icon: "💻", label: "Projects" },
-    { top: "140px", left: "470px", icon: "📄", label: "CV" },
-    { top: "100px", left: "620px", icon: "🧑‍💼", label: "Jobs" }
-  ];
 
   auth.onAuthStateChanged(user => {
     if (!user) {
@@ -175,12 +242,13 @@
     } else {
       currentUser = user;
       loadProfile();
-      loadSteps();
     }
   });
 
   async function saveProfile() {
-    const data = {
+    if (!currentUser) return;
+
+    const profileData = {
       name: document.getElementById('name').value,
       age: document.getElementById('age').value,
       city: document.getElementById('city').value,
@@ -189,8 +257,14 @@
       goal: document.getElementById('goal').value,
       skills: document.getElementById('skills').value
     };
-    await db.collection('users').doc(currentUser.uid).set(data, { merge: true });
-    alert(\"Profile saved successfully!\");
+
+    try {
+      await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
+      addNotification("✔ Profile saved successfully!");
+    } catch (e) {
+      console.error("Save error:", e);
+      addNotification("❌ Error saving profile");
+    }
   }
 
   async function loadProfile() {
@@ -207,53 +281,6 @@
     }
   }
 
-  async function loadSteps() {
-    const doc = await db.collection('users').doc(currentUser.uid).get();
-    if (doc.exists && doc.data().stepsCompleted) {
-      completedSteps = doc.data().stepsCompleted;
-    } else {
-      completedSteps = Array(steps.length).fill(false);
-    }
-    renderSteps();
-  }
-
-  function renderSteps() {
-    roadmapSection.innerHTML = '';
-    steps.forEach((step, index) => {
-      const div = document.createElement(\"div\");
-      div.className = \"step-marker\" + (completedSteps[index] ? \" completed\" : \"\");
-      div.id = `step-${index}`;
-      div.style.top = step.top;
-      div.style.left = step.left;
-      div.innerHTML = `${index + 1}<br>${step.icon}<br><span style='font-size:10px;'>${step.label}</span>`;
-      div.onclick = () => toggleStep(index);
-      roadmapSection.appendChild(div);
-    });
-  }
-
-  async function toggleStep(index) {
-    completedSteps[index] = !completedSteps[index];
-    await saveSteps();
-    renderSteps();
-  }
-
-  function addStep() {
-    const icon = prompt(\"Enter emoji or symbol for the new step:\", \"🌟\");
-    if (!icon) return;
-    const label = prompt(\"Enter a short label/title for the step:\", \"Custom Step\");
-    if (!label) return;
-    const lastLeft = parseInt(steps[steps.length - 1].left);
-    steps.push({ top: \"120px\", left: `${lastLeft + 140}px`, icon, label });
-    completedSteps.push(false);
-    stepCount++;
-    renderSteps();
-    saveSteps();
-  }
-
-  async function saveSteps() {
-    await db.collection('users').doc(currentUser.uid).set({ stepsCompleted: completedSteps }, { merge: true });
-  }
-
   document.getElementById('uploadImage').addEventListener('change', function(event) {
     const file = event.target.files[0];
     if (file) {
@@ -265,6 +292,20 @@
       reader.readAsDataURL(file);
     }
   });
+
+  function toggleNotificationPanel() {
+    const wrapper = document.getElementById('notificationListWrapper');
+    wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function addNotification(message) {
+    const list = document.getElementById('notificationList');
+    if (!list) return;
+    const item = document.createElement('div');
+    item.className = 'notification-item';
+    item.textContent = message;
+    list.prepend(item);
+  }
 </script>
 </body>
 </html>
