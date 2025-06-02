@@ -205,81 +205,11 @@
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
-    authDomain: "kelesheksite.firebaseapp.com",
-    projectId: "kelesheksite",
-    storageBucket: "kelesheksite.appspot.com",
-    messagingSenderId: "283421011476",
-    appId: "1:283421011476:web:8a77d738f81ed1ca450101"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-  let currentUser;
-
-  auth.onAuthStateChanged(user => {
-    if (!user) {
-      window.location.href = 'login.html';
-    } else {
-      currentUser = user;
-      loadProfile();
-    }
-  });
-
-  async function saveProfile() {
-    if (!currentUser) return;
-
-    const profileData = {
-      name: document.getElementById('name').value,
-      age: document.getElementById('age').value,
-      city: document.getElementById('city').value,
-      education: document.getElementById('education').value,
-      interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
-      goal: document.getElementById('goal').value,
-      skills: document.getElementById('skills').value
-    };
-
-    try {
-      await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
-      addNotification("✔ Profile saved successfully!");
-    } catch (e) {
-      console.error("Save error:", e);
-      addNotification("❌ Error saving profile");
-    }
+  function toggleNotificationPanel() {
+    const wrapper = document.getElementById('notificationListWrapper');
+    wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
   }
-
-  async function loadProfile() {
-    const doc = await db.collection('users').doc(currentUser.uid).get();
-    if (doc.exists) {
-      const d = doc.data();
-      document.getElementById('name').value = d.name || '';
-      document.getElementById('age').value = d.age || '';
-      document.getElementById('city').value = d.city || '';
-      document.getElementById('education').value = d.education || '';
-      document.getElementById('interests').value = d.interests?.join(', ') || '';
-      document.getElementById('goal').value = d.goal || '';
-      document.getElementById('skills').value = d.skills || '';
-    }
-  }
-
-  document.getElementById('uploadImage').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('profileImage').src = e.target.result;
-        document.getElementById('headerProfileImage').src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
 
   function generateRoadmap() {
     const roadmap = document.getElementById('roadmap');
@@ -294,14 +224,9 @@
     steps.forEach((step, i) => {
       const div = document.createElement('div');
       div.className = 'step';
-      div.innerText = ${i + 1}. ${step};
+      div.innerText = `${i + 1}. ${step}`;
       roadmap.appendChild(div);
     });
-  }
-
-  function toggleNotificationPanel() {
-    const wrapper = document.getElementById('notificationListWrapper');
-    wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
   }
 
   function addNotification(message) {
@@ -314,4 +239,4 @@
   }
 </script>
 </body>
-</html> 
+</html>
