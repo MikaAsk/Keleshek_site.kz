@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard - Keleshek</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      background: #f5f9fa;
       margin: 0;
       padding: 0;
-      color: #333;
+      background-color: #f5f9fa;
     }
     header {
       background: #ffffff;
@@ -42,7 +41,7 @@
       object-fit: cover;
     }
     .container {
-      max-width: 1200px;
+      max-width: 900px;
       margin: 20px auto;
       background: #fff;
       padding: 40px;
@@ -50,32 +49,141 @@
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
     h2 {
-      font-size: 28px;
       margin-bottom: 20px;
-      text-align: center;
-      color: #004d40;
     }
-    .roadmap-svg-container {
-      background: linear-gradient(135deg, #00695c, #004d40);
-      padding: 60px;
-      border-radius: 30px;
-      color: white;
-      overflow-x: auto;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    .form-field {
+      margin-bottom: 16px;
+    }
+    .form-field label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .form-field input, .form-field select, .form-field textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .roadmap-section {
       margin-top: 40px;
     }
-    svg {
-      width: 100%;
-      height: auto;
-    }
-    .milestone-label {
-      font-size: 18px;
+
+    .btn {
+      background: #009688;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
       font-weight: 600;
-      fill: #ffffff;
+      cursor: pointer;
+      margin-top: 20px;
     }
-    .milestone-icon {
+
+    .profile-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .profile-image-wrapper {
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    .upload-label {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 12px;
+      background-color: #eeeeee;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .upload-label:hover {
+      background-color: #dddddd;
+    }
+    .form-fields {
+      flex-grow: 1;
+    }
+    #notificationListWrapper {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 260px;
+      z-index: 1000;
+    }
+    #notificationListWrapper h4 {
+      margin: 0;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    #notificationList {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .notification-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    /* ==== GRAPHICAL ROADMAP ==== */
+    .roadmap-road {
+      position: relative;
+      margin-top: 40px;
+      padding: 40px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to right, #009688, #004d40);
+      border-radius: 30px;
+      height: 120px;
+      overflow-x: auto;
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+
+    .roadmap-step {
+      text-align: center;
+      position: relative;
+      min-width: 140px;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .roadmap-step::before {
+      content: "";
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border: 5px solid #009688;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .roadmap-step-icon {
       font-size: 28px;
-      fill: white;
+      margin-bottom: 8px;
+      display: inline-block;
     }
   </style>
 </head>
@@ -102,35 +210,159 @@
 </header>
 
 <div class="container">
-  <h2>Your Career Roadmap</h2>
+  <h2>User Profile</h2>
+  <div class="profile-section">
+    <div class="profile-image-wrapper">
+      <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
+      <div>
+        <label for="uploadImage" class="upload-label">📷 Upload photo</label>
+        <input type="file" id="uploadImage" style="display: none;">
+      </div>
+    </div>
+    <div class="form-fields">
+      <div class="form-field"><label>Full Name</label><input id="name"></div>
+      <div class="form-field"><label>Age</label><input id="age"></div>
+      <div class="form-field"><label>City</label><input id="city"></div>
+      <div class="form-field"><label>Education Level</label>
+        <select id="education">
+          <option value="">--Select--</option>
+          <option>High School</option>
+          <option>College</option>
+          <option>Bachelor</option>
+          <option>Master</option>
+        </select>
+      </div>
+      <div class="form-field"><label>Interests</label><input id="interests"></div>
+      <div class="form-field"><label>Career Goal</label><input id="goal"></div>
+      <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
+      <button class="btn" onclick="saveProfile()">Save Profile</button>
+    </div>
+  </div>
 
-  <div class="roadmap-svg-container">
-    <svg viewBox="0 0 1600 700" xmlns="http://www.w3.org/2000/svg">
-      <!-- Curved Path -->
-      <path d="M 100 400 C 400 100, 700 100, 1000 400 S 1500 700, 1600 400" fill="none" stroke="#00e5a0" stroke-width="12" stroke-linecap="round" stroke-dasharray="5,5"/>
-
-      <!-- Milestones -->
-      <circle cx="100" cy="400" r="25" fill="#fff" stroke="#009688" stroke-width="6"/>
-      <circle cx="400" cy="175" r="25" fill="#fff" stroke="#009688" stroke-width="6"/>
-      <circle cx="700" cy="400" r="25" fill="#fff" stroke="#009688" stroke-width="6"/>
-      <circle cx="1000" cy="625" r="25" fill="#fff" stroke="#009688" stroke-width="6"/>
-      <circle cx="1300" cy="400" r="25" fill="#fff" stroke="#009688" stroke-width="6"/>
-
-      <!-- Labels -->
-      <text x="100" y="375" class="milestone-label" text-anchor="middle">Excel & SQL</text>
-      <text x="400" y="150" class="milestone-label" text-anchor="middle">Power BI</text>
-      <text x="700" y="375" class="milestone-label" text-anchor="middle">Projects</text>
-      <text x="1000" y="600" class="milestone-label" text-anchor="middle">CV & LinkedIn</text>
-      <text x="1300" y="375" class="milestone-label" text-anchor="middle">Apply to jobs</text>
-
-      <!-- Icons (emoji fallback) -->
-      <text x="100" y="345" text-anchor="middle" class="milestone-icon">📊</text>
-      <text x="400" y="120" text-anchor="middle" class="milestone-icon">📈</text>
-      <text x="700" y="345" text-anchor="middle" class="milestone-icon">💻</text>
-      <text x="1000" y="570" text-anchor="middle" class="milestone-icon">📄</text>
-      <text x="1300" y="345" text-anchor="middle" class="milestone-icon">🧑‍💼</text>
-    </svg>
+  <div class="roadmap-section">
+    <h2>Your Career Roadmap</h2>
+    <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
+    <div id="roadmap"></div>
   </div>
 </div>
+
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
+    authDomain: "kelesheksite.firebaseapp.com",
+    projectId: "kelesheksite",
+    storageBucket: "kelesheksite.appspot.com",
+    messagingSenderId: "283421011476",
+    appId: "1:283421011476:web:8a77d738f81ed1ca450101"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+  let currentUser;
+
+  auth.onAuthStateChanged(user => {
+    if (!user) {
+      window.location.href = 'login.html';
+    } else {
+      currentUser = user;
+      loadProfile();
+    }
+  });
+
+  async function saveProfile() {
+    if (!currentUser) return;
+
+    const profileData = {
+      name: document.getElementById('name').value,
+      age: document.getElementById('age').value,
+      city: document.getElementById('city').value,
+      education: document.getElementById('education').value,
+      interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
+      goal: document.getElementById('goal').value,
+      skills: document.getElementById('skills').value
+    };
+
+    try {
+      await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
+      addNotification("✔ Profile saved successfully!");
+    } catch (e) {
+      console.error("Save error:", e);
+      addNotification("❌ Error saving profile");
+    }
+  }
+
+  async function loadProfile() {
+    const doc = await db.collection('users').doc(currentUser.uid).get();
+    if (doc.exists) {
+      const d = doc.data();
+      document.getElementById('name').value = d.name || '';
+      document.getElementById('age').value = d.age || '';
+      document.getElementById('city').value = d.city || '';
+      document.getElementById('education').value = d.education || '';
+      document.getElementById('interests').value = d.interests?.join(', ') || '';
+      document.getElementById('goal').value = d.goal || '';
+      document.getElementById('skills').value = d.skills || '';
+    }
+  }
+
+  document.getElementById('uploadImage').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profileImage').src = e.target.result;
+        document.getElementById('headerProfileImage').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  function toggleNotificationPanel() {
+    const wrapper = document.getElementById('notificationListWrapper');
+    wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function addNotification(message) {
+    const list = document.getElementById('notificationList');
+    if (!list) return;
+    const item = document.createElement('div');
+    item.className = 'notification-item';
+    item.textContent = message;
+    list.prepend(item);
+  }
+
+  function generateRoadmap() {
+    const roadmap = document.getElementById('roadmap');
+    roadmap.innerHTML = '';
+
+    const steps = [
+      { text: "Master Excel & SQL", icon: "📊" },
+      { text: "Learn Power BI", icon: "📈" },
+      { text: "Build 2-3 projects", icon: "💻" },
+      { text: "Create CV & LinkedIn", icon: "📄" },
+      { text: "Apply to jobs", icon: "🧑‍💼" }
+    ];
+
+    const container = document.createElement('div');
+    container.className = 'roadmap-road';
+
+    steps.forEach((step) => {
+      const stepDiv = document.createElement('div');
+      stepDiv.className = 'roadmap-step';
+      stepDiv.innerHTML = 
+        <div class="roadmap-step-icon">${step.icon}</div><br>
+        ${step.text}
+      ;
+      container.appendChild(stepDiv);
+    });
+
+    roadmap.appendChild(container);
+  }
+</script>
 </body>
-</html>
+</html> 
