@@ -324,6 +324,20 @@
     item.textContent = message;
     list.prepend(item);
   }
+
+  function saveProfile() {
+    const profileData = {
+      name: document.getElementById('name').value,
+      age: document.getElementById('age').value,
+      city: document.getElementById('city').value,
+      education: document.getElementById('education').value,
+      interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
+      goal: document.getElementById('goal').value,
+      skills: document.getElementById('skills').value
+    };
+    console.log('Profile saved:', profileData);
+    addNotification("✔ Profile saved successfully!");
+  }
 </script>
 </body>
 </html>
