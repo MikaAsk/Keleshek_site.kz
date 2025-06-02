@@ -68,7 +68,6 @@
     .roadmap-section {
       margin-top: 40px;
     }
-
     .btn {
       background: #009688;
       color: white;
@@ -79,7 +78,6 @@
       cursor: pointer;
       margin-top: 20px;
     }
-
     .profile-section {
       display: flex;
       align-items: flex-start;
@@ -140,206 +138,122 @@
       border-bottom: 1px solid #eee;
       font-size: 14px;
     }
-
-    /* ==== GRAPHICAL ROADMAP ==== */
-    .roadmap-road {
-      position: relative;
-      margin-top: 40px;
-      padding: 40px 0;
+    .timeline {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(to right, #009688, #004d40);
-      border-radius: 30px;
-      height: 120px;
-      overflow-x: auto;
-      padding-left: 60px;
-      padding-right: 60px;
-    }
-
-    .roadmap-step {
-      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      border-top: 4px solid #ccc;
       position: relative;
-      min-width: 140px;
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
     }
-
-    .roadmap-step::before {
-      content: "";
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: white;
-      border: 5px solid #009688;
-      width: 30px;
-      height: 30px;
+    .step {
+      text-align: center;
+      cursor: pointer;
+      flex: 1;
+      position: relative;
+    }
+    .circle {
+      width: 36px;
+      height: 36px;
+      line-height: 36px;
       border-radius: 50%;
-      z-index: 2;
+      background: #ccc;
+      color: white;
+      margin: 0 auto 8px auto;
+      font-weight: bold;
+      transition: background 0.3s;
     }
-
-    .roadmap-step-icon {
-      font-size: 28px;
-      margin-bottom: 8px;
-      display: inline-block;
+    .step.completed .circle {
+      background: #009688;
+    }
+    .label {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .icon {
+      font-size: 24px;
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
-<header>
-  <div class="logo">
-    <a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a>
-  </div>
-  <div class="header-actions">
-    <div class="language-selector">
-      <span style="margin-right: 8px;">🌐</span> English ▼
+  <header>
+    <div class="logo">
+      <a href="index.html"><img src="logo.jpg" alt="Keleshek logo"></a>
     </div>
-    <div class="notifications" style="position: relative;">
-      <img src="free-icon-bell-6824079.png" style="width: 24px;" onclick="toggleNotificationPanel()">
-      <div id="notificationListWrapper">
-        <h4>Notifications</h4>
-        <div id="notificationList"></div>
+    <div class="header-actions">
+      <div class="language-selector">
+        <span style="margin-right: 8px;">🌐</span> English ▼
+      </div>
+      <div class="notifications" style="position: relative;">
+        <img src="free-icon-bell-6824079.png" style="width: 24px;" onclick="toggleNotificationPanel()">
+        <div id="notificationListWrapper">
+          <h4>Notifications</h4>
+          <div id="notificationList"></div>
+        </div>
+      </div>
+      <div class="user-icon">
+        <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
       </div>
     </div>
-    <div class="user-icon">
-      <img id="headerProfileImage" src="profilesite.png" alt="Profile Icon">
-    </div>
-  </div>
-</header>
+  </header>
 
-<div class="container">
-  <h2>User Profile</h2>
-  <div class="profile-section">
-    <div class="profile-image-wrapper">
-      <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
-      <div>
-        <label for="uploadImage" class="upload-label">📷 Upload photo</label>
-        <input type="file" id="uploadImage" style="display: none;">
+  <div class="container">
+    <h2>User Profile</h2>
+    <div class="profile-section">
+      <div class="profile-image-wrapper">
+        <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
+        <div>
+          <label for="uploadImage" class="upload-label">📷 Upload photo</label>
+          <input type="file" id="uploadImage" style="display: none;">
+        </div>
+      </div>
+      <div class="form-fields">
+        <div class="form-field"><label>Full Name</label><input id="name"></div>
+        <div class="form-field"><label>Age</label><input id="age"></div>
+        <div class="form-field"><label>City</label><input id="city"></div>
+        <div class="form-field"><label>Education Level</label>
+          <select id="education">
+            <option value="">--Select--</option>
+            <option>High School</option>
+            <option>College</option>
+            <option>Bachelor</option>
+            <option>Master</option>
+          </select>
+        </div>
+        <div class="form-field"><label>Interests</label><input id="interests"></div>
+        <div class="form-field"><label>Career Goal</label><input id="goal"></div>
+        <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
+        <button class="btn" onclick="saveProfile()">Save Profile</button>
       </div>
     </div>
-    <div class="form-fields">
-      <div class="form-field"><label>Full Name</label><input id="name"></div>
-      <div class="form-field"><label>Age</label><input id="age"></div>
-      <div class="form-field"><label>City</label><input id="city"></div>
-      <div class="form-field"><label>Education Level</label>
-        <select id="education">
-          <option value="">--Select--</option>
-          <option>High School</option>
-          <option>College</option>
-          <option>Bachelor</option>
-          <option>Master</option>
-        </select>
-      </div>
-      <div class="form-field"><label>Interests</label><input id="interests"></div>
-      <div class="form-field"><label>Career Goal</label><input id="goal"></div>
-      <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
-      <button class="btn" onclick="saveProfile()">Save Profile</button>
+
+    <div class="roadmap-section">
+      <h2>Your Career Timeline</h2>
+      <div class="timeline" id="timeline"></div>
     </div>
   </div>
 
-  <div class="roadmap-section">
-    <h2>Your Career Roadmap</h2>
-    <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
-    <div id="roadmap"></div>
-  </div>
-</div>
-
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
-    authDomain: "kelesheksite.firebaseapp.com",
-    projectId: "kelesheksite",
-    storageBucket: "kelesheksite.appspot.com",
-    messagingSenderId: "283421011476",
-    appId: "1:283421011476:web:8a77d738f81ed1ca450101"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-  const auth = firebase.auth();
-  const db = firebase.firestore();
-  let currentUser;
-
-  auth.onAuthStateChanged(user => {
-    if (!user) {
-      window.location.href = 'login.html';
-    } else {
-      currentUser = user;
-      loadProfile();
-    }
-  });
-
-  async function saveProfile() {
-    if (!currentUser) return;
-
-    const profileData = {
-      name: document.getElementById('name').value,
-      age: document.getElementById('age').value,
-      city: document.getElementById('city').value,
-      education: document.getElementById('education').value,
-      interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
-      goal: document.getElementById('goal').value,
-      skills: document.getElementById('skills').value
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbuYE-O7IGEnipj9TmZs997DvTqa-kElg",
+      authDomain: "kelesheksite.firebaseapp.com",
+      projectId: "kelesheksite",
+      storageBucket: "kelesheksite.appspot.com",
+      messagingSenderId: "283421011476",
+      appId: "1:283421011476:web:8a77d738f81ed1ca450101"
     };
 
-    try {
-      await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
-      addNotification("✔ Profile saved successfully!");
-    } catch (e) {
-      console.error("Save error:", e);
-      addNotification("❌ Error saving profile");
-    }
-  }
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-  async function loadProfile() {
-    const doc = await db.collection('users').doc(currentUser.uid).get();
-    if (doc.exists) {
-      const d = doc.data();
-      document.getElementById('name').value = d.name || '';
-      document.getElementById('age').value = d.age || '';
-      document.getElementById('city').value = d.city || '';
-      document.getElementById('education').value = d.education || '';
-      document.getElementById('interests').value = d.interests?.join(', ') || '';
-      document.getElementById('goal').value = d.goal || '';
-      document.getElementById('skills').value = d.skills || '';
-    }
-  }
-
-  document.getElementById('uploadImage').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        document.getElementById('profileImage').src = e.target.result;
-        document.getElementById('headerProfileImage').src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  });
-
-  function toggleNotificationPanel() {
-    const wrapper = document.getElementById('notificationListWrapper');
-    wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
-  }
-
-  function addNotification(message) {
-    const list = document.getElementById('notificationList');
-    if (!list) return;
-    const item = document.createElement('div');
-    item.className = 'notification-item';
-    item.textContent = message;
-    list.prepend(item);
-  }
-
-  function generateRoadmap() {
-    const roadmap = document.getElementById('roadmap');
-    roadmap.innerHTML = '';
-
+    let currentUser;
+    let completedSteps = [false, false, false, false, false];
     const steps = [
       { text: "Master Excel & SQL", icon: "📊" },
       { text: "Learn Power BI", icon: "📈" },
@@ -348,21 +262,109 @@
       { text: "Apply to jobs", icon: "🧑‍💼" }
     ];
 
-    const container = document.createElement('div');
-    container.className = 'roadmap-road';
-
-    steps.forEach((step) => {
-      const stepDiv = document.createElement('div');
-      stepDiv.className = 'roadmap-step';
-      stepDiv.innerHTML = `
-        <div class="roadmap-step-icon">${step.icon}</div><br>
-        ${step.text}
-      `;
-      container.appendChild(stepDiv);
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        window.location.href = 'login.html';
+      } else {
+        currentUser = user;
+        loadProfile();
+        loadTimeline();
+      }
     });
 
-    roadmap.appendChild(container);
-  }
-</script>
+    async function saveProfile() {
+      if (!currentUser) return;
+
+      const profileData = {
+        name: document.getElementById('name').value,
+        age: document.getElementById('age').value,
+        city: document.getElementById('city').value,
+        education: document.getElementById('education').value,
+        interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
+        goal: document.getElementById('goal').value,
+        skills: document.getElementById('skills').value
+      };
+
+      try {
+        await db.collection('users').doc(currentUser.uid).set(profileData, { merge: true });
+        addNotification("✔ Profile saved successfully!");
+      } catch (e) {
+        console.error("Save error:", e);
+        addNotification("❌ Error saving profile");
+      }
+    }
+
+    async function loadProfile() {
+      const doc = await db.collection('users').doc(currentUser.uid).get();
+      if (doc.exists) {
+        const d = doc.data();
+        document.getElementById('name').value = d.name || '';
+        document.getElementById('age').value = d.age || '';
+        document.getElementById('city').value = d.city || '';
+        document.getElementById('education').value = d.education || '';
+        document.getElementById('interests').value = d.interests?.join(', ') || '';
+        document.getElementById('goal').value = d.goal || '';
+        document.getElementById('skills').value = d.skills || '';
+      }
+    }
+
+    async function loadTimeline() {
+      const doc = await db.collection('users').doc(currentUser.uid).get();
+      if (doc.exists && doc.data().stepsCompleted) {
+        completedSteps = doc.data().stepsCompleted;
+      }
+      renderTimeline();
+    }
+
+    function renderTimeline() {
+      const container = document.getElementById('timeline');
+      container.innerHTML = '';
+
+      steps.forEach((step, i) => {
+        const div = document.createElement('div');
+        div.className = 'step';
+        if (completedSteps[i]) div.classList.add('completed');
+        div.onclick = () => toggleStep(i);
+        div.innerHTML = `
+          <div class="circle" id="circle-${i}">${i + 1}</div>
+          <div class="label">${step.text}</div>
+          <div class="icon">${step.icon}</div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    async function toggleStep(index) {
+      completedSteps[index] = !completedSteps[index];
+      await db.collection('users').doc(currentUser.uid).set({ stepsCompleted: completedSteps }, { merge: true });
+      renderTimeline();
+    }
+
+    function toggleNotificationPanel() {
+      const wrapper = document.getElementById('notificationListWrapper');
+      wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function addNotification(message) {
+      const list = document.getElementById('notificationList');
+      if (!list) return;
+      const item = document.createElement('div');
+      item.className = 'notification-item';
+      item.textContent = message;
+      list.prepend(item);
+    }
+
+    document.getElementById('uploadImage').addEventListener('change', function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('profileImage').src = e.target.result;
+          document.getElementById('headerProfileImage').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  </script>
 </body>
 </html>
