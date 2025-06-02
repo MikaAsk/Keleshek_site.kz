@@ -65,6 +65,79 @@
       border: 1px solid #ccc;
       border-radius: 8px;
     }
+    .btn {
+      background: #009688;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    .btn:hover {
+      background: #00796b;
+    }
+    .profile-section {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .profile-image-wrapper {
+      flex-shrink: 0;
+      text-align: center;
+    }
+    .profile-pic {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+    .upload-label {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 12px;
+      background-color: #eeeeee;
+      border-radius: 6px;
+      font-size: 13px;
+      color: #333;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .upload-label:hover {
+      background-color: #dddddd;
+    }
+    .form-fields {
+      flex-grow: 1;
+    }
+    #notificationListWrapper {
+      display: none;
+      position: absolute;
+      top: 30px;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 260px;
+      z-index: 1000;
+    }
+    #notificationListWrapper h4 {
+      margin: 0;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    #notificationList {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .notification-item {
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
     .roadmap-section {
       margin-top: 40px;
       background: linear-gradient(to right, #00bfa5, #00695c);
@@ -193,7 +266,7 @@
   </div>
 
   <div class="roadmap-section">
-    <h2>Your Career Roadmap</h2>
+    <h2 class="roadmap-title">Your Career Roadmap</h2>
     <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
     <div id="roadmap"></div>
   </div>
@@ -207,14 +280,14 @@
 
   function generateRoadmap() {
     const roadmap = document.getElementById('roadmap');
-    roadmap.innerHTML = '<div class="roadmap-title">Your Career Roadmap</div>';
+    roadmap.innerHTML = '';
 
     const steps = [
-      { icon: '📊', text: 'Master Excel and SQL', link: 'https://www.coursera.org/learn/excel-data-analysis' },
-      { icon: '📈', text: 'Learn Power BI', link: 'https://learn.microsoft.com/en-us/training/powerplatform/power-bi' },
-      { icon: '💻', text: 'Build 2-3 projects', link: 'https://github.com/topics/data-analysis-project' },
-      { icon: '📄', text: 'Create CV and LinkedIn', link: 'https://www.linkedin.com/help/linkedin/answer/111663' },
-      { icon: '🧑‍💼', text: 'Apply to jobs', link: 'https://www.indeed.com/q-Junior-Data-Analyst-jobs.html' }
+      { icon: '📊', text: 'Master Excel and SQL', link: '#' },
+      { icon: '📈', text: 'Learn Power BI', link: '#' },
+      { icon: '💻', text: 'Build 2-3 projects', link: '#' },
+      { icon: '📄', text: 'Create CV and LinkedIn', link: '#' },
+      { icon: '🧑‍💼', text: 'Apply to jobs', link: '#' }
     ];
 
     const container = document.createElement('div');
