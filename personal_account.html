@@ -294,7 +294,7 @@
 
     const prompt = `You are a career coach AI. Based on the following user profile, suggest a personalized 5-step career roadmap (brief and clear), each step with a short title only.\n\nName: ${profile.name}\nAge: ${profile.age}\nCity: ${profile.city}\nEducation: ${profile.education}\nInterests: ${profile.interests}\nCareer Goal: ${profile.goal}\nSkills: ${profile.skills}\n\nReturn the output as a JSON array like this:\n[\n  { "icon": "📊", "text": "Learn SQL & Excel" },\n  { "icon": "📈", "text": "Study Power BI" },\n  ...\n]`;
 
-    const apiKey = "sk-proj-..."; // вставь свой API ключ
+    const apiKey = "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"; // вставь свой API ключ
 
     try {
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
