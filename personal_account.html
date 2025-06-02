@@ -67,12 +67,40 @@
     }
     .roadmap-section {
       margin-top: 40px;
+      background: linear-gradient(to right, #00bfa5, #00695c);
+      padding: 40px;
+      border-radius: 24px;
+      color: white;
+      text-align: center;
     }
-    .step {
-      background: #e6f6f3;
-      padding: 16px;
-      margin-bottom: 12px;
-      border-radius: 8px;
+    .roadmap-container {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .roadmap-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #ffffff44;
+      border-radius: 16px;
+      padding: 20px;
+      flex: 1 1 180px;
+      min-width: 160px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+    }
+    .roadmap-card:hover {
+      transform: translateY(-8px);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .roadmap-icon {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+    .roadmap-text {
+      font-weight: 600;
+      font-size: 15px;
     }
     .btn {
       background: #009688;
@@ -83,61 +111,6 @@
       font-weight: 600;
       cursor: pointer;
       margin-top: 20px;
-    }
-    .profile-section {
-      display: flex;
-      align-items: flex-start;
-      gap: 24px;
-      margin-bottom: 32px;
-    }
-    .profile-image-wrapper {
-      flex-shrink: 0;
-      text-align: center;
-    }
-    .profile-pic {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 50%;
-      margin-bottom: 10px;
-    }
-    .upload-label {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 6px 12px;
-      background-color: #eeeeee;
-      border-radius: 6px;
-      font-size: 13px;
-      color: #333;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    .upload-label:hover {
-      background-color: #dddddd;
-    }
-    .form-fields {
-      flex-grow: 1;
-    }
-    #notificationListWrapper {
-      display: none;
-      position: absolute;
-      top: 30px;
-      right: 0;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      width: 260px;
-      z-index: 1000;
-    }
-    #notificationListWrapper h4 {
-      margin: 0;
-      padding: 10px;
-      border-bottom: 1px solid #eee;
-    }
-    #notificationList {
-      max-height: 200px;
-      overflow-y: auto;
     }
     .notification-item {
       padding: 10px;
@@ -169,40 +142,9 @@
 </header>
 
 <div class="container">
-  <h2>User Profile</h2>
-  <div class="profile-section">
-    <div class="profile-image-wrapper">
-      <img src="profilesite.png" id="profileImage" class="profile-pic" alt="Profile picture">
-      <div>
-        <label for="uploadImage" class="upload-label">📷 Upload photo</label>
-        <input type="file" id="uploadImage" style="display: none;">
-      </div>
-    </div>
-    <div class="form-fields">
-      <div class="form-field"><label>Full Name</label><input id="name"></div>
-      <div class="form-field"><label>Age</label><input id="age"></div>
-      <div class="form-field"><label>City</label><input id="city"></div>
-      <div class="form-field"><label>Education Level</label>
-        <select id="education">
-          <option value="">--Select--</option>
-          <option>High School</option>
-          <option>College</option>
-          <option>Bachelor</option>
-          <option>Master</option>
-        </select>
-      </div>
-      <div class="form-field"><label>Interests</label><input id="interests"></div>
-      <div class="form-field"><label>Career Goal</label><input id="goal"></div>
-      <div class="form-field"><label>Skills</label><textarea id="skills"></textarea></div>
-      <button class="btn" onclick="saveProfile()">Save Profile</button>
-    </div>
-  </div>
-
-  <div class="roadmap-section">
-    <h2>Your Career Roadmap</h2>
-    <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
-    <div id="roadmap"></div>
-  </div>
+  <h2>Your Career Roadmap</h2>
+  <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
+  <div id="roadmap" class="roadmap-section"></div>
 </div>
 
 <script>
@@ -213,20 +155,32 @@
 
   function generateRoadmap() {
     const roadmap = document.getElementById('roadmap');
-    roadmap.innerHTML = '';
+    roadmap.innerHTML = '<h2>Your Career Roadmap</h2>';
+
     const steps = [
-      "Master Excel and SQL",
-      "Learn data visualization tools like Power BI",
-      "Build 2-3 data projects",
-      "Create a CV and LinkedIn profile",
-      "Apply for internships or junior analyst jobs"
+      { icon: '📊', text: 'Master Excel and SQL' },
+      { icon: '📈', text: 'Learn Power BI' },
+      { icon: '💻', text: 'Build 2-3 projects' },
+      { icon: '📄', text: 'Create CV and LinkedIn' },
+      { icon: '🧑‍💼', text: 'Apply to jobs' }
     ];
+
+    const container = document.createElement('div');
+    container.className = 'roadmap-container';
+
     steps.forEach((step, i) => {
-      const div = document.createElement('div');
-      div.className = 'step';
-      div.innerText = `${i + 1}. ${step}`;
-      roadmap.appendChild(div);
+      const card = document.createElement('div');
+      card.className = 'roadmap-card';
+
+      card.innerHTML = `
+        <div class="roadmap-icon">${step.icon}</div>
+        <div class="roadmap-text">${i + 1}. ${step.text}</div>
+      `;
+
+      container.appendChild(card);
     });
+
+    roadmap.appendChild(container);
   }
 
   function addNotification(message) {
