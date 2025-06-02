@@ -68,12 +68,7 @@
     .roadmap-section {
       margin-top: 40px;
     }
-    .step {
-      background: #e6f6f3;
-      padding: 16px;
-      margin-bottom: 12px;
-      border-radius: 8px;
-    }
+
     .btn {
       background: #009688;
       color: white;
@@ -84,6 +79,7 @@
       cursor: pointer;
       margin-top: 20px;
     }
+
     .profile-section {
       display: flex;
       align-items: flex-start;
@@ -143,6 +139,51 @@
       padding: 10px;
       border-bottom: 1px solid #eee;
       font-size: 14px;
+    }
+
+    /* ==== GRAPHICAL ROADMAP ==== */
+    .roadmap-road {
+      position: relative;
+      margin-top: 40px;
+      padding: 40px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to right, #009688, #004d40);
+      border-radius: 30px;
+      height: 120px;
+      overflow-x: auto;
+      padding-left: 60px;
+      padding-right: 60px;
+    }
+
+    .roadmap-step {
+      text-align: center;
+      position: relative;
+      min-width: 140px;
+      color: white;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .roadmap-step::before {
+      content: "";
+      position: absolute;
+      top: -30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      border: 5px solid #009688;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      z-index: 2;
+    }
+
+    .roadmap-step-icon {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: inline-block;
     }
   </style>
 </head>
@@ -281,24 +322,6 @@
     }
   });
 
-  function generateRoadmap() {
-    const roadmap = document.getElementById('roadmap');
-    roadmap.innerHTML = '';
-    const steps = [
-      "Master Excel and SQL",
-      "Learn data visualization tools like Power BI",
-      "Build 2-3 data projects",
-      "Create a CV and LinkedIn profile",
-      "Apply for internships or junior analyst jobs"
-    ];
-    steps.forEach((step, i) => {
-      const div = document.createElement('div');
-      div.className = 'step';
-      div.innerText = `${i + 1}. ${step}`;
-      roadmap.appendChild(div);
-    });
-  }
-
   function toggleNotificationPanel() {
     const wrapper = document.getElementById('notificationListWrapper');
     wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
@@ -311,6 +334,34 @@
     item.className = 'notification-item';
     item.textContent = message;
     list.prepend(item);
+  }
+
+  function generateRoadmap() {
+    const roadmap = document.getElementById('roadmap');
+    roadmap.innerHTML = '';
+
+    const steps = [
+      { text: "Master Excel & SQL", icon: "📊" },
+      { text: "Learn Power BI", icon: "📈" },
+      { text: "Build 2-3 projects", icon: "💻" },
+      { text: "Create CV & LinkedIn", icon: "📄" },
+      { text: "Apply to jobs", icon: "🧑‍💼" }
+    ];
+
+    const container = document.createElement('div');
+    container.className = 'roadmap-road';
+
+    steps.forEach((step) => {
+      const stepDiv = document.createElement('div');
+      stepDiv.className = 'roadmap-step';
+      stepDiv.innerHTML = `
+        <div class="roadmap-step-icon">${step.icon}</div><br>
+        ${step.text}
+      `;
+      container.appendChild(stepDiv);
+    });
+
+    roadmap.appendChild(container);
   }
 </script>
 </body>
