@@ -41,7 +41,7 @@
       object-fit: cover;
     }
     .container {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 20px auto;
       background: #fff;
       padding: 40px;
@@ -73,6 +73,7 @@
       border-radius: 24px;
       color: white;
       text-align: center;
+      overflow-x: auto;
     }
     .roadmap-title {
       font-size: 24px;
@@ -81,17 +82,22 @@
     }
     .roadmap-container {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
       gap: 30px;
-      position: relative;
+      justify-content: center;
     }
     .roadmap-card {
       background: rgba(255, 255, 255, 0.1);
       border: 2px solid #ffffff44;
-      border-radius: 16px;
+      border-radius: 50%;
       padding: 20px;
-      width: 280px;
+      width: 150px;
+      height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
       transition: transform 0.3s ease, opacity 0.5s ease;
       position: relative;
@@ -110,28 +116,28 @@
       background: rgba(255, 255, 255, 0.15);
     }
     .roadmap-icon {
-      font-size: 32px;
-      margin-bottom: 10px;
+      font-size: 28px;
+      margin-bottom: 8px;
     }
     .roadmap-text {
       font-weight: 600;
-      font-size: 15px;
+      font-size: 13px;
+      text-align: center;
     }
     .arrow {
-      width: 2px;
-      height: 20px;
+      width: 40px;
+      height: 2px;
       background-color: white;
       position: relative;
     }
     .arrow::after {
       content: '';
       position: absolute;
-      left: 50%;
-      bottom: -5px;
-      transform: translateX(-50%);
-      border-left: 5px solid transparent;
-      border-right: 5px solid transparent;
-      border-top: 8px solid white;
+      right: 0;
+      top: -5px;
+      border-left: 6px solid white;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
     }
   </style>
 </head>
