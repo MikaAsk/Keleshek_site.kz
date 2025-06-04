@@ -381,23 +381,21 @@
     </div>
   </section>
 
-  <script>
-    // Get all navigation links
-    const navLinks = document.querySelectorAll('nav a');
-    
-    // Function to highlight the current page link
-    function highlightActiveLink() {
-      navLinks.forEach(link => {
-        if (window.location.href.includes(link.href)) {
-          link.classList.add('active');
-        } else {
-          link.classList.remove('active');
-        }
-      });
-    }
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const profile = JSON.parse(localStorage.getItem('userProfile'));
+    const navActions = document.querySelector('.nav-actions');
 
-    // Call the function to highlight active link when the page loads
-    highlightActiveLink();
-  </script>
+    if (profile && profile.avatar && profile.name) {
+      navActions.innerHTML = `
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 14px;">${profile.name}</span>
+          <img src="${profile.avatar}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;">
+        </div>
+      `;
+    }
+  });
+</script>
+
 </body>
 </html>
