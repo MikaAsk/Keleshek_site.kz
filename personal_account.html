@@ -293,6 +293,12 @@
     generateStaticRoadmap();
   });
 
+  function toggleNotificationPanel() {
+    const wrapper = document.getElementById('notificationListWrapper');
+    const currentDisplay = getComputedStyle(wrapper).display;
+    wrapper.style.display = currentDisplay === 'none' ? 'block' : 'none';
+  }
+
   function generateStaticRoadmap() {
     const roadmap = document.getElementById('roadmap');
     const steps = [
