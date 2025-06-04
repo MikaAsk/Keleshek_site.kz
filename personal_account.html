@@ -344,6 +344,27 @@
     item.textContent = message;
     list.prepend(item);
   }
+
+  function saveProfile() {
+    const profileData = {
+      name: document.getElementById('name').value,
+      age: document.getElementById('age').value,
+      city: document.getElementById('city').value,
+      education: document.getElementById('education').value,
+      interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
+      goal: document.getElementById('goal').value,
+      skills: document.getElementById('skills').value
+    };
+
+    console.log('Profile saved:', profileData);
+
+    const wrapper = document.getElementById('notificationListWrapper');
+    const list = document.getElementById('notificationList');
+    if (wrapper && list) {
+      addNotification("✔ Profile saved successfully!");
+      wrapper.style.display = 'block';
+    }
+  }
 </script>
 
 
