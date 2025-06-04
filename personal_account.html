@@ -291,6 +291,7 @@
     });
 
     generateStaticRoadmap();
+    addNotification("🔔 Добро пожаловать! У вас нет новых уведомлений.");
   });
 
   function toggleNotificationPanel() {
@@ -334,7 +335,17 @@
 
     roadmap.appendChild(container);
   }
+
+  function addNotification(message) {
+    const list = document.getElementById('notificationList');
+    if (!list) return;
+    const item = document.createElement('div');
+    item.className = 'notification-item';
+    item.textContent = message;
+    list.prepend(item);
+  }
 </script>
+
 
 </body>
 </html>
