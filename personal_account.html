@@ -291,6 +291,22 @@
 
     generateStaticRoadmap();
     addNotification("🔔 Добро пожаловать! У вас нет новых уведомлений.");
+
+    // Заполнить поля, если профиль уже сохранен
+    const savedProfile = JSON.parse(localStorage.getItem('userProfile'));
+    if (savedProfile) {
+      document.getElementById('name').value = savedProfile.name || '';
+      document.getElementById('age').value = savedProfile.age || '';
+      document.getElementById('city').value = savedProfile.city || '';
+      document.getElementById('education').value = savedProfile.education || '';
+      document.getElementById('interests').value = savedProfile.interests || '';
+      document.getElementById('goal').value = savedProfile.goal || '';
+      document.getElementById('skills').value = savedProfile.skills || '';
+      if (savedProfile.avatar) {
+        profileImage.src = savedProfile.avatar;
+        headerProfileImage.src = savedProfile.avatar;
+      }
+    }
   });
 
   function toggleNotificationPanel() {
@@ -350,11 +366,13 @@
       age: document.getElementById('age').value,
       city: document.getElementById('city').value,
       education: document.getElementById('education').value,
-      interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
+      interests: document.getElementById('interests').value,
       goal: document.getElementById('goal').value,
-      skills: document.getElementById('skills').value
+      skills: document.getElementById('skills').value,
+      avatar: document.getElementById('profileImage').src
     };
 
+    localStorage.setItem('userProfile', JSON.stringify(profileData));
     console.log('Profile saved:', profileData);
 
     const wrapper = document.getElementById('notificationListWrapper');
@@ -368,6 +386,7 @@
     wrapper.style.display = 'block';
   }
 </script>
+
 
 </body>
 </html>
