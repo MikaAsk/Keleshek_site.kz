@@ -273,108 +273,62 @@
 </div>
 
 <script>
-  function toggleNotificationPanel() {
-    const wrapper = document.getElementById('notificationListWrapper');
-    wrapper.style.display = wrapper.style.display === 'none' ? 'block' : 'none';
-  }
+  document.addEventListener("DOMContentLoaded", function () {
+    const uploadInput = document.getElementById("uploadImage");
+    const profileImage = document.getElementById("profileImage");
+    const headerProfileImage = document.getElementById("headerProfileImage");
 
-  async function generateRoadmapFromOpenAI() {
+    uploadInput.addEventListener("change", function () {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          profileImage.src = e.target.result;
+          headerProfileImage.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    generateStaticRoadmap();
+  });
+
+  function generateStaticRoadmap() {
     const roadmap = document.getElementById('roadmap');
-    roadmap.innerHTML = '<p>⏳ Generating personalized roadmap...</p>';
+    const steps = [
+      { icon: "📘", text: "Study basic HTML/CSS" },
+      { icon: "📊", text: "Learn Excel & SQL" },
+      { icon: "🧠", text: "Understand Data Analysis" },
+      { icon: "📈", text: "Explore Power BI" },
+      { icon: "🚀", text: "Apply for Internships" },
+    ];
 
-    const profile = {
-      name: document.getElementById('name').value,
-      age: document.getElementById('age').value,
-      city: document.getElementById('city').value,
-      education: document.getElementById('education').value,
-      interests: document.getElementById('interests').value,
-      goal: document.getElementById('goal').value,
-      skills: document.getElementById('skills').value,
-    };
+    roadmap.innerHTML = '';
+    const container = document.createElement('div');
+    container.className = 'roadmap-container';
 
-    const prompt = `You are a career coach AI. Based on the following user profile, suggest a personalized 5-step career roadmap (brief and clear), each step with a short title only.\n\nName: ${profile.name}\nAge: ${profile.age}\nCity: ${profile.city}\nEducation: ${profile.education}\nInterests: ${profile.interests}\nCareer Goal: ${profile.goal}\nSkills: ${profile.skills}\n\nReturn the output as a JSON array like this:\n[\n  { "icon": "📊", "text": "Learn SQL & Excel" },\n  { "icon": "📈", "text": "Study Power BI" },\n  ...\n]`;
+    steps.forEach((step, i) => {
+      const card = document.createElement('a');
+      card.className = 'roadmap-card';
+      card.href = "#";
+      card.innerHTML = `
+        <div class="roadmap-icon">${step.icon}</div>
+        <div class="roadmap-text">${i + 1}. ${step.text}</div>
+      `;
+      container.appendChild(card);
 
-    const apiKey = "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"; // вставь свой API ключ
-
-    try {
-      const response = await fetch("https://api.openai.com/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-          model: "gpt-4o",
-          messages: [
-            { role: "system", content: "You are a career assistant." },
-            { role: "user", content: prompt }
-          ],
-        }),
-      });
-
-      const result = await response.json();
-      const content = result.choices[0].message.content;
-
-      let steps = [];
-      try {
-        steps = JSON.parse(content);
-      } catch {
-        roadmap.innerHTML = "<p>⚠️ Failed to parse roadmap from AI. Please try again.</p>";
-        return;
+      if (i < steps.length - 1) {
+        const arrow = document.createElement('div');
+        arrow.className = 'arrow';
+        container.appendChild(arrow);
       }
 
-      roadmap.innerHTML = '';
-      const container = document.createElement('div');
-      container.className = 'roadmap-container';
+      setTimeout(() => card.classList.add('visible'), i * 150);
+    });
 
-      steps.forEach((step, i) => {
-        const card = document.createElement('a');
-        card.className = 'roadmap-card';
-        card.href = "#";
-        card.innerHTML = `
-          <div class="roadmap-icon">${step.icon || '✅'}</div>
-          <div class="roadmap-text">${i + 1}. ${step.text}</div>
-        `;
-        container.appendChild(card);
-
-        if (i < steps.length - 1) {
-          const arrow = document.createElement('div');
-          arrow.className = 'arrow';
-          container.appendChild(arrow);
-        }
-
-        setTimeout(() => card.classList.add('visible'), i * 150);
-      });
-
-      roadmap.appendChild(container);
-    } catch (err) {
-      console.error(err);
-      roadmap.innerHTML = "<p>⚠️ Error fetching roadmap from AI</p>";
-    }
-  }
-
-  function addNotification(message) {
-    const list = document.getElementById('notificationList');
-    if (!list) return;
-    const item = document.createElement('div');
-    item.className = 'notification-item';
-    item.textContent = message;
-    list.prepend(item);
-  }
-
-  function saveProfile() {
-    const profileData = {
-      name: document.getElementById('name').value,
-      age: document.getElementById('age').value,
-      city: document.getElementById('city').value,
-      education: document.getElementById('education').value,
-      interests: document.getElementById('interests').value.split(',').map(s => s.trim()),
-      goal: document.getElementById('goal').value,
-      skills: document.getElementById('skills').value
-    };
-    console.log('Profile saved:', profileData);
-    addNotification("✔ Profile saved successfully!");
+    roadmap.appendChild(container);
   }
 </script>
+
 </body>
 </html>
