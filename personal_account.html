@@ -271,7 +271,6 @@
     <div id="roadmap"></div>
   </div>
 </div>
-
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const uploadInput = document.getElementById("uploadImage");
@@ -360,13 +359,15 @@
 
     const wrapper = document.getElementById('notificationListWrapper');
     const list = document.getElementById('notificationList');
-    if (wrapper && list) {
-      addNotification("✔ Profile saved successfully!");
-      wrapper.style.display = 'block';
+    if (!wrapper || !list) {
+      console.warn('❗ Уведомления не добавлены — не найден элемент notificationList');
+      return;
     }
+
+    addNotification("✔ Profile saved successfully!");
+    wrapper.style.display = 'block';
   }
 </script>
-
 
 </body>
 </html>
